@@ -1,4 +1,4 @@
-package com.mrt.mvc.user.model.dto;
+package com.mrt.mvc.model.dto;
 
 import java.time.LocalDateTime;
 

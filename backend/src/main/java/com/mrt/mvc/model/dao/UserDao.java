@@ -1,9 +1,9 @@
-package com.mrt.mvc.user.model.dao;
+package com.mrt.mvc.model.dao;
 
 import java.util.List;
 import java.util.Map;
 
-import com.mrt.mvc.user.model.dto.User;
+import com.mrt.mvc.model.dto.User;
 
 public interface UserDao {
 	public List<User> selectAll();

@@ -1,6 +1,6 @@
-package com.mrt.mvc.cboard.model.dto;
+package com.mrt.mvc.model.dto;
 
-public class CBoard {
+public class Board {
 	private int cBoardNo;
 	private String cBoardFileNo;
 	private String cBoardTitle;
@@ -9,11 +9,11 @@ public class CBoard {
 	private int cBoardViewCnt;
 	private int cBoardUserNo;
 	
-	public CBoard() {
+	public Board() {
 		
 	};
 	
-	public CBoard(int cBoardNo, String cBoardFileNo, String cBoardTitle, String cBoardContent, String cBoardRegDate,
+	public Board(int cBoardNo, String cBoardFileNo, String cBoardTitle, String cBoardContent, String cBoardRegDate,
 			int cBoardViewCnt, int cBoardUserNo) {
 		this.cBoardNo = cBoardNo;
 		this.cBoardFileNo = cBoardFileNo;
