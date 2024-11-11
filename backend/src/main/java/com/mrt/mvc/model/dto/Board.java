@@ -1,90 +1,90 @@
 package com.mrt.mvc.model.dto;
 
 public class Board {
-	private int cBoardNo;
-	private String cBoardFileNo;
-	private String cBoardTitle;
-	private String cBoardContent;
-	private String cBoardRegDate;
-	private int cBoardViewCnt;
-	private int cBoardUserNo;
+	private int boardNo;
+	private BoardFile boardFile;
+	private String boardTitle;
+	private String boardContent;
+	private String boardRegDate;
+	private int boardViewCnt;
+	private int boardUserNo;
 	
 	public Board() {
 		
 	};
 	
-	public Board(int cBoardNo, String cBoardFileNo, String cBoardTitle, String cBoardContent, String cBoardRegDate,
-			int cBoardViewCnt, int cBoardUserNo) {
-		this.cBoardNo = cBoardNo;
-		this.cBoardFileNo = cBoardFileNo;
-		this.cBoardTitle = cBoardTitle;
-		this.cBoardContent = cBoardContent;
-		this.cBoardRegDate = cBoardRegDate;
-		this.cBoardViewCnt = cBoardViewCnt;
-		this.cBoardUserNo = cBoardUserNo;
+	public Board(int boardNo, BoardFile boardFile, String boardTitle, String boardContent, String boardRegDate,
+			int boardViewCnt, int boardUserNo) {
+		this.boardNo = boardNo;
+		this.boardFile = boardFile;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardRegDate = boardRegDate;
+		this.boardViewCnt = boardViewCnt;
+		this.boardUserNo = boardUserNo;
 	}
 
-	public int getcBoardNo() {
-		return cBoardNo;
+	public int getBoardNo() {
+		return boardNo;
 	}
 
-	public void setcBoardNo(int cBoardNo) {
-		this.cBoardNo = cBoardNo;
+	public void setBoardNo(int boardNo) {
+		this.boardNo = boardNo;
 	}
 
-	public String getcBoardFileNo() {
-		return cBoardFileNo;
+	public BoardFile getBoardFile() {
+		return boardFile;
 	}
 
-	public void setcBoardFileNo(String cBoardFileNo) {
-		this.cBoardFileNo = cBoardFileNo;
+	public void setBoardFile(BoardFile boardFile) {
+		this.boardFile = boardFile;
 	}
 
-	public String getcBoardTitle() {
-		return cBoardTitle;
+	public String getBoardTitle() {
+		return boardTitle;
 	}
 
-	public void setcBoardTitle(String cBoardTitle) {
-		this.cBoardTitle = cBoardTitle;
+	public void setBoardTitle(String boardTitle) {
+		this.boardTitle = boardTitle;
 	}
 
-	public String getcBoardContent() {
-		return cBoardContent;
+	public String getBoardContent() {
+		return boardContent;
 	}
 
-	public void setcBoardContent(String cBoardContent) {
-		this.cBoardContent = cBoardContent;
+	public void setBoardContent(String boardContent) {
+		this.boardContent = boardContent;
 	}
 
-	public String getcBoardRegDate() {
-		return cBoardRegDate;
+	public String getBoardRegDate() {
+		return boardRegDate;
 	}
 
-	public void setcBoardRegDate(String cBoardRegDate) {
-		this.cBoardRegDate = cBoardRegDate;
+	public void setBoardRegDate(String boardRegDate) {
+		this.boardRegDate = boardRegDate;
 	}
 
-	public int getcBoardViewCnt() {
-		return cBoardViewCnt;
+	public int getBoardViewCnt() {
+		return boardViewCnt;
 	}
 
-	public void setcBoardViewCnt(int cBoardViewCnt) {
-		this.cBoardViewCnt = cBoardViewCnt;
+	public void setBoardViewCnt(int boardViewCnt) {
+		this.boardViewCnt = boardViewCnt;
 	}
 
-	public int getcBoardUserNo() {
-		return cBoardUserNo;
+	public int getBoardUserNo() {
+		return boardUserNo;
 	}
 
-	public void setcBoardUserNo(int cBoardUserNo) {
-		this.cBoardUserNo = cBoardUserNo;
+	public void setBoardUserNo(int boardUserNo) {
+		this.boardUserNo = boardUserNo;
 	}
 
 	@Override
 	public String toString() {
-		return "CBoard [cBoardNo=" + cBoardNo + ", cBoardFileNo=" + cBoardFileNo + ", cBoardTitle=" + cBoardTitle
-				+ ", cBoardContent=" + cBoardContent + ", cBoardRegDate=" + cBoardRegDate + ", cBoardViewCnt="
-				+ cBoardViewCnt + ", cBoardUserNo=" + cBoardUserNo + "]";
+		return "Board [boardNo=" + boardNo + ", boardFile=" + boardFile + ", boardTitle=" + boardTitle
+				+ ", boardContent=" + boardContent + ", boardRegDate=" + boardRegDate + ", boardViewCnt="
+				+ boardViewCnt + ", boardUserNo=" + boardUserNo + "]";
 	}
 	
 	
