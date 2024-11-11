@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrt.mvc.model.dao.CBoardDao">
+	<!-- 게시글 전체 조회 -->
+	<select id="selectAll" resultType="CBoard">
+		SELECT 
+		    cb.c_board_no,
+		    cb.c_board_title,
+		    cb.c_board_content,
+		    cb.c_board_reg_date,
+		    cb.c_board_view_cnt,
+		    u.user_nickname
+		FROM 
+		    community_board cb
+		JOIN 
+		    user u
+		ON cb.board_user_no = u.user_no;
+	</select>
+	
+	<!-- 게시글 상세 조회 # 파일도 조인해서 가져오도록 수정 -->
+	<select id="selectOne" resultType="CBoard">
+		SELECT 
+			cb.c_board_no,
+			cb.c_board_file_no,
+		    cb.c_board_title,
+		    cb.c_board_content,
+		    cb.c_board_reg_date,
+		    cb.c_board_view_cnt,
+		    u.user_nickname
+		FROM 
+			community_board cb
+		JOIN
+			user u, files f
+		ON
+			cb.board_user_no = u.user_no;
+			
+		
+	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<insert id="insertCBoard" parameterType="CBoard" keyProperty="cBoardNo" useGeneratedKeys="true">
+		INSERT INTO community_board(c_board_file_no, c_board_title, c_board_content, c_board_view_cnt)
+		VALUES (#{cBoardTitle}, #{cBoardContent}, #{}, #{}, )
+	</insert>
+</mapper>
