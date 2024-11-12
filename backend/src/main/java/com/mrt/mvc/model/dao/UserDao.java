@@ -10,7 +10,7 @@ public interface UserDao {
 	
 	public void insertUser(User user);
 	
-	public User selectOne(Map<String, >)
+//	public User selectOne(Map<String, >)
 	
 	
 	//아이디 찾기

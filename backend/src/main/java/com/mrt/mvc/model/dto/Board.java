@@ -26,7 +26,7 @@ public class Board {
 
 	public int getBoardNo() {
 		return boardNo;
-	}
+	} 
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
