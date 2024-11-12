@@ -1,6 +1,7 @@
 package com.mrt.mvc.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +25,7 @@ import com.mrt.mvc.model.dto.BoardFile;
 import com.mrt.mvc.model.service.BoardService;
 
 @RestController
+@RequestMapping("/maratalk")
 public class BoardController {
 	
 	// 의존성 주입
@@ -34,20 +37,27 @@ public class BoardController {
 	/** 전체 게시글 조회*/
 	@GetMapping("/board")
 	public ResponseEntity<List<Board>> list() {
+		System.out.println("전체 게시글을 조회합니다.");
 		List<Board> list = service.getBoardList();
+		if (list.size() == 0) {
+			System.out.println("리스트가 비어있습니다.");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 	/** 게시글 상세 조회*/
 	@GetMapping("/board/{no}")
 	public ResponseEntity<Board> detail(@PathVariable("no") int no) {
-		Board cBoard = service.getBoardByNo(no);
-		return new ResponseEntity<>(cBoard, HttpStatus.OK);
+		Board board = service.getBoardByNo(no);
+		return new ResponseEntity<>(board, HttpStatus.OK);
 	}
 	
-	/** 게시글 등록*/
+	/** 게시글 등록
+	 * @throws IOException 
+	 * @throws IllegalStateException */
 	@PostMapping("/board")
-	public void write(@ModelAttribute Board board, @RequestParam("attach") MultipartFile attach) {
+	public void write(@ModelAttribute Board board, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
 		// 사용자가 업로드한 파일 이름
 		String oriName = attach.getOriginalFilename();
 		if (oriName.length() > 0) {  // 사용자가 파일을 선택한 경우
