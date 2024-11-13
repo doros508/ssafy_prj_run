@@ -1,5 +1,6 @@
 package com.mrt.mvc.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -12,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mrt.mvc.model.dto.User;
 import com.mrt.mvc.model.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
-
 
 @RestController
 @RequestMapping("/api-user")
@@ -35,9 +36,9 @@ public class UserController {
 	}
 	
 	//회원가입. 
-	@PostMapping("/signup")
-	public ResponseEntity<String> signup(@RequestBody User user) {
-		userService.signup(user);
+	@PostMapping("/regist")
+	public ResponseEntity<String> signup(User user, @RequestParam MultipartFile file ) throws IOException {
+		userService.registUser(user, file);
 		return new ResponseEntity<>("회원가입 완료",HttpStatus.CREATED);
 	}
 	

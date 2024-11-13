@@ -55,6 +55,7 @@
     <!-- 사용자 삭제 -->
     <delete id="deleteUser">
         DELETE FROM user 
+        
         WHERE user_no = #{userNo}
     </delete>
 
