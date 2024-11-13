@@ -8,7 +8,7 @@
 		일단 했는데, erd가 수정되면 변수명을 조금 수정해야할 수 있음.
 		+ 글을 조회할 때, 1-11-2-12-3-13 이런 이상한 순서로 글을 불러옴
 	 -->
-	<select id="selectAll" resultType="Board">
+	<select id="selectAll" resultType="Board" parameterType="SearchCondition">
 		SELECT 
 		    b.board_no,
 		    b.board_title,
@@ -20,13 +20,33 @@
 		    board b
 		JOIN 
 		    user u
-		ON b.board_user_no = u.user_no;
+		ON b.board_user_no = u.user_no
+		<!-- 검색 내용 -->
+		<if test="key != 'none'">
+			WHERE ${key} Like concat('%',#{word},'%')
+		</if>
+		<!-- 정렬 기준 및 조건 -->
+		<if test="orderBy != 'none">
+			ORDER BY ${orderBy} ${orderByDir}
+		</if>
 	</select>
 	
+	<!-- 조회수 증가 -->
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE board
+		SET board_view_cnt = board_view_cnt+1
+		WHERE board_no = #{no};
+	</update>
+	
 	<!-- 게시글 상세 조회 -->
+	<select id="selectOne" resultType="Board" parameterType="int">
+	    SELECT b.board_no, b.board_file_no, b.board_title, b.board_content, 
+	           b.board_reg_date, b.board_view_cnt, b.board_user_no, u.user_nickname
+	    FROM board b
+        JOIN user u ON b.board_user_no = u.user_no
+	    WHERE b.board_no = #{no};
+	</select>
 	<!-- 
-		글 번호를 파라미터로 조회가 됨
-	 -->
 	<select id="selectOne" resultType="Board" parameterType="int">
 	    SELECT b.board_no, b.board_file_no, b.board_title, b.board_content, 
 	           b.board_reg_date, b.board_view_cnt, 
@@ -35,8 +55,9 @@
 	    FROM board b
 	    JOIN user u ON b.board_user_no = u.user_no
 	    LEFT JOIN files f ON b.board_no = f.board_no
-	    WHERE b.board_no = #{no};
+	    WHERE b.board_no = #{no}
 	</select>
+	 -->
 
 	
 	<!-- 게시글 등록 -->
@@ -53,7 +74,7 @@
 		어떤 웹 에디터를 적용할 것인지 정하고 설명서를 읽은 다음에 데이터가 어떻게 처리되는지 봐야 함
 	 -->
 	<insert id="insertBoardFile" parameterType="BoardFile">
-        INSERT INTO files (file_path, file_name, file_system_name, c_board_no)
+        INSERT INTO files (file_path, file_name, file_system_name, board_no)
         VALUES (#{filePath}, #{oriName}, #{systemName}, #{no})
 	</insert>
 	
@@ -70,4 +91,11 @@
 		SET file_name = #{fileName}, file_path = #{filePath}, file_system_name = #{fileSystemName}
 	    WHERE board_no = #{boardNo} AND file_no = #{fileNo};
 	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		DELETE 
+		FROM board
+		WHERE board_no = #{no};
+	</delete>
+	
 </mapper>
