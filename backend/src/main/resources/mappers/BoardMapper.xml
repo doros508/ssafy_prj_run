@@ -26,8 +26,11 @@
 			WHERE ${key} Like concat('%',#{word},'%')
 		</if>
 		<!-- 정렬 기준 및 조건 -->
-		<if test="orderBy != 'none">
+		<if test="orderBy != 'none'">
 			ORDER BY ${orderBy} ${orderByDir}
+		</if>
+		<if test="orderBy == 'none'">
+			ORDER BY board_no ASC
 		</if>
 	</select>
 	

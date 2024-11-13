@@ -15,7 +15,7 @@ public interface BoardDao {
 	Board selectOne(int no);
 
 	/** 게시글 등록 */
-	void insertBoard(Board board);
+	int insertBoard(Board board);
 
 	/** 게시글 수정 */
 	int updateBoard(Board board);
