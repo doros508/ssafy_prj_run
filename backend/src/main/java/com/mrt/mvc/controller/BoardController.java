@@ -40,7 +40,7 @@ public class BoardController {
 	@GetMapping("/board")
 	public ResponseEntity<List<Board>> list(@ModelAttribute SearchCondition condition) {
 		System.out.println("전체 게시글을 조회합니다.");
-		System.out.println("검색 정보" + condition);
+		System.out.println("검색 정보: " + condition);
 		List<Board> list = service.getBoardList(condition);
 		if (list == null && list.size() == 0) {
 			System.out.println("리스트가 비어있습니다.");
@@ -66,8 +66,9 @@ public class BoardController {
 	 * @throws IOException 
 	 * @throws IllegalStateException */
 	@PostMapping("/board")
-	public void write(@ModelAttribute Board board, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
+	public ResponseEntity<String> write(@ModelAttribute Board board, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
 		// 사용자가 업로드한 파일 이름
+		System.out.println("게시글 작성 시도");
 		String oriName = attach.getOriginalFilename();
 		if (oriName.length() > 0) {  // 사용자가 파일을 선택한 경우
 			// 서버의 특정 디렉토리에 저장
@@ -84,13 +85,16 @@ public class BoardController {
 			boardFile.setSystemName(systemName);
 			board.setBoardFile(boardFile);
 		}
-		service.writeBoard(board);
+		if (service.writeBoard(board))
+			return new ResponseEntity<>("게시글이 작성되었습니다.", HttpStatus.OK);
+		return new ResponseEntity<>("게시글이 작성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	/** 게시글 수정 
 	 * @return */
 	@PutMapping("/board/{no}")
 	public ResponseEntity<String> updateBoard(@PathVariable("no") int no, @RequestBody Board board) {
+		System.out.println(no + "번 게시글을 수정합니다.");
 		board.setBoardNo(no);
 		if (service.modify(board)) {
 			System.out.println(no + "번 게시글이 수정되었습니다.");

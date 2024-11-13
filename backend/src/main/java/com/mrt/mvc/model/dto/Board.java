@@ -4,6 +4,7 @@ public class Board {
 	private int boardNo;
 	private BoardFile boardFile;
 	private String boardTitle;
+	private String boardUserNickname;
 	private String boardContent;
 	private String boardRegDate;
 	private int boardViewCnt;
@@ -14,10 +15,24 @@ public class Board {
 	};
 	
 	public Board(int boardNo, BoardFile boardFile, String boardTitle, String boardContent, String boardRegDate,
-			int boardViewCnt, int boardUserNo) {
+			int boardViewCnt, int boardUserNo, String boardUserNickname) {
 		this.boardNo = boardNo;
 		this.boardFile = boardFile;
 		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardRegDate = boardRegDate;
+		this.boardViewCnt = boardViewCnt;
+		this.boardUserNo = boardUserNo;
+		this.boardUserNickname = boardUserNickname;
+	}
+
+	public Board(int boardNo, BoardFile boardFile, String boardTitle, String boardUserNickname, String boardContent,
+			String boardRegDate, int boardViewCnt, int boardUserNo) {
+		super();
+		this.boardNo = boardNo;
+		this.boardFile = boardFile;
+		this.boardTitle = boardTitle;
+		this.boardUserNickname = boardUserNickname;
 		this.boardContent = boardContent;
 		this.boardRegDate = boardRegDate;
 		this.boardViewCnt = boardViewCnt;
@@ -26,7 +41,7 @@ public class Board {
 
 	public int getBoardNo() {
 		return boardNo;
-	} 
+	}
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
@@ -46,6 +61,14 @@ public class Board {
 
 	public void setBoardTitle(String boardTitle) {
 		this.boardTitle = boardTitle;
+	}
+
+	public String getBoardUserNickname() {
+		return boardUserNickname;
+	}
+
+	public void setBoardUserNickname(String boardUserNickname) {
+		this.boardUserNickname = boardUserNickname;
 	}
 
 	public String getBoardContent() {
@@ -83,9 +106,9 @@ public class Board {
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardFile=" + boardFile + ", boardTitle=" + boardTitle
-				+ ", boardContent=" + boardContent + ", boardRegDate=" + boardRegDate + ", boardViewCnt="
-				+ boardViewCnt + ", boardUserNo=" + boardUserNo + "]";
+				+ ", boardUserNickname=" + boardUserNickname + ", boardContent=" + boardContent + ", boardRegDate="
+				+ boardRegDate + ", boardViewCnt=" + boardViewCnt + ", boardUserNo=" + boardUserNo + "]";
 	}
-	
+
 	
 }
