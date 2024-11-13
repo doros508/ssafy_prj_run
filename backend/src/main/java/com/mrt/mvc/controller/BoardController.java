@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mrt.mvc.model.dto.Board;
 import com.mrt.mvc.model.dto.BoardFile;
+import com.mrt.mvc.model.dto.SearchCondition;
 import com.mrt.mvc.model.service.BoardService;
 
 @RestController
@@ -34,12 +36,13 @@ public class BoardController {
 		this.service = service;
 	}
 	
-	/** 전체 게시글 조회*/
+	/** 게시글 전체 조회 및 검색 조회 */
 	@GetMapping("/board")
-	public ResponseEntity<List<Board>> list() {
+	public ResponseEntity<List<Board>> list(@ModelAttribute SearchCondition condition) {
 		System.out.println("전체 게시글을 조회합니다.");
-		List<Board> list = service.getBoardList();
-		if (list.size() == 0) {
+		System.out.println("검색 정보" + condition);
+		List<Board> list = service.getBoardList(condition);
+		if (list == null && list.size() == 0) {
 			System.out.println("리스트가 비어있습니다.");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -50,7 +53,13 @@ public class BoardController {
 	@GetMapping("/board/{no}")
 	public ResponseEntity<Board> detail(@PathVariable("no") int no) {
 		Board board = service.getBoardByNo(no);
-		return new ResponseEntity<>(board, HttpStatus.OK);
+		System.out.println("넘어온 게시글: " + board.toString());
+		if (board != null) {
+			System.out.println(no + "번 게시글을 조회합니다.");
+			return new ResponseEntity<>(board, HttpStatus.OK);
+		}
+		System.out.println("조회한 게시글이 없습니다.");
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	/** 게시글 등록
@@ -81,8 +90,21 @@ public class BoardController {
 	/** 게시글 수정 
 	 * @return */
 	@PutMapping("/board/{no}")
-	public void updateBoard(@PathVariable("no") int no, @RequestBody Board board) {
+	public ResponseEntity<String> updateBoard(@PathVariable("no") int no, @RequestBody Board board) {
 		board.setBoardNo(no);
-		service.modify(board);
+		if (service.modify(board)) {
+			System.out.println(no + "번 게시글이 수정되었습니다.");
+			return new ResponseEntity<>("게시글이 수정되었습니다.", HttpStatus.OK);
+		}
+		System.out.println("수정에 실패했습니다.");
+		return new ResponseEntity<>("수정에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	/** 게시글 삭제 */
+	@DeleteMapping("/board/{no}")
+	public ResponseEntity<String> delete(@PathVariable int no) {
+		if (service.removeBoard(no))
+			return ResponseEntity.status(HttpStatus.OK).body("Board deleted successfully");
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete Board");
 	}
 }
