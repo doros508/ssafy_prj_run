@@ -1,2 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-	
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.mrt.mvc.model.dao.UserDao">
+
+    <!-- 모든 사용자 조회 -->
+    <select id="selectAll" resultType="User">
+        SELECT 
+            user_no AS userNo,
+            user_id AS userId,
+            user_password AS userPassword,
+            user_email AS userEmail,
+            user_name AS userName,
+            user_birthday AS userBirthday,
+            user_gender AS userGender,
+            user_address AS userAddress,
+            user_detail_address AS userDetailAddress,
+            user_zip_code AS userZipCode,
+            user_phone_number AS userPhoneNumber,
+            user_age AS userAge,
+            user_nickname AS userNickname,
+            user_reg_date AS userRegDate,
+            user_login_date AS userLoginDate,
+            user_photo AS userPhoto,
+            user_role AS userRole,
+            user_iat AS userIat,
+            user_exp AS userExp
+        FROM user
+    </select>
+
+    <!-- 회원가입. -->
+    <insert id="insertUser">
+        INSERT INTO user (
+            user_id, user_password, user_email, user_name, user_birthday,
+            user_gender, user_address, user_detail_address, user_zip_code, 
+            user_phone_number, user_age, user_nickname, 
+            user_photo
+        ) VALUES (
+            #{userId}, #{userPassword}, #{userEmail}, #{userName}, #{userBirthday},
+            #{userGender}, #{userAddress}, #{userDetailAddress}, #{userZipCode}, 
+            #{userPhoneNumber}, #{userAge}, #{userNickname},  
+            #{userPhoto}
+        )
+    </insert>
+
+    <!-- 사용자 조회  -->
+    <select id="selectOne" parameterType="Map" resultType="User">
+        SELECT user_id, user_nickname
+        FROM user
+        WHERE user_id = #{id} AND user_password = #{password}
+    </select>
+
+    <!-- 사용자 삭제 -->
+    <delete id="deleteUser">
+        DELETE FROM user 
+        WHERE user_no = #{userNo}
+    </delete>
+
+</mapper>

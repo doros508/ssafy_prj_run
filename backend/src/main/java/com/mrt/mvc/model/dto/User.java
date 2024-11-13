@@ -20,9 +20,9 @@ public class User {
     private LocalDateTime userRegDate;    // 사용자 등록일 //Date type
     private LocalDateTime userLoginDate;  // 사용자 마지막 로그인일
     private String userPhoto;    // 사용자 프로필 사진 URL
-    private String userRole;     // 사용자 역할 (예: 'user', 'admin' 등)
-    private String userIat;      // 사용자 발급시간 (JWT 관련)
-    private String userExp;      // 사용자 만료시간 (JWT 관련)
+    private String userRole = "user";     // 사용자 역할 (예: 'user', 'admin' 등)
+    private String userIat = null;      // 사용자 발급시간 (JWT 관련)
+    private String userExp = null;      // 사용자 만료시간 (JWT 관련)
 	public int getUserNo() {
 		return userNo;
 	}

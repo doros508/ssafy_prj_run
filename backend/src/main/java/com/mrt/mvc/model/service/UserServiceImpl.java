@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.mrt.mvc.model.dao.UserDao;
 import com.mrt.mvc.model.dto.User;
-
+@Service
 public class UserServiceImpl implements UserService {
 
 	private UserDao userDao;
