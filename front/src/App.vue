@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>App.vue</h2>
-    <TheHeader />
+    <!-- <TheHeader /> -->
     <RouterView />
   </div>
 </template>
