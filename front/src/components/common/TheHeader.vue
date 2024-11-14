@@ -27,11 +27,14 @@ import { RouterLink } from 'vue-router';
 
 <style scoped>
 .nav-bar {
-  width: 1838px;
+  width: 100%; /* 화면에 꽉 차도록 설정 */
   height: 74px;
-  position: static;
-  
+  position: sticky;
+  top: 0; /* 상단에 고정 */
+  z-index: 1000; /* 다른 요소 위에 위치하도록 */
+  background-color: #000; /* 배경색 추가 (필요 시) */
 }
+
 .mrt-logo {
   color: #ffffff;
   text-align: left;

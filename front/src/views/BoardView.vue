@@ -1,12 +1,16 @@
 <template>
     <div>
         <h2>BoardView.vue</h2>
+        <!-- 헤더 영역 -->
+        <TheHeader />
+        <hr>
         <BoardList/>
     </div>
 </template>
 
 <script setup>
 import BoardList from "@/components/board/BoardList.vue";
+import TheHeader from "@/components/common/TheHeader.vue";
 import { RouterView } from 'vue-router';
 </script>
 
