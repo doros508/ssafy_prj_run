@@ -1,23 +1,23 @@
 <template>
   <div class="main-page">
-    <Theheader/>
+    <!-- 헤더 영역 -->
+    <TheHeader />
     <!-- <img class="main-photo" src="C:\SSAFY\ssafy_prj_run\front\src\assets\main_photo.png " /> -->
     <div class="main-slogan">
       RUNNING
       <br />
       TOGETHER
     </div>
-    <!-- 헤더 영역 -->
-    
   </div>
 </template>
 
 <script setup>
-import Theheader from "@/components/common/TheHeader.vue";
+import TheHeader from "@/components/common/TheHeader.vue";
 import { RouterView } from "vue-router";
 </script>
 
 <style scoped>
+
 .main-page,
 .main-page * {
   box-sizing: border-box;
@@ -26,7 +26,7 @@ import { RouterView } from "vue-router";
 .main-page {
   height: 100vh; /* 화면의 전체 높이를 차지하도록 설정 */
   position: relative;
-  background-image: url('@/assets/main_photo.png'); /* 배경 이미지 설정 */
+  background-image: url("@/assets/main_photo.png"); /* 배경 이미지 설정 */
   background-size: cover; /* 이미지가 컨테이너를 덮도록 설정 */
   background-position: center; /* 이미지가 중앙에 오도록 설정 */
 }
@@ -62,8 +62,6 @@ import { RouterView } from "vue-router";
   height: 20.19%;
 }
 
-
-v
 .div {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 25px;
