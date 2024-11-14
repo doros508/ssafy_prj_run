@@ -1,19 +1,17 @@
 <template>
-    <div>
-        <h2>BoardView.vue</h2>
-        <!-- 헤더 영역 -->
-        <TheHeader />
-        <hr>
-        <BoardList/>
-    </div>
+  <div>
+    <h2>BoardView.vue</h2>
+    <!-- 헤더 영역 -->
+    <TheHeader />
+    <RouterView />
+    <!-- <BoardList /> -->
+  </div>
 </template>
 
 <script setup>
-import BoardList from "@/components/board/BoardList.vue";
+// import BoardList from "@/components/board/BoardListTmp.vue";
 import TheHeader from "@/components/common/TheHeader.vue";
-import { RouterView } from 'vue-router';
+import { RouterView } from "vue-router";
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

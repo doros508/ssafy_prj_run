@@ -40,6 +40,7 @@
         
         <!-- 로그인 텍스트 -->
         <div class="sign-in-logo">Sign in</div>
+        </div>
       </div>
       
       <!-- MRT 로고 -->
