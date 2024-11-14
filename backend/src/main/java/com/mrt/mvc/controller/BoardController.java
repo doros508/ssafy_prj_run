@@ -66,9 +66,8 @@ public class BoardController {
 	 * @throws IOException 
 	 * @throws IllegalStateException */
 	@PostMapping("/board")
-	public ResponseEntity<String> write(@ModelAttribute Board board, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
+	public ResponseEntity<String> write(@RequestBody Board board, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
 		// 사용자가 업로드한 파일 이름
-		System.out.println("게시글 작성 시도");
 		String oriName = attach.getOriginalFilename();
 		if (oriName.length() > 0) {  // 사용자가 파일을 선택한 경우
 			// 서버의 특정 디렉토리에 저장
@@ -83,7 +82,9 @@ public class BoardController {
 			boardFile.setFilePath(subDir);
 			boardFile.setOriName(oriName);
 			boardFile.setSystemName(systemName);
+			System.out.println(boardFile.toString());  // 확인
 			board.setBoardFile(boardFile);
+			System.out.println(board.toString());
 		}
 		if (service.writeBoard(board))
 			return new ResponseEntity<>("게시글이 작성되었습니다.", HttpStatus.OK);

@@ -40,12 +40,27 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public boolean writeBoard(Board board) {
-		BoardFile boardFile = board.getBoardFile(); // 게시글 번호가 없는 상태임
-		if (boardFile != null) {
-			boardFile.setNo(board.getBoardNo());
-			dao.insertBoardFile(boardFile);
+		if (dao.insertBoard(board) == 1) {
+			System.out.println("파일 들어왔다");
+			BoardFile boardFile = board.getBoardFile();
+			
+			if (boardFile != null) {
+				boardFile.setNo(board.getBoardNo());
+				System.out.println("파일 번호: " + boardFile.getNo());
+				dao.insertBoardFile(boardFile);
+			}
 		}
 		return dao.insertBoard(board) == 1;
+		
+		
+//		BoardFile boardFile = board.getBoardFile(); // 게시글 번호가 없는 상태임
+//		if (boardFile != null) {
+//			System.out.println("파일 들어왔다");
+//			boardFile.setNo(board.getBoardNo());
+//			System.out.println("파일 번호: " + boardFile.getNo());
+//			dao.insertBoardFile(boardFile);
+//		}
+//		return dao.insertBoard(board) == 1;
 	}
 
 	/** 게시글 수정 */
