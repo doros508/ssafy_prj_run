@@ -1,4 +1,6 @@
-<div class="signup">
+<template>
+  <div>
+    <div class="signup">
     <img class="_6-2" src="_6-20.png" />
     <div class="div"></div>
     <div class="div2">
@@ -87,3 +89,13 @@
     <div class="mrt">MRT</div>
   </div>
   
+  </div>
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped>
+
+</style>
