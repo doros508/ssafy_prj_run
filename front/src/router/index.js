@@ -8,7 +8,7 @@ import CrewView from "@/views/CrewView.vue"; // 크루 뷰
 import RaceView from "@/views/RaceView.vue";
 
 // components
-import BoardList from "@/components/board/BoardListTmp.vue"; // 보드
+import BoardList from "@/components/board/BoardList.vue"; // 보드
 import BoardWrite from "@/components/board/BoardWrite.vue";
 import BoardDetail from "@/components/board/BoardDetail.vue";
 
