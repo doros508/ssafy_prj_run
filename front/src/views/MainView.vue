@@ -8,6 +8,7 @@
       <br />
       TOGETHER
     </div>
+    <!--  -->
   </div>
 </template>
 
