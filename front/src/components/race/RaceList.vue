@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h2>대회 목록</h2>
-        <hr>
+        <h2>RaceList.vue</h2>
     </div>
 </template>
 

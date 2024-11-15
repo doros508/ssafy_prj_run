@@ -16,6 +16,12 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <style scoped>
+a {
+  text-decoration: none; /* 기본적으로 밑줄 제거 */
+}
+
+
+
 .nav-bar {
 width: 100%;
 height: 74px;
@@ -27,21 +33,40 @@ display: flex;
 justify-content: space-between; /* 양 끝에 배치 */
 align-items: center;
 padding: 0 20px ; /* 양쪽에 여백을 추가하여 여유 공간 확보 */
-
+box-sizing: border-box;
 }
 
 .mrt-logo {
-color: #ffffff;
+  color: #ffffff;
+  text-align: left;
+  font-family: "Notable-Regular", sans-serif;
+  font-size: 61px;
+  font-weight: 400;
+  position: relative;
+  width: 174px;
+  height: 74px;
+
+  /* color: #ffffff;
+  text-align: left;
+  font-family: "Inter-Black", sans-serif;
+  font-size: 55px;
+  font-weight: 900;
+  position: relative;
+  width: 272px;
+  height: 61px;
+ */
+
+/* color: #ffffff;
 font-family: "Notable-Regular", sans-serif;
 font-size: 61px;
 font-weight: 400;
-white-space: nowrap;
+white-space: nowrap; */
 }
 
 .center-links {
 display: flex;
 justify-content: center; /* 가운데 정렬 */
-gap: 20px; /* 링크들 사이 간격 */
+/* gap: 100    px; 링크들 사이 간격 */
 flex-grow: 1; /* 가운데 링크들이 중앙에 배치되도록 공간 확장 */
 }
 
@@ -55,6 +80,8 @@ font-family: "Inter-SemiBold", sans-serif;
 font-size: 32px;
 font-weight: 600;
 white-space: nowrap;
+margin-left: 5%;  /* 왼쪽 간격을 비율로 설정 */
+margin-right: 5%; /* 오른쪽 간격을 비율로 설정 */
 }
 
 .sign-up-in2 {

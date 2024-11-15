@@ -29,6 +29,10 @@
 </template>
 
 <script setup>
+
+
+
+
 import TheHeader from "@/components/common/TheHeader.vue";
 import Welcome from "@/components/main/welcome.vue";
 import MagazineZone from "@/components/main/MagazineZone.vue";
@@ -42,6 +46,7 @@ import CommunityZone from "@/components/main/CommunityZone.vue";
   grid-template-rows: auto auto; /* 두 행 */
   gap: 16px; /* 각 영역 간 간격 */
   padding: 16px;
+  background-color:black
 }
 
 .magazine-zone {
@@ -66,7 +71,7 @@ import CommunityZone from "@/components/main/CommunityZone.vue";
 
 /* 공통 스타일 */
 section {
-  background: #2c2c2c;
+  background:rgba(255, 255, 255, 0.1);
   color: #fff;
   border-radius: 8px;
   padding: 16px;
