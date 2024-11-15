@@ -11,17 +11,8 @@
       </div>
     </div>
 
-    <!-- Weather Section -->
-    <div class="weather-section">
-      <h2 class="section-title">Weather</h2>
-      <weather-vue />
-    </div>
-
-    <!-- Race Section -->
-    <div class="race-section">
-      <h2 class="section-title">Race</h2>
-      <race-vue />
-    </div>
+ 
+ 
   </div>
 </template>
 
@@ -92,14 +83,6 @@
 }
 
 /* Weather 및 Race 섹션 스타일 */
-.weather-section,
-.race-section {
-  background: #333;
-  border-radius: 8px;
-  padding: 15px;
-  color: #fff;
-}
-
 .section-title {
   font-size: 20px;
   margin-bottom: 10px;
@@ -112,9 +95,6 @@
     grid-template-columns: 1fr;
   }
 
-  .weather-section,
-  .race-section {
-    margin-top: 20px;
-  }
+
 }
 </style>
