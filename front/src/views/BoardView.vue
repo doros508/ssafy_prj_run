@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>BoardView.vue</h2>
+    <h2>여기는 BoardView.vue !</h2>
     <!-- 헤더 영역 수정1 -->
     <TheHeader />
     <RouterView />
