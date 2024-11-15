@@ -2,7 +2,7 @@
   <div class="group-76">
     <div class="div">
       <!-- 배경 이미지 -->
-      <img class="board-background" src="@/assets/board-background0.png" />
+      <img class="board-background" src="../../assets/board/list//zzzz/zboard_background.png" />
 
       <!-- 게시판 검색 영역 -->
       <div class="search-box"></div>
@@ -13,11 +13,11 @@
       <div class="community">Community</div>
 
       <!-- 게시판 내용 배경 -->
-      <img class="content-background" src="@/assets/content-background0.svg" />
-      <img class="div3" src="@/assets/div2.svg" />
+      <img class="content-background" src="../../assets/board/list/content_background.png" />
+      <!-- <img class="div3" src="@/assets/div2.svg" /> -->
 
       <!-- 테이블 헤더 -->
-      <div class="div4">번호</div>
+      <div class="div4">번호</div> 
       <div class="div5">제목</div>
       <div class="div6">작성일</div>
       <div class="div7">작성자</div>
@@ -265,6 +265,5 @@ export default {
   color: #383838;
   text-align: left;
   font-family: "Inter-Bold", sans-serif;
-  <!-- font-size -->
 }
 </style>
