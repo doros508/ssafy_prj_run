@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h2>Crew 목록</h2>
-        <hr>
+        <h2>CrewList.vue</h2>
     </div>
 </template>
 
