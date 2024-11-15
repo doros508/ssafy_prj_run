@@ -1,38 +1,120 @@
 <template>
-    <div class="magazine">
-      <div class="magazine2">Magazine</div>
-      <!-- <img class="rectangle-32" src="rectangle-320.svg" /> -->
-      <div class="_24" v-for="(magazine, index) in magazines" :key="index">
-        <img class="_25" :src="magazine.image" />
-        <div class="_14">{{ magazine.title }}</div>
+  <div class="main-container">
+    <!-- Magazine Section -->
+    <div class="magazine-section">
+      <h2 class="section-title">Magazine</h2>
+      <div class="magazine-container">
+        <div class="magazine-item" v-for="(magazine, index) in magazines" :key="index">
+          <img class="magazine-image" :src="magazine.image" alt="magazine image" />
+          <h3 class="magazine-title">{{ magazine.title }}</h3>
+        </div>
       </div>
-      <div class="div10">+</div>
-      <div class="div11">더보기</div>
     </div>
-  </template>
-  
-  
-  <script>
-  export default {
-    data() {             
-      return {
-        magazines: [
-          { image: require("../../assets/main/magazineZone/img1.png"), title: "매거진 제목1" },
-          { image: require("../../assets/main/magazineZone/img2.png"), title: "매거진 제목2" },
-          { image: require("../../assets/main/magazineZone/img3.png"), title: "매거진 제목3" },
-        ]
+
+    <!-- Weather Section -->
+    <div class="weather-section">
+      <h2 class="section-title">Weather</h2>
+      <weather-vue />
+    </div>
+
+    <!-- Race Section -->
+    <div class="race-section">
+      <h2 class="section-title">Race</h2>
+      <race-vue />
+    </div>
+  </div>
+</template>
+
+    
+    
+    <script>
+    import img1 from "../../assets/main/magazineZone/img1.png";
+    import img2 from "../../assets/main/magazineZone/img2.png";
+    import img3 from "../../assets/main/magazineZone/img3.png";
+
+    export default {
+      data() {             
+        return {
+
+          magazines: [
+            { image: img1, title: "매거진 제목1" },
+            { image: img2, title: "매거진 제목2" },
+            { image: img3, title: "매거진 제목3" },
+          ]
+        }
       }
     }
+    </script>
+    
+    
+    <style scoped>
+/* 전체 레이아웃 */
+.main-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin: 20px;
+}
+
+/* 매거진 섹션 스타일 */
+.magazine-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.magazine-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.magazine-item {
+  display: flex;
+  flex-direction: column;
+  background: #222;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.magazine-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.magazine-title {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Weather 및 Race 섹션 스타일 */
+.weather-section,
+.race-section {
+  background: #333;
+  border-radius: 8px;
+  padding: 15px;
+  color: #fff;
+}
+
+.section-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 1fr;
   }
-  </script>
-  
-  
-  <style scoped>
-  .magazine2 {
-    color: #ffffff;
-    text-align: left;
-    font-family: "Inter-Black", sans-serif;
-    font-size: 55px;
-    font-weight: 900;
+
+  .weather-section,
+  .race-section {
+    margin-top: 20px;
   }
-  </style>
+}
+</style>

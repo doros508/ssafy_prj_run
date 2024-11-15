@@ -26,7 +26,8 @@ background-color: #000;
 display: flex;
 justify-content: space-between; /* 양 끝에 배치 */
 align-items: center;
-padding: 0 20px; /* 양쪽에 여백을 추가하여 여유 공간 확보 */
+padding: 0 20px ; /* 양쪽에 여백을 추가하여 여유 공간 확보 */
+
 }
 
 .mrt-logo {
