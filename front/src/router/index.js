@@ -17,9 +17,9 @@ import SignUp from "@/components/user/SignUp.vue";
 
 import MagazineList from "@/components/magazine/MagazineList.vue"; // 메거진
 
-import CrewList from "@/components/crew/CrewList.vue";  // 크루
+import CrewList from "@/components/crew/CrewList.vue"; // 크루
 
-import RaceList from "@/components/race/RaceList.vue";  // 대회
+import RaceList from "@/components/race/RaceList.vue"; // 대회
 import MagazineZone from "@/components/main/MagazineZone.vue";
 import CommunityZone from "@/components/main/CommunityZone.vue";
 import Welcome from "@/components/main/welcome.vue";
@@ -48,7 +48,7 @@ const router = createRouter({
           name: "mainCommunity",
           component: CommunityZone,
         },
-      ]
+      ],
     },
 
     // 유저 페이지
@@ -77,9 +77,10 @@ const router = createRouter({
       component: BoardView,
       children: [
         {
-          path: "list",
+          path: "",
           name: "boardList",
           component: BoardList,
+          
         },
         {
           path: "write",
