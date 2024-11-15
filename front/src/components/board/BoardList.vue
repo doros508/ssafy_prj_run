@@ -6,7 +6,7 @@
 
       <!-- 게시판 검색 영역 -->
       <div class="search-box"></div>
-      <img class="search-icon" src="@/assets/search-icon0.png" />
+      <img class="search-icon" src="../../assets/board/list/search.png" />
       <div class="search-text">게시판 검색</div>
 
       <!-- 커뮤니티 텍스트 -->

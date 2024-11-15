@@ -1,12 +1,12 @@
 <template>
     <div class="board-write">
-      <img class="background-img" src="background-img0.png" alt="background" />
+      <img class="background-img" src="../../assets/board/detail/detail-background.png" alt="background" />
       <div class="content-box">본문 내용을 입력하세요.</div>
       <div class="div">
         <div class="div">
           <div class="box"></div>
           <div class="text">확인</div>
-          <img class="div2" src="div2.png" alt="icon" />
+          <img class="div2" src="../../assets/board/write/확인.png" alt="icon" />
         </div>
       </div>
       <div class="title">
@@ -24,12 +24,12 @@
           <div class="attach-button-text">내 pc</div>
         </div>
         <div class="div5">파일 첨부</div>
-        <img class="vector-6" src="vector-60.svg" alt="vector" />
+        <img class="vector-6" src="../../assets/board/write/파일첨부.png" alt="vector" />
       </div>
-      <img class="write-form-box" src="write-form-box0.svg" alt="write form" />
+      <!-- <img class="write-form-box" src="write-form-box0.svg" alt="write form" /> -->
       <div class="magazine-search">
         <div class="search-box"></div>
-        <img class="search-icon" src="search-icon0.png" alt="search icon" />
+        <img class="search-icon" src="../../assets/board/write/write-search.png" alt="search icon" />
         <div class="search-text">커뮤니티 검색</div>
       </div>
       <div class="community-logo">Community</div>

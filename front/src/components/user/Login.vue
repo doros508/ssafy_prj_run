@@ -7,9 +7,9 @@
       <div class="sign-in">
         <div class="div"></div>
         <div class="social-login">
-          <img class="naver" src="@/assets/naver0.png" />
-          <img class="kakao" src="@/assets/kakao0.png" />
-          <img class="google" src="@/assets/google0.png" />
+          <img class="naver" src="../../assets/user/login/naver.png" />
+          <img class="kakao" src="../../assets/user/login/kakao.png" />
+          <img class="google" src="../../assets/user/login/google.png" />
         </div>
         
         <!-- 회원가입 버튼 -->
@@ -37,10 +37,10 @@
         <div class="id">
           <div class="id-box"></div>
           <div class="id-text">아이디</div>  
+        </div>
         
         <!-- 로그인 텍스트 -->
         <div class="sign-in-logo">Sign in</div>
-        </div>
       </div>
       
       <!-- MRT 로고 -->
@@ -49,9 +49,8 @@
   </template>
   
   <script setup>
-  import { defineComponent } from 'vue';
+    import { defineComponent } from 'vue';
   
-  // 필요한 컴포넌트나 라이브러리가 있다면 여기에 import 할 수 있습니다.
   </script>
   
   <style scoped>

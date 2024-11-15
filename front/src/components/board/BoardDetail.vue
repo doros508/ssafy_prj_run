@@ -1,6 +1,6 @@
 <template>
   <div class="board-detail">
-    <img class="background-img" src="background-img0.png" alt="Background" />
+    <img class="background-img" src="../../assets/board/detail/detail-background.png" alt="Background" />
     <div class="comment">
       <div class="comment-writer">{{ comment.writer }}</div>
       <div class="comment-write-time">{{ comment.writeTime }}</div>
@@ -50,12 +50,13 @@
           <br />
         </div>
       </div>
-      <img class="div" src="div0.svg" alt="Divider" />
+      <!-- <img class="div" src="div0.svg" alt="Divider" /> -->
+      <hr>
     </div>
     <div class="community-logo">Community</div>
     <div class="search-board">
       <div class="rectangle-30"></div>
-      <img class="_300-x-1" src="_300-x-10.png" alt="Search Icon" />
+      <img class="_300-x-1" src="../../assets/board/detail/detail_search.png" alt="Search Icon" />
       <div class="div2">게시판 검색</div>
     </div>
   </div>
