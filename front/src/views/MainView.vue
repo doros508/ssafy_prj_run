@@ -2,18 +2,17 @@
   <div class="main-page">
     <!-- 헤더 영역 -->
     <TheHeader />
-    <!-- <img class="main-photo" src="C:\SSAFY\ssafy_prj_run\front\src\assets\main_photo.png " /> -->
-    <div class="main-slogan">
-      RUNNING
-      <br />
-      TOGETHER
-    </div>
-    <!--  -->
+    <Welcome/>
+    <MagazineZone/>
+    <CommunityZone/>
   </div>
 </template>
 
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
+import CommunityZone from "@/components/main/CommunityZone.vue";
+import MagazineZone from "@/components/main/MagazineZone.vue";
+import Welcome from "@/components/main/welcome.vue";
 import { RouterView } from "vue-router";
 </script>
 
@@ -27,7 +26,7 @@ import { RouterView } from "vue-router";
 .main-page {
   height: 100vh; /* 화면의 전체 높이를 차지하도록 설정 */
   position: relative;
-  background-image: url("@/assets/main_photo.png"); /* 배경 이미지 설정 */
+  /* background-image: url("../assets/main/main_photo.png"); 배경 이미지 설정 */
   background-size: cover; /* 이미지가 컨테이너를 덮도록 설정 */
   background-position: center; /* 이미지가 중앙에 오도록 설정 */
 }
@@ -36,6 +35,7 @@ import { RouterView } from "vue-router";
   height: 1644px;
   position: relative;
 } */
+ 
 .main-photo {
   width: 100%;
   height: 100%;

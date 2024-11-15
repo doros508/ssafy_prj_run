@@ -20,6 +20,9 @@ import MagazineList from "@/components/magazine/MagazineList.vue"; // 메거진
 import CrewList from "@/components/crew/CrewList.vue";  // 크루
 
 import RaceList from "@/components/race/RaceList.vue";  // 대회
+import MagazineZone from "@/components/main/MagazineZone.vue";
+import CommunityZone from "@/components/main/CommunityZone.vue";
+import Welcome from "@/components/main/welcome.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +32,23 @@ const router = createRouter({
       path: "/",
       name: "main",
       component: MainView,
+      children: [
+        {
+          path: "",
+          name: "mainWelcome",
+          component: Welcome,
+        },
+        {
+          path: "",
+          name: "mainMagazine",
+          component: MagazineZone,
+        },
+        {
+          path: "",
+          name: "mainCommunity",
+          component: CommunityZone,
+        },
+      ]
     },
 
     // 유저 페이지
