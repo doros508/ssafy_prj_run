@@ -1,101 +1,200 @@
+<script setup>
+import { ref } from "vue";
+
+// 선택된 성별 저장
+const selectedGender = ref("");
+
+// 성별 선택 함수
+function selectGender(gender) {
+  selectedGender.value = gender;
+}
+</script>
+
+
 <template>
-  <div>
-    <div class="signup">
-    <img class="_6-2" src="../../assets/user/sign_up/login_picture.png" />
-    <div class="div"></div>
-    <div class="div2">
-      <div class="box"></div>
-      <div class="div3">확인</div>
-    </div>
-    <div class="div4">
-      <div class="div5"></div>
-      <img class="lock" src="../../assets/user/sign_up/인증번호 입력.png" />
-      <div class="div6">
-        <div class="div7">인증번호 입력</div>
+  <div class="signup-container">
+    <img class="background-img" src="../../assets/user/sign_up/login_picture.png" />
+    <div class="signup-form">
+      <h1 class="logo">MRT</h1>
+      <h2 class="title">Sign up</h2>
+      
+      <div class="form-group">
+        <input type="text" placeholder="아이디" />
       </div>
-    </div>
-    <div class="div4">
-      <div class="div8"></div>
-      <img class="phone-call" src="../../assets/user/sign_up/전화번호.png" />
-      <div class="div9">
-        <div class="div10">전화번호</div>
+
+      <div class="form-group">
+        <input type="password" placeholder="비밀번호" />
       </div>
-    </div>
-    <div class="div4">
-      <div class="div11"></div>
-      <div class="div12">주소 검색</div>
-      <img class="home" src="../../assets/user/sign_up/집.png" />
-    </div>
-    <div class="female">
-      <input class="div13" type="checkbox" />
-      <div class="div14">여자</div>
-    </div>
-    <div class="male">
-      <input class="male-box" type="checkbox" />
-      <div class="male-text">남자</div>
-    </div>
-    <div class="birth">
-      <div class="birth-box"></div>
-      <div class="birth-text">생년월일</div>
-      <img class="birth-icon" src="../../assets/user/sign_up/달력.png" />
-    </div>
-    <div class="name">
-      <div class="name-box"></div>
-      <div class="name2">이름</div>
-      <img class="name-icon" src="../../assets/user/sign_up/이름.png" />
-    </div>
-    <div class="email">
-      <div class="div15"></div>
-      <img class="mail" src="../../assets/user/sign_up/이메일.png" />
-      <div class="code-text">
-        <span>
-          <span class="code-text-span">
-            인증코드 전송
-            <br />
-          </span>
-          <span class="code-text-span2">
-            <br />
-          </span>
-        </span>
+
+      <div class="form-group">
+        <p class="message">이미 사용중인 별명입니다 or 별명을 입력해주세요.</p>
       </div>
-      <div class="email-text">
-        <div class="div16">이메일</div>
+
+      <div class="form-group">
+        <input type="text" placeholder="이메일" />
+        <button class="send-code-btn">인증코드 전송</button>
       </div>
-    </div>
-    <div class="div17">
-      <div class="div18">이미 사용중인 별명입니다 or 별명을 입력해주세요.</div> 
-    </div>
-    <div class="div19">
-      <div class="nick-name-box"></div>
-      <div class="nick-name">
-        <div class="div20">별명 :</div>
+
+      <div class="form-group">
+        <input type="text" placeholder="이름" />
       </div>
+
+      <div class="form-group">
+        <input type="date" />
+      </div>
+
+      <div class="form-group gender">
+        <button
+          class="gender-btn"
+          :class="{ active: selectedGender === '남자' }"
+          @click="selectGender('남자')">
+          남자
+        </button>
+        <button
+          class="gender-btn"
+          :class="{ active: selectedGender === '여자' }"
+          @click="selectGender('여자')">
+          여자
+        </button>
     </div>
-    <div class="password">
-      <div class="div21"></div>
-      <img class="lock2" src="../../assets/user/sign_up/비밀번호.png" />
-      <div class="div22">비밀번호</div>
-    </div> 
-    <div class="id">
-      <div class="id-box"></div>
-      <img class="user" src="../../assets/user/sign_up/아이디.png" />
-      <div class="id-text">아이디</div>
+
+      <div class="form-group">
+        <input type="text" placeholder="주소 검색" />
+      </div>
+
+      <div class="form-group">
+        <input type="tel" placeholder="전화번호" />
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="인증번호 입력" />
+      </div>
+
+      <button class="submit-btn">회원가입</button>
     </div>
-    <div class="profile">
-      <div class="profile-box"></div>
-      <img class="profile-icon" src="../../assets/user/sign_up/profile_icon.png" />
-    </div>
-    <div class="sign-up">Sign up</div>
-    <div class="mrt">MRT</div>
-  </div>
-  
   </div>
 </template>
 
-<script setup>
-
-</script>
-
 <style scoped>
+/* 기본 스타일 */
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.background-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.signup-form {
+  width: 400px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  color: #fff;
+}
+
+.logo {
+  font-size: 32px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.icon {
+  width: 20px;
+  margin-right: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="tel"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  width: 100%;
+  background-color: #ff7b54;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ff5722;
+}
+
+.send-code-btn {
+  margin-left: 10px;
+  padding: 10px;
+  background-color: #5a9;
+}
+
+.gender {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gender label {
+  cursor: pointer;
+}
+
+.submit-btn {
+  margin-top: 20px;
+}
+
+/*  */
+
+.gender-btn {
+  width: 48%;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gender-btn.active {
+  background-color: #ff7b54;
+  color: #fff;
+  border-color: #ff7b54;
+}
+
+.gender-btn:hover {
+  background-color: #ffe0d6;
+  color: #333;
+}
 
 </style>

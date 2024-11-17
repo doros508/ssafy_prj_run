@@ -20,9 +20,9 @@ import MagazineList from "@/components/magazine/MagazineList.vue"; // 메거진
 import CrewList from "@/components/crew/CrewList.vue"; // 크루
 
 import RaceList from "@/components/race/RaceList.vue"; // 대회
-import MagazineZone from "@/components/main/MagazineZone.vue";
-import CommunityZone from "@/components/main/CommunityZone.vue";
-import Welcome from "@/components/main/welcome.vue";
+import MagazineZone from "@/components/main/content/magazine/MainContentMagazine.vue";
+import CommunityZone from "@/components/main/content/community/MainContentCommunity.vue";
+import Welcome from "@/components/main/MainWelcome.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
