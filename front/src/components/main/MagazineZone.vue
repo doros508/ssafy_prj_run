@@ -4,41 +4,42 @@
     <div class="magazine-section">
       <h2 class="section-title">Magazine</h2>
       <div class="magazine-container">
-        <div class="magazine-item" v-for="(magazine, index) in magazines" :key="index">
-          <img class="magazine-image" :src="magazine.image" alt="magazine image" />
+        <div
+          class="magazine-item"
+          v-for="(magazine, index) in magazines"
+          :key="index"
+        >
+          <img
+            class="magazine-image"
+            :src="magazine.image"
+            alt="magazine image"
+          />
           <h3 class="magazine-title">{{ magazine.title }}</h3>
         </div>
       </div>
     </div>
-
- 
- 
   </div>
 </template>
 
-    
-    
-    <script>
-    import img1 from "../../assets/main/magazineZone/img1.png";
-    import img2 from "../../assets/main/magazineZone/img2.png";
-    import img3 from "../../assets/main/magazineZone/img3.png";
+<script>
+import img1 from "../../assets/main/magazineZone/img1.png";
+import img2 from "../../assets/main/magazineZone/img2.png";
+import img3 from "../../assets/main/magazineZone/img3.png";
 
-    export default {
-      data() {             
-        return {
+export default {
+  data() {
+    return {
+      magazines: [
+        { image: img1, title: "매거진 제목1" },
+        { image: img2, title: "매거진 제목2" },
+        { image: img3, title: "매거진 제목3" },
+      ],
+    };
+  },
+};
+</script>
 
-          magazines: [
-            { image: img1, title: "매거진 제목1" },
-            { image: img2, title: "매거진 제목2" },
-            { image: img3, title: "매거진 제목3" },
-          ]
-        }
-      }
-    }
-    </script>
-    
-    
-    <style scoped>
+<style scoped>
 /* 전체 레이아웃 */
 .main-container {
   display: grid;
@@ -94,7 +95,5 @@
   .main-container {
     grid-template-columns: 1fr;
   }
-
-
 }
 </style>
