@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import img1 from "../../assets/main/magazineZone/img1.png";
-import img2 from "../../assets/main/magazineZone/img2.png";
-import img3 from "../../assets/main/magazineZone/img3.png";
+import img1 from "../../assets/main/mainContentMagazine/img1.png";
+import img2 from "../../assets/main/mainContentMagazine/img2.png";
+import img3 from "../../assets/main/mainContentMagazine/img3.png";
 
 export default {
   data() {
