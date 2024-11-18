@@ -83,7 +83,7 @@ export default {
     },
     // 글쓰기 페이지로 이동
     navigateToWrite() {
-      this.$router.push("/write");
+      this.$router.push({name:'boardWrite'});
     },
   },
 };

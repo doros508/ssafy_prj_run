@@ -22,15 +22,20 @@
 </template>
 
 <script>
-import img1 from "../../assets/main/mainContentMagazine/img1.png";
-import img2 from "../../assets/main/mainContentMagazine/img2.png";
-import img3 from "../../assets/main/mainContentMagazine/img3.png";
+import img1 from "../../../assets/main/mainContentMagazine/img2.png";
+import img2 from "../../../assets/main/mainContentMagazine/img2.png";
+import img3 from "../../../assets/main/mainContentMagazine/img3.png";
 
 export default {
   data() {
     return {
       magazines: [
         { image: img1, title: "매거진 제목1" },
+        { image: img2, title: "매거진 제목2" },
+        { image: img3, title: "매거진 제목3" },
+        { image: img1, title: "매거진 제목1" },
+        { image: img2, title: "매거진 제목2" },
+        { image: img3, title: "매거진 제목3" },
         { image: img2, title: "매거진 제목2" },
         { image: img3, title: "매거진 제목3" },
       ],
@@ -42,9 +47,6 @@ export default {
 <style scoped>
 /* 전체 레이아웃 */
 .main-container {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
   margin: 20px;
 }
 
@@ -52,48 +54,54 @@ export default {
 .magazine-section {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .magazine-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(4, 1fr); /* 한 줄에 2개 */
+  gap: 20px;
+  width: 90%;
+  max-width: 90%; /* 매거진 섹션의 최대 너비 */
 }
 
 .magazine-item {
   display: flex;
   flex-direction: column;
   background: #222;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .magazine-image {
   width: 100%;
-  height: 150px;
+  height: 350px; /* 높이를 늘려 더 넓게 설정 */
   object-fit: cover;
 }
 
 .magazine-title {
-  font-size: 16px;
-  margin: 10px 0;
+  font-size: 18px;
+  margin: 15px 0;
   color: #fff;
   font-weight: bold;
 }
 
-/* Weather 및 Race 섹션 스타일 */
+/* 제목 스타일 */
 .section-title {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 35px;
+  font-weight: 900;
+  color: white;
   text-align: center;
+  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 /* 반응형 디자인 */
 @media screen and (max-width: 768px) {
-  .main-container {
-    grid-template-columns: 1fr;
+  .magazine-container {
+    grid-template-columns: 1fr; /* 작은 화면에서는 한 줄에 1개 */
   }
 }
 </style>
