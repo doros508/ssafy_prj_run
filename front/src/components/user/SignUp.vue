@@ -61,8 +61,9 @@ function checkVerificationCode() {
   <div class="signup-container">
     <img class="background-img" src="../../assets/user/sign_up/login_picture.png" />
     <div class="signup-form">
-      <h1 class="logo">MRT</h1>
-      <h2 class="title">Sign up</h2>
+      <h1 class="logo">Sign up</h1>
+      <div class="spacing"></div>
+      
       
       <!-- 프로필 사진 업로드 -->
       <div class="form-group">
@@ -160,6 +161,10 @@ function checkVerificationCode() {
 
 
 <style scoped>
+.spacing {
+  height: 20px; /* 간격을 설정 */
+}
+
 /* 기존 스타일 */
 
 .signup-container {
