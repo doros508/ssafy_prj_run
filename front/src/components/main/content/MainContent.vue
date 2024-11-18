@@ -6,8 +6,8 @@
   </template>
   
   <script setup>
-  import MainContentMagazine from '@/components/main/content/magazine/MainContentMagazine.vue';
-  import MainContentCommunity from '@/components/main/content/community/MainContentCommunity.vue';
+  import MainContentMagazine from '@/components/main/content/MainContentMagazine.vue';
+  import MainContentCommunity from '@/components/main/content/MainContentCommunity.vue';
   </script>
   
   <style scoped>

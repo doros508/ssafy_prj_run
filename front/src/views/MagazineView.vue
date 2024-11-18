@@ -3,7 +3,8 @@
     <h2>Magazine.vue (임시)</h2>
     <!-- 헤더 영역 -->
     <TheHeader/>
-    <MagazineList/>
+    <!-- <MagazineList/> -->
+     <RouterView/>
   </div>
 </template>
 

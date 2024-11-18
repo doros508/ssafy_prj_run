@@ -18,13 +18,13 @@ const weatherData = ref(null);
 
 onMounted(async () => {
   // 날씨 API 예시 코드 (실제 API 사용 시 API_KEY와 URL 변경)
-  // const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=YOUR_API_KEY&units=metric`);
-  // const data = await response.json();
-  // weatherData.value = {
-  //   location: data.name,
-  //   temperature: data.main.temp,
-  //   description: data.weather[0].description,
-  // };
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=YOUR_API_KEY&units=metric`);
+  const data = await response.json();
+  weatherData.value = {
+    location: data.name,
+    temperature: data.main.temp,
+    description: data.weather[0].description,
+  };
 
   // 예시 데이터
   weatherData.value = {

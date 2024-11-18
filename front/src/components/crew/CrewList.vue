@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div>
         <h2>CrewList.vue</h2>
     </div>

@@ -20,8 +20,8 @@ import MagazineList from "@/components/magazine/MagazineList.vue"; // 메거진
 import CrewList from "@/components/crew/CrewList.vue"; // 크루
 
 import RaceList from "@/components/race/RaceList.vue"; // 대회
-import MagazineZone from "@/components/main/content/magazine/MainContentMagazine.vue";
-import CommunityZone from "@/components/main/content/community/MainContentCommunity.vue";
+import MagazineZone from "@/components/main/content/MainContentMagazine.vue";
+import CommunityZone from "@/components/main/content/MainContentCommunity.vue";
 import Welcome from "@/components/main/MainWelcome.vue";
 
 const router = createRouter({
@@ -75,6 +75,7 @@ const router = createRouter({
       path: "/board",
       name: "board",
       component: BoardView,
+      redirect:{name:"boardList"},
       children: [
         {
           path: "",
@@ -83,7 +84,7 @@ const router = createRouter({
           
         },
         {
-          path: "write",
+          path: "/write",
           name: "boardWrite",
           component: BoardWrite,
         },
@@ -100,9 +101,10 @@ const router = createRouter({
       path: "/magazine",
       name: "magazine",
       component: MagazineView,
+      redirect:{name:"magazineList"},
       children: [
-        {
-          path: "list",
+        { 
+          path: "",
           name: "magazineList",
           component: MagazineList,
         },
@@ -114,6 +116,8 @@ const router = createRouter({
       path: "/crew",
       name: "crew",
       component: CrewView,
+      redirect:{name:"crewList"},
+      
       children: [
         {
           path: "list",
