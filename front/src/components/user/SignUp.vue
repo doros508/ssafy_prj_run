@@ -10,6 +10,8 @@ const password = ref("");
 const confirmPassword = ref("");
 // 아이디 중복 검사 상태
 const isUsernameAvailable = ref(true);
+// 별명 중복 검사 상태
+const isNicknameAvailable = ref(true);
 
 // 성별 선택 함수
 function selectGender(gender) {
@@ -31,7 +33,6 @@ function handleProfileImageUpload(event) {
 // 아이디 중복 검사 함수 (임시 구현)
 function checkUsernameAvailability() {
   const username = document.querySelector('input[placeholder="아이디"]').value;
-  // 서버로 아이디 중복 체크 요청 (실제 구현 시 API 호출)
   if (username === "takenUsername") {
     isUsernameAvailable.value = false; // 이미 존재하는 아이디
   } else {
@@ -39,9 +40,19 @@ function checkUsernameAvailability() {
   }
 }
 
+// 별명 중복 검사 함수 (아이디 중복검사와 동일한 방식)
+function checkNicknameAvailability() {
+  const nickname = document.querySelector('input[placeholder="별명"]').value;
+  // 서버로 별명 중복 체크 요청 (실제 구현 시 API 호출)
+  if (nickname === "takenNickname") {
+    isNicknameAvailable.value = false; // 이미 존재하는 별명
+  } else {
+    isNicknameAvailable.value = true; // 사용 가능한 별명
+  }
+}
+
 // 인증번호 확인 함수 (임시 구현)
 function checkVerificationCode() {
-  // 인증번호 확인 로직
   console.log('인증번호 확인');
 }
 </script>
@@ -71,8 +82,15 @@ function checkVerificationCode() {
       <!-- 아이디 입력 및 중복검사 -->
       <div class="form-group">
         <input type="text" placeholder="아이디" />
-        <button class="check-username-btn" @click="checkUsernameAvailability">중복 검사</button>
+        <button class="check-username-btn" @click="checkUsernameAvailability">아이디 중복 검사</button>
         <p v-if="!isUsernameAvailable" class="error-message">이미 존재하는 아이디입니다.</p>
+      </div>
+
+      <!-- 별명 입력 및 중복검사 -->
+      <div class="form-group">
+        <input type="text" placeholder="별명" />
+        <button class="check-nickname-btn" @click="checkNicknameAvailability">별명 중복 검사</button>
+        <p v-if="!isNicknameAvailable" class="error-message">이미 존재하는 별명입니다.</p>
       </div>
 
       <!-- 비밀번호 입력 -->
@@ -139,6 +157,7 @@ function checkVerificationCode() {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 /* 기존 스타일 */

@@ -4,6 +4,7 @@
     <TheHeader />
     <MainWelcome />
     <div class="content-layout">
+      <MagazineZone/>
       <MainContent />
       <MainAside />
     </div>
@@ -16,6 +17,7 @@ import TheHeader from '@/components/common/TheHeader.vue';
 import MainWelcome from '../components/main/MainWelcome.vue';
 import MainContent from '@/components/main/content/MainContent.vue';
 import MainAside from '../components/main/aside/MainAsideRace.vue';
+import MagazineZone from '@/components/main/MagazineZone.vue';
 </script>
   
 <style scoped>
