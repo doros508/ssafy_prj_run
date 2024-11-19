@@ -1,16 +1,16 @@
 <script setup>
 import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
-// 선택된 성별 저장
+const router = useRouter();
+
+// 기존 ref 유지
 const selectedGender = ref("");
-// 프로필 사진 저장
 const profileImage = ref(null);
-// 비밀번호와 비밀번호 확인 저장
 const password = ref("");
 const confirmPassword = ref("");
-// 아이디 중복 검사 상태
 const isUsernameAvailable = ref(true);
-// 별명 중복 검사 상태
 const isNicknameAvailable = ref(true);
 
 // 성별 선택 함수
@@ -24,52 +24,126 @@ function handleProfileImageUpload(event) {
   if (file) {
     const reader = new FileReader();
     reader.onload = () => {
-      profileImage.value = reader.result; // 이미지 데이터를 base64로 저장
+      profileImage.value = reader.result;
     };
-    reader.readAsDataURL(file); // 이미지 파일을 base64로 읽기
+    reader.readAsDataURL(file);
   }
 }
 
-// 아이디 중복 검사 함수 (임시 구현)
-function checkUsernameAvailability() {
+// 아이디 중복 검사 함수
+async function checkUsernameAvailability() {
   const username = document.querySelector('input[placeholder="아이디"]').value;
-  if (username === "takenUsername") {
-    isUsernameAvailable.value = false; // 이미 존재하는 아이디
-  } else {
-    isUsernameAvailable.value = true; // 사용 가능한 아이디
+  try {
+    const response = await axios.get(
+      `/api-user/check-userid?userId=${username}`
+    );
+    isUsernameAvailable.value = !response.data.isDuplicate;
+  } catch (error) {
+    console.error("아이디 중복 검사 오류", error);
+    isUsernameAvailable.value = false;
   }
 }
 
-// 별명 중복 검사 함수 (아이디 중복검사와 동일한 방식)
-function checkNicknameAvailability() {
+// 닉네임 중복 검사 함수
+async function checkNicknameAvailability() {
   const nickname = document.querySelector('input[placeholder="별명"]').value;
-  // 서버로 별명 중복 체크 요청 (실제 구현 시 API 호출)
-  if (nickname === "takenNickname") {
-    isNicknameAvailable.value = false; // 이미 존재하는 별명
-  } else {
-    isNicknameAvailable.value = true; // 사용 가능한 별명
+  try {
+    const response = await axios.get(
+      `/api-user/check-nickname?userNickname=${nickname}`
+    );
+    isNicknameAvailable.value = !response.data.isDuplicate;
+  } catch (error) {
+    console.error("닉네임 중복 검사 오류", error);
+    isNicknameAvailable.value = false;
   }
 }
 
-// 인증번호 확인 함수 (임시 구현)
-function checkVerificationCode() {
-  console.log('인증번호 확인');
+// 회원가입 함수
+async function signup() {
+  // 입력 데이터 유효성 검사
+  if (!isUsernameAvailable.value || !isNicknameAvailable.value) {
+    alert("아이디 또는 닉네임 중복을 확인해주세요.");
+    return;
+  }
+
+  if (password.value !== confirmPassword.value) {
+    alert("비밀번호가 일치하지 않습니다.");
+    return;
+  }
+
+  // FormData 생성
+  const formData = new FormData();
+
+  // 입력 필드 값 추가
+  formData.append(
+    "userId",
+    document.querySelector('input[placeholder="아이디"]').value
+  );
+  formData.append(
+    "userNickname",
+    document.querySelector('input[placeholder="별명"]').value
+  );
+  formData.append("userPassword", password.value);
+  formData.append(
+    "userName",
+    document.querySelector('input[placeholder="이름"]').value
+  );
+  formData.append(
+    "userEmail",
+    document.querySelector('input[placeholder="이메일"]').value
+  );
+  formData.append(
+    "userBirthday",
+    document.querySelector('input[type="date"]').value
+  );
+  formData.append("userGender", selectedGender.value);
+  formData.append(
+    "userAddress",
+    document.querySelector('input[placeholder="주소 검색"]').value
+  );
+  formData.append(
+    "userPhoneNumber",
+    document.querySelector('input[placeholder="전화번호"]').value
+  );
+
+  // 프로필 이미지 추가 (있는 경우)
+  if (profileImage.value) {
+    const blob = await fetch(profileImage.value).then((r) => r.blob());
+    formData.append("file", blob, "profile.jpg");
+  }
+
+  try {
+    const response = await axios.post("/api-user/regist", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    alert("회원가입 성공");
+    router.push("/login"); // 로그인 페이지로 이동
+  } catch (error) {
+    alert(error.response?.data?.message || "회원가입 실패");
+  }
 }
 </script>
 
 <template>
   <div class="signup-container">
-    <img class="background-img" src="../../assets/user/sign_up/login_picture.png" />
+    <img
+      class="background-img"
+      src="../../assets/user/sign_up/login_picture.png"
+    />
     <div class="signup-form">
       <h1 class="logo">Sign up</h1>
       <div class="spacing"></div>
-      
-      
+
       <!-- 프로필 사진 업로드 -->
       <div class="form-group">
         <label for="profile-image" class="profile-image-label">
           <span v-if="!profileImage" class="upload-text">프로필 사진</span>
-          <img v-if="profileImage" :src="profileImage" alt="Profile Image" class="profile-image-preview" />
+          <img
+            v-if="profileImage"
+            :src="profileImage"
+            alt="Profile Image"
+            class="profile-image-preview"
+          />
         </label>
         <input
           type="file"
@@ -83,15 +157,23 @@ function checkVerificationCode() {
       <!-- 아이디 입력 및 중복검사 -->
       <div class="form-group">
         <input type="text" placeholder="아이디" />
-        <button class="check-username-btn" @click="checkUsernameAvailability">아이디 중복 검사</button>
-        <p v-if="!isUsernameAvailable" class="error-message">이미 존재하는 아이디입니다.</p>
+        <button class="check-username-btn" @click="checkUsernameAvailability">
+          아이디 중복 검사
+        </button>
+        <p v-if="!isUsernameAvailable" class="error-message">
+          이미 존재하는 아이디입니다.
+        </p>
       </div>
 
       <!-- 별명 입력 및 중복검사 -->
       <div class="form-group">
         <input type="text" placeholder="별명" />
-        <button class="check-nickname-btn" @click="checkNicknameAvailability">별명 중복 검사</button>
-        <p v-if="!isNicknameAvailable" class="error-message">이미 존재하는 별명입니다.</p>
+        <button class="check-nickname-btn" @click="checkNicknameAvailability">
+          별명 중복 검사
+        </button>
+        <p v-if="!isNicknameAvailable" class="error-message">
+          이미 존재하는 별명입니다.
+        </p>
       </div>
 
       <!-- 비밀번호 입력 -->
@@ -101,8 +183,17 @@ function checkVerificationCode() {
 
       <!-- 비밀번호 확인 입력 -->
       <div class="form-group">
-        <input type="password" placeholder="비밀번호 확인" v-model="confirmPassword" />
-        <p v-if="password && confirmPassword && password !== confirmPassword" class="error-message">비밀번호가 일치하지 않습니다.</p>
+        <input
+          type="password"
+          placeholder="비밀번호 확인"
+          v-model="confirmPassword"
+        />
+        <p
+          v-if="password && confirmPassword && password !== confirmPassword"
+          class="error-message"
+        >
+          비밀번호가 일치하지 않습니다.
+        </p>
       </div>
 
       <!-- 이메일 입력 -->
@@ -126,13 +217,15 @@ function checkVerificationCode() {
         <button
           class="gender-btn"
           :class="{ active: selectedGender === '남자' }"
-          @click="selectGender('남자')">
+          @click="selectGender('남자')"
+        >
           남자
         </button>
         <button
           class="gender-btn"
           :class="{ active: selectedGender === '여자' }"
-          @click="selectGender('여자')">
+          @click="selectGender('여자')"
+        >
           여자
         </button>
       </div>
@@ -150,15 +243,16 @@ function checkVerificationCode() {
       <!-- 인증번호 확인 버튼 -->
       <div class="form-group">
         <input type="text" placeholder="인증번호 입력" />
-        <button class="check-code-btn" @click="checkVerificationCode">확인</button>
+        <button class="check-code-btn" @click="checkVerificationCode">
+          확인
+        </button>
       </div>
 
       <!-- 회원가입 버튼 -->
-      <button class="submit-btn">회원가입</button>
+      <button class="submit-btn" @click="signup">회원가입</button>
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .spacing {

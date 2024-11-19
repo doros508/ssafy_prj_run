@@ -1,25 +1,26 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useUserStore } from "@/stores/userStore"; // Pinia 스토어 추가
+
 // views
-import MainView from "@/views/MainView.vue"; // 메인 뷰
-import UserView from "@/views/UserView.vue"; // 유저 뷰
-import BoardView from "@/views/BoardView.vue"; // 보드 뷰
-import MagazineView from "@/views/MagazineView.vue"; // 메거진 뷰
-import CrewView from "@/views/CrewView.vue"; // 크루 뷰
+import MainView from "@/views/MainView.vue";
+import UserView from "@/views/UserView.vue";
+import BoardView from "@/views/BoardView.vue";
+import MagazineView from "@/views/MagazineView.vue";
+import CrewView from "@/views/CrewView.vue";
 import RaceView from "@/views/RaceView.vue";
 
 // components
-import BoardList from "@/components/board/BoardList.vue"; // 보드
+import BoardList from "@/components/board/BoardList.vue";
 import BoardWrite from "@/components/board/BoardWrite.vue";
 import BoardDetail from "@/components/board/BoardDetail.vue";
 
-import Login from "@/components/user/Login.vue"; // 유저
+import Login from "@/components/user/Login.vue";
 import SignUp from "@/components/user/SignUp.vue";
 
-import MagazineList from "@/components/magazine/MagazineList.vue"; // 메거진
+import MagazineList from "@/components/magazine/MagazineList.vue";
+import CrewList from "@/components/crew/CrewList.vue";
+import RaceList from "@/components/race/RaceList.vue";
 
-import CrewList from "@/components/crew/CrewList.vue"; // 크루
-
-import RaceList from "@/components/race/RaceList.vue"; // 대회
 import MagazineZone from "@/components/main/content/MainContentMagazine.vue";
 import CommunityZone from "@/components/main/content/MainContentCommunity.vue";
 import Welcome from "@/components/main/MainWelcome.vue";
@@ -61,11 +62,27 @@ const router = createRouter({
           path: "signup",
           name: "signUp",
           component: SignUp,
+          beforeEnter: (to, from, next) => {
+            const userStore = useUserStore();
+            if (userStore.getIsLoggedIn) {
+              next({ name: "main" });
+            } else {
+              next();
+            }
+          },
         },
         {
           path: "login",
           name: "login",
           component: Login,
+          beforeEnter: (to, from, next) => {
+            const userStore = useUserStore();
+            if (userStore.getIsLoggedIn) {
+              next({ name: "main" });
+            } else {
+              next();
+            }
+          },
         },
       ],
     },
@@ -75,23 +92,24 @@ const router = createRouter({
       path: "/board",
       name: "board",
       component: BoardView,
-      redirect:{name:"boardList"},
+      redirect: { name: "boardList" },
       children: [
         {
           path: "",
           name: "boardList",
           component: BoardList,
-          
         },
         {
-          path: "/write",
+          path: "write",
           name: "boardWrite",
           component: BoardWrite,
+          meta: { requiresAuth: true },
         },
         {
-          path: "detail",
+          path: "detail/:id",
           name: "boardDetail",
           component: BoardDetail,
+          props: true,
         },
       ],
     },
@@ -101,9 +119,9 @@ const router = createRouter({
       path: "/magazine",
       name: "magazine",
       component: MagazineView,
-      redirect:{name:"magazineList"},
+      redirect: { name: "magazineList" },
       children: [
-        { 
+        {
           path: "",
           name: "magazineList",
           component: MagazineList,
@@ -116,8 +134,7 @@ const router = createRouter({
       path: "/crew",
       name: "crew",
       component: CrewView,
-      redirect:{name:"crewList"},
-      
+      redirect: { name: "crewList" },
       children: [
         {
           path: "list",
@@ -141,6 +158,22 @@ const router = createRouter({
       ],
     },
   ],
+});
+
+// 전역 네비게이션 가드
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+
+  // 인증이 필요한 라우트 체크
+  if (to.meta.requiresAuth && !userStore.getIsLoggedIn) {
+    // 로그인되지 않은 사용자를 로그인 페이지로 리다이렉트
+    next({
+      name: "login",
+      query: { redirect: to.fullPath },
+    });
+  } else {
+    next();
+  }
 });
 
 export default router;

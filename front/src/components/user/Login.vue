@@ -9,12 +9,24 @@
       <div class="sign-in-box">
         <div class="sign-in-logo">Sign in</div>
 
-        <form action="">
+        <form @submit.prevent="login">
           <!-- 아이디 입력 필드 -->
-          <input type="text" placeholder="아이디" class="input-field" />
-          
+          <input
+            type="text"
+            placeholder="아이디"
+            class="input-field"
+            v-model="userId"
+            required
+          />
+
           <!-- 비밀번호 입력 필드 -->
-          <input type="password" placeholder="비밀번호" class="input-field" />
+          <input
+            type="password"
+            placeholder="비밀번호"
+            class="input-field"
+            v-model="userPassword"
+            required
+          />
 
           <!-- 비밀번호 찾기 -->
           <div class="forgot-password">비밀번호를 잊어버리셨나요?</div>
@@ -22,15 +34,27 @@
           <!-- 로그인 버튼 -->
           <button class="login-btn">로그인</button>
         </form>
-        
+
         <!-- 회원가입 버튼 -->
         <button class="signup-btn" @click="goToSignUp">회원가입</button>
 
         <!-- 소셜 로그인 버튼 -->
         <div class="social-login">
-          <img class="kakao" src="../../assets/user/login/kakao.png" alt="Kakao" />
-          <img class="naver" src="../../assets/user/login/naver.png" alt="Naver" />
-          <img class="google" src="../../assets/user/login/google.png" alt="Google" />
+          <img
+            class="kakao"
+            src="../../assets/user/login/kakao.png"
+            alt="Kakao"
+          />
+          <img
+            class="naver"
+            src="../../assets/user/login/naver.png"
+            alt="Naver"
+          />
+          <img
+            class="google"
+            src="../../assets/user/login/google.png"
+            alt="Google"
+          />
         </div>
       </div>
     </div>
@@ -38,15 +62,46 @@
 </template>
 
 <script setup>
-  import { useRouter } from "vue-router";
-  const router = useRouter();
+import { ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import axios from "axios";
+import { useUserStore } from "@/stores/userStore";
 
-  function goToSignUp() {
-    router.push({
-      path: "/signup",
-      name: "signUp",
+const router = useRouter();
+const route = useRoute();
+const userStore = useUserStore(); //Pinia 스토어 사용.
+
+const userId = ref("");
+const userPassword = ref("");
+
+async function login() {
+  try {
+    const response = await axios.post("/api-user/login", {
+      userId: userId.value,
+      userPassword: userPassword.value,
     });
+
+    // 로그인 성공 시 Pinia 스토어에 사용자 정보 저장
+    userStore.setUser(response.data.user);
+    userStore.setIsLoggedIn(true);
+    alert("로그인 성공");
+
+    // 메인 페이지로 이동
+    const redirectPath = route.query.redirect || { name: "main" };
+    router.push(redirectPath);
+  } catch (error) {
+    // 로그인 실패 시 처리
+    alert(error.response?.data?.message || "로그인 실패");
+    userStore.setIsLoggedIn(false);
   }
+}
+
+function goToSignUp() {
+  router.push({
+    path: "/signup",
+    name: "signUp",
+  });
+}
 </script>
 
 <style scoped>
@@ -54,7 +109,7 @@
 .login,
 .login * {
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* 전체 화면 설정 */
@@ -73,7 +128,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url('../../assets/user/login/login_picture.png');
+  background-image: url("../../assets/user/login/login_picture.png");
   background-size: cover;
   background-position: center;
   filter: blur(4px);
