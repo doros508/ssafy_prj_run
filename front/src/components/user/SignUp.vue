@@ -126,18 +126,9 @@ async function checkNicknameAvailability() {
 
 // 회원가입 함수
 async function signup() {
-  // 입력 데이터 유효성 검사
-  if (!isUsernameAvailable.value || !isNicknameAvailable.value) {
-    alert("아이디 또는 닉네임 중복을 확인해주세요.");
-    return;
-  }
-  if (password.value !== confirmPassword.value) {
-    alert("비밀번호가 일치하지 않습니다.");
-    return;
-  }
 
-  // JSON 데이터 생성
-  const userData = {
+ // JSON 데이터 생성
+ const userData = {
     userId: userId.value,
     userNickname: userNickname.value,
     userPassword: password.value,
@@ -150,6 +141,18 @@ async function signup() {
     userZipCode: userZipCode.value
   };
 
+  // 입력 데이터 유효성 검사
+  if (!isUsernameAvailable.value || !isNicknameAvailable.value) {
+    alert("아이디 또는 닉네임 중복을 확인해주세요.");
+    return;
+  }
+  if (password.value !== confirmPassword.value) {
+    alert("비밀번호가 일치하지 않습니다.");
+    return;
+  }
+
+ 
+
   try {
     // 프로필 이미지 있는 경우 별도 처리
     if (profileImage.value) {
@@ -161,12 +164,12 @@ async function signup() {
         formData.append('file', fileInput.files[0]);
       }
 
-      const response = await axios.post("/api-user/regist", formData, {
+       response = await axios.post("/api-user/regist", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
     } else {
       // 프로필 이미지 없는 경우 JSON으로 전송
-      const response = await axios.post("/api-user/regist", userData, {
+       response = await axios.post("/api-user/regist", userData, {
         headers: { "Content-Type": "application/json" }
       });
     }
@@ -344,7 +347,7 @@ async function signup() {
       </div>
 
       <!-- 전화번호 입력 -->
-      <div class="form-group">
+      <div class="form-group"> 
         <input 
           type="tel" 
           placeholder="전화번호" 

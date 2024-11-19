@@ -175,3 +175,6 @@ VALUES
 ('Busan Runners', 15, 3, 2, 'Join our crew for group runs in Busan.', 'http://busanrunners.com', 'Every weekend');
 
 select * from user;
+
+SELECT COUNT(*) FROM user WHERE user_nickname = '별명3';
+
