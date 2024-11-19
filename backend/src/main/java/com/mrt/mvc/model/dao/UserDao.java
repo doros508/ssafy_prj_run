@@ -19,7 +19,7 @@ public interface UserDao {
     void deleteUser(int userNo);
 
     // 아이디 중복 검사
-    User checkDuplicateUserId(String userId);
+    int checkDuplicateUserId(String userId);
 
     // 닉네임 중복 검사
     int checkDuplicateNickname(String userNickname);

@@ -80,7 +80,7 @@ async function login() {
       userId: userId.value,
       userPassword: userPassword.value,
     });
-
+    
     // 로그인 성공 시 Pinia 스토어에 사용자 정보 저장
     userStore.setUser(response.data.user);
     userStore.setIsLoggedIn(true);

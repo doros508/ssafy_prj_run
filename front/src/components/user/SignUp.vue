@@ -5,6 +5,16 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+// ref로 입력 필드 관리
+const userId = ref('');
+const userNickname = ref('');
+const userName = ref('');
+const userEmail = ref('');
+const userBirthday = ref('');
+const userAddress = ref('');
+const userPhoneNumber = ref('');
+const userZipCode = ref('');
+
 // 기존 ref 유지
 const selectedGender = ref("");
 const profileImage = ref(null);
@@ -32,18 +42,16 @@ function handleProfileImageUpload(event) {
 
 // 아이디 중복 검사 함수
 async function checkUsernameAvailability() {
-  const userId = document.querySelector('input[placeholder="아이디"]').value;
-  
-  // 아이디 입력 여부 확인
-  if (!userId) {
+  // v-model로 입력된 값 직접 사용
+  if (!userId.value) {
     alert('아이디를 입력해주세요.');
     return;
   }
 
   try {
     const response = await axios.get('/api-user/check-userid', { 
-      params: {
-        userId: userId
+      params: { 
+        userId: userId.value 
       }
     });
     
@@ -57,26 +65,35 @@ async function checkUsernameAvailability() {
     }
   } catch (error) {
     console.error("아이디 중복 검사 오류", error);
+    
+    // 에러 상세 로깅
+    if (error.response) {
+      console.error('Response error:', error.response.data);
+      alert(error.response.data.message || '아이디 중복 검사 중 오류가 발생했습니다.');
+    } else if (error.request) {
+      console.error('Request error:', error.request);
+      alert('서버 응답이 없습니다.');
+    } else {
+      console.error('Error:', error.message);
+      alert('네트워크 오류가 발생했습니다.');
+    }
+    
     isUsernameAvailable.value = false;
-    alert('아이디 중복 검사 중 오류가 발생했습니다.');
   }
 }
 
 // 닉네임 중복 검사 함수
 async function checkNicknameAvailability() {
-  // v-model 또는 ref를 사용하도록 수정
-  const nickname = document.querySelector('input[placeholder="별명"]').value;
-  
-  // 닉네임 입력 여부 확인
-  if (!nickname) {
+  // v-model로 입력된 값 직접 사용
+  if (!userNickname.value) {
     alert('닉네임을 입력해주세요.');
     return;
   }
 
   try {
-    const response = await axios.get('/api-user/check-nickname', {
+    const response = await axios.get('/api-user/check-nickname', { 
       params: { 
-        userNickname: nickname 
+        userNickname: userNickname.value 
       }
     });
     
@@ -91,25 +108,21 @@ async function checkNicknameAvailability() {
   } catch (error) {
     console.error("닉네임 중복 검사 오류", error);
     
-    // 에러 메시지 처리
+    // 에러 상세 로깅
     if (error.response) {
+      console.error('Response error:', error.response.data);
       alert(error.response.data.message || '닉네임 중복 검사 중 오류가 발생했습니다.');
+    } else if (error.request) {
+      console.error('Request error:', error.request);
+      alert('서버 응답이 없습니다.');
     } else {
+      console.error('Error:', error.message);
       alert('네트워크 오류가 발생했습니다.');
     }
     
     isNicknameAvailable.value = false;
   }
 }
-
-// ref로 입력 필드 관리
-const userId = ref('');
-const userNickname = ref('');
-const userName = ref('');
-const userEmail = ref('');
-const userBirthday = ref('');
-const userAddress = ref('');
-const userPhoneNumber = ref('');
 
 // 회원가입 함수
 async function signup() {
@@ -118,15 +131,8 @@ async function signup() {
     alert("아이디 또는 닉네임 중복을 확인해주세요.");
     return;
   }
-
   if (password.value !== confirmPassword.value) {
     alert("비밀번호가 일치하지 않습니다.");
-    return;
-  }
-
-  // 필수 입력 필드 검증
-  if (!userId.value || !userNickname.value || !userName.value) {
-    alert("필수 입력 항목을 모두 입력해주세요.");
     return;
   }
 
@@ -140,7 +146,8 @@ async function signup() {
     userBirthday: userBirthday.value,
     userGender: selectedGender.value,
     userAddress: userAddress.value,
-    userPhoneNumber: userPhoneNumber.value
+    userPhoneNumber: userPhoneNumber.value,
+    userZipCode: userZipCode.value
   };
 
   try {
@@ -169,11 +176,10 @@ async function signup() {
   } catch (error) {
     alert(error.response?.data?.message || "회원가입 실패");
   }
-}
-
+1}
 </script>
 
-  <template>
+<template>
   <div class="signup-container">
     <img 
       class="background-img" 
@@ -325,6 +331,18 @@ async function signup() {
         />
       </div>
 
+      <!-- 우편번호 입력 -->
+      <div class="form-group">
+        <input 
+          type="text" 
+          placeholder="우편번호" 
+          v-model="userZipCode"
+          pattern="\d*"
+          inputmode="numeric"
+          maxlength="5"
+        />
+      </div>
+
       <!-- 전화번호 입력 -->
       <div class="form-group">
         <input 
@@ -358,7 +376,6 @@ async function signup() {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .spacing {
