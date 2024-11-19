@@ -2,12 +2,12 @@ package com.mrt.mvc.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,10 +37,48 @@ public class UserController {
 	
 	//회원가입. 
 	@PostMapping("/regist")
-	public ResponseEntity<String> signup(User user, @RequestParam MultipartFile file ) throws IOException {
-		userService.registUser(user, file);
-		return new ResponseEntity<>("회원가입 완료",HttpStatus.CREATED);
-	}
+	public ResponseEntity<?> signup(User user, @RequestParam MultipartFile file ) throws IOException {
+		try {
+			//아이디 중복체크. 
+			if(userService.checkDuplicateUserId(user.getUserId())) {
+				return ResponseEntity
+						.status(HttpStatus.BAD_REQUEST)
+						.body(Map.of("message", "이미 존재하는 아이디 입니다."));
+			}
+			// 닉네임 중복 체크
+            if (userService.checkDuplicateNickname(user.getUserNickname())) {
+                return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "이미 존재하는 닉네임입니다."));
+            }
+            
+            User registeredUser = userService.registUser(user, file);
+            return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(Map.of("message", "회원가입 완료", "user", registeredUser));
+        } catch (IOException e) {
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("message", "파일 업로드 실패"));
+        }
+    }
+	
+	//아이디 중복검사
+	@GetMapping("/check-userid")
+    public ResponseEntity<?> checkDuplicateUserId(@RequestParam String userId) {
+        boolean isDuplicate = userService.checkDuplicateUserId(userId);
+        return ResponseEntity.ok(Map.of("isDuplicate", isDuplicate));
+    }
+	
+	
+	
+	//닉네임 중복검사 
+	@GetMapping("/check-nickname")
+    public ResponseEntity<?> checkDuplicateNickname(@RequestParam String userNickname) {
+        boolean isDuplicate = userService.checkDuplicateNickname(userNickname);
+        return ResponseEntity.ok(Map.of("isDuplicate", isDuplicate));
+    }
+	
 	
 	//로그인 
 	@PostMapping("/login")
@@ -55,9 +93,29 @@ public class UserController {
 			return new ResponseEntity<>("로그인 실패 했습니다.",HttpStatus.UNAUTHORIZED);
 		}
 	}
+	
+	//로그아웃 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpSession session) {
+        userService.logout(session);
+        return ResponseEntity.ok(
+            Map.of("message", "로그아웃 성공")
+        );
+    }
+	
+	
+	
 	@DeleteMapping("/mypage/deleteAccount") //아직 없지만 페이지 있다고 가정하고 구현함. 
 	public ResponseEntity deleteAccount(@RequestParam int userNo) {
 		userService.deleteAccount(userNo);
 		return new ResponseEntity("계정 삭제 완료",HttpStatus.OK);
 	}
+	
+
+	
+	
+	
+	
+	
+	
 }
