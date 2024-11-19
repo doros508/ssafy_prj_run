@@ -1,92 +1,57 @@
 <template>
   <div class="board-container">
     <!-- 배경 이미지 -->
-    <img class="board-background" src="../../assets/board/list/board_background.png" />
+    <img
+      class="board-background"
+      src="../../assets/board/list/board_background.png"
+    />
 
     <!-- 게시판 콘텐츠 영역 -->
     <div class="board-content">
       <!-- 커뮤니티 텍스트 -->
+      <br>
       <h1 class="community">Community</h1>
 
       <!-- 게시판 목록 테이블 -->
-      <div class="table">
-        <!-- 테이블 헤더 -->
-        <div class="table-header">
-          <div class="table-cell">번호</div>
-          <div class="table-cell">제목</div>
-          <div class="table-cell">작성자</div>
-          <div class="table-cell">작성일</div>
-          <div class="table-cell">조회수</div>
-        </div>
-
-        <!-- 게시물 리스트 -->
-        <div class="table-body">
-          <div v-for="(post, index) in posts" :key="post.id" class="table-row">
-            <div class="table-cell">{{ post.number }}</div>
-            <div class="table-cell">{{ post.title }}</div>
-            <div class="table-cell">{{ post.writer }}</div>
-            <div class="table-cell">{{ post.date }}</div>
-            <div class="table-cell">{{ post.views }}</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 페이지 네비게이션 -->
-      <div class="paging">
-        <button @click="goToPage(1)">처음</button>
-        <button @click="goToPage(currentPage - 1)">이전</button>
-        <span>페이지 {{ currentPage }} / {{ totalPages }}</span>
-        <button @click="goToPage(currentPage + 1)">다음</button>
-        <button @click="goToPage(totalPages)">마지막</button>
-      </div>
-
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th scope="col">글 번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">조회수</th>
+            <th scope="col">작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="board in store.boardList" :key="board.boardNo">
+            <td>{{ board.boardNo }}</td>
+            <td><RouterLink :to="`/board/${board.boardNo}`">{{ board.boardTitle }}</RouterLink></td>
+            <td>{{ board.boardNo }}</td>
+            <td>{{ board.boardViewCnt }}</td>
+            <td>{{ board.boardRegDate }}</td>
+          </tr>
+        </tbody>
+      </table>
       <!-- 글쓰기 버튼 -->
       <div class="write-box" @click="navigateToWrite">
         <span class="write-text">글쓰기</span>
       </div>
+      <!-- 검색 -->
+      <BoardSearchInput />
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      currentPage: 1, // 현재 페이지
-      totalPages: 5, // 전체 페이지 수
-      posts: [
-        {
-          id: 1,
-          number: "1",
-          title: "공지사항1 : 필독",
-          writer: "홍길동",
-          date: "24.11.07",
-          views: "100",
-        },
-        {
-          id: 2,
-          number: "2",
-          title: "공지사항2 : 필독",
-          writer: "이순신",
-          date: "24.11.08",
-          views: "50",
-        },
-        // 실제 게시물 데이터를 여기에 추가
-      ],
-    };
-  },
-  methods: {
-    // 페이지 이동
-    goToPage(page) {
-      if (page < 1 || page > this.totalPages) return;
-      this.currentPage = page;
-    },
-    // 글쓰기 페이지로 이동
-    navigateToWrite() {
-      this.$router.push({name:'boardWrite'});
-    },
-  },
-};
+<script setup>
+import { useBoardStore } from "@/stores/board";
+import { onMounted } from "vue";
+import BoardSearchInput from "./BoardSearchInput.vue";
+
+const store = useBoardStore();
+onMounted(() => {
+  store.getBoardList();
+});
 </script>
 
 <style scoped>
