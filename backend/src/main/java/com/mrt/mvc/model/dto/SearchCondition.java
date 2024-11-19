@@ -1,9 +1,9 @@
 package com.mrt.mvc.model.dto;
 
 public class SearchCondition {
-	private String key ="none";			// 검색 조건
+	private String key;					// 검색 조건
 	private String word;				// 검색어
-	private String orderBy = "none";	// 정렬 기준
+	private String orderBy;				// 정렬 기준
 	private String orderByDir;			// 정렬 방향
 
 	public SearchCondition() {

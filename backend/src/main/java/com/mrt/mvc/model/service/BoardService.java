@@ -2,6 +2,8 @@ package com.mrt.mvc.model.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.mrt.mvc.model.dto.Board;
 import com.mrt.mvc.model.dto.SearchCondition;
 
@@ -15,12 +17,14 @@ public interface BoardService {
 
 	/** 게시글 등록 */
 	boolean writeBoard(Board board);
+	boolean writeBoard(Board board, MultipartFile file);
 
 	/** 게시글 수정 */
 	boolean modify(Board board);
 
 	/** 게시글 삭제 */
 	boolean removeBoard(int no);
+
 	
 	
 }

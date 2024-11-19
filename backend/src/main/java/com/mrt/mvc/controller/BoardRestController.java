@@ -28,11 +28,11 @@ import com.mrt.mvc.model.service.BoardService;
 
 @RestController
 @RequestMapping("/maratalk")
-public class BoardController {
+public class BoardRestController {
 	
 	// 의존성 주입
 	private final BoardService service;
-	public BoardController(BoardService service) {
+	public BoardRestController(BoardService service) {
 		this.service = service;
 	}
 	
@@ -42,9 +42,9 @@ public class BoardController {
 		System.out.println("전체 게시글을 조회합니다.");
 		System.out.println("검색 정보: " + condition);
 		List<Board> list = service.getBoardList(condition);
-		if (list == null && list.size() == 0) {
+		if (list == null || list.size() == 0) {
 			System.out.println("리스트가 비어있습니다.");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
@@ -66,33 +66,17 @@ public class BoardController {
 	 * @throws IOException 
 	 * @throws IllegalStateException */
 	@PostMapping("/board")
-	public ResponseEntity<String> write(@RequestBody Board board, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
-		// 사용자가 업로드한 파일 이름
-		String oriName = attach.getOriginalFilename();
-		if (oriName.length() > 0) {  // 사용자가 파일을 선택한 경우
-			// 서버의 특정 디렉토리에 저장
-			String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH").format(new Date());
-			File dir = new File("c:/SSAFY/uploads" + subDir);
-			dir.mkdirs();
-			String systemName = UUID.randomUUID().toString() + oriName;
-			attach.transferTo(new File(dir, systemName));  // 메모리의 파일 정보를 특정 위치에 저장
-			
-			// 데이터베이스에 저장하기 위한 준비
-			BoardFile boardFile = new BoardFile();
-			boardFile.setFilePath(subDir);
-			boardFile.setOriName(oriName);
-			boardFile.setSystemName(systemName);
-			System.out.println(boardFile.toString());  // 확인
-			board.setBoardFile(boardFile);
-			System.out.println(board.toString());
-		}
-		if (service.writeBoard(board))
-			return new ResponseEntity<>("게시글이 작성되었습니다.", HttpStatus.OK);
+	public ResponseEntity<String> write(@ModelAttribute Board board, @RequestParam("file") MultipartFile file) {
+		System.out.println("작성된 게시글: " + board.toString());
+		System.out.println("파일 이름: " + file.getOriginalFilename());
+		
+		
+		if (service.writeBoard(board, file))
+			return new ResponseEntity<>(board.getBoardNo()+"번 게시글이 작성되었습니다.", HttpStatus.CREATED);
 		return new ResponseEntity<>("게시글이 작성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	/** 게시글 수정 
-	 * @return */
+	/** 게시글 수정 */
 	@PutMapping("/board/{no}")
 	public ResponseEntity<String> updateBoard(@PathVariable("no") int no, @RequestBody Board board) {
 		System.out.println(no + "번 게시글을 수정합니다.");
@@ -107,9 +91,10 @@ public class BoardController {
 	
 	/** 게시글 삭제 */
 	@DeleteMapping("/board/{no}")
-	public ResponseEntity<String> delete(@PathVariable int no) {
+	public ResponseEntity<String> delete(@PathVariable("no") int no) {
 		if (service.removeBoard(no))
-			return ResponseEntity.status(HttpStatus.OK).body("Board deleted successfully");
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete Board");
+			return ResponseEntity.status(HttpStatus.OK).body(no+"번 게시글이 삭제되었습니다.");
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제에 실패했습니다.");
 	}
+	
 }
