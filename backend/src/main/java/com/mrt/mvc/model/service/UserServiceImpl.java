@@ -113,9 +113,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkDuplicateUserId(String userId) {
-        // 데이터베이스에서 해당 userId 존재 여부 확인
-        User existingUser = userDao.checkDuplicateUserId(userId);
-        return existingUser != null;
+        // COUNT(*) 결과를 기반으로 중복 여부 판단
+        return userDao.checkDuplicateUserId(userId) > 0;
     }
 
     @Override
