@@ -2,41 +2,29 @@ package com.mrt.mvc.model.dto;
 
 public class Board {
 	private int boardNo;
-	private BoardFile boardFile;
 	private String boardTitle;
 	private String boardUserNickname;
 	private String boardContent;
 	private String boardRegDate;
 	private int boardViewCnt;
-	private int boardUserNo;
+	private int userNo;
+	private BoardFile boardFile;
 	
 	public Board() {
 		
-	};
-	
-	public Board(int boardNo, BoardFile boardFile, String boardTitle, String boardContent, String boardRegDate,
-			int boardViewCnt, int boardUserNo, String boardUserNickname) {
-		this.boardNo = boardNo;
-		this.boardFile = boardFile;
-		this.boardTitle = boardTitle;
-		this.boardContent = boardContent;
-		this.boardRegDate = boardRegDate;
-		this.boardViewCnt = boardViewCnt;
-		this.boardUserNo = boardUserNo;
-		this.boardUserNickname = boardUserNickname;
 	}
 
-	public Board(int boardNo, BoardFile boardFile, String boardTitle, String boardUserNickname, String boardContent,
-			String boardRegDate, int boardViewCnt, int boardUserNo) {
+	public Board(int boardNo, String boardTitle, String boardUserNickname, String boardContent, String boardRegDate,
+			int boardViewCnt, int userNo, BoardFile boardFile) {
 		super();
 		this.boardNo = boardNo;
-		this.boardFile = boardFile;
 		this.boardTitle = boardTitle;
 		this.boardUserNickname = boardUserNickname;
 		this.boardContent = boardContent;
 		this.boardRegDate = boardRegDate;
 		this.boardViewCnt = boardViewCnt;
-		this.boardUserNo = boardUserNo;
+		this.userNo = userNo;
+		this.boardFile = boardFile;
 	}
 
 	public int getBoardNo() {
@@ -45,14 +33,6 @@ public class Board {
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
-	}
-
-	public BoardFile getBoardFile() {
-		return boardFile;
-	}
-
-	public void setBoardFile(BoardFile boardFile) {
-		this.boardFile = boardFile;
 	}
 
 	public String getBoardTitle() {
@@ -95,20 +75,28 @@ public class Board {
 		this.boardViewCnt = boardViewCnt;
 	}
 
-	public int getBoardUserNo() {
-		return boardUserNo;
+	public int getUserNo() {
+		return userNo;
 	}
 
-	public void setBoardUserNo(int boardUserNo) {
-		this.boardUserNo = boardUserNo;
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
+	public BoardFile getBoardFile() {
+		return boardFile;
+	}
+
+	public void setBoardFile(BoardFile boardFile) {
+		this.boardFile = boardFile;
 	}
 
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", boardFile=" + boardFile + ", boardTitle=" + boardTitle
-				+ ", boardUserNickname=" + boardUserNickname + ", boardContent=" + boardContent + ", boardRegDate="
-				+ boardRegDate + ", boardViewCnt=" + boardViewCnt + ", boardUserNo=" + boardUserNo + "]";
-	}
-
+		return "Board [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardUserNickname=" + boardUserNickname
+				+ ", boardContent=" + boardContent + ", boardRegDate=" + boardRegDate + ", boardViewCnt=" + boardViewCnt
+				+ ", userNo=" + userNo + ", boardFile=" + boardFile + "]";
+	};
+	
 	
 }
