@@ -9,7 +9,7 @@
 		SELECT 
 		    board_no, board_title, board_content, board_reg_date, board_view_cnt
 		FROM board
-        JOIN user ON board.board_user_no = user.user_no
+        <!-- JOIN user ON board.user_no = user.user_no 유저 완성되면 주석 해제-->
 	    <if test="key != null">
 	    	WHERE ${key} LIKE concat('%',#{word},'%')
 	    </if>
@@ -17,18 +17,32 @@
 	    	ORDER BY ${orderBy} ${orderByDir}
 	    </if>
 	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectOne" resultType="Board" parameterType="int">
+		SELECT board_no, board_title, board_content, board_reg_date, board_view_cnt
+		FROM board
+		WHERE board_no = #{no}
+        <!-- JOIN user ON board.user_no = user.user_no 유저 완성되면 주석 해제-->
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE board
+		SET board_view_cnt = board_view_cnt + 1
+		WHERE board_no = #{no}
+	</update>
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="Board" keyProperty="boardNo" useGeneratedKeys="true">
-	    INSERT INTO board (board_file_no, board_title, board_content, board_user_no)
-	    VALUES (#{boardFileNo}, #{boardTitle}, #{boardContent}, #{boardUserNo})
+	    INSERT INTO board (board_title, board_content, user_no)
+	    VALUES (#{boardTitle}, #{boardContent}, #{userNo})
 	</insert>
 	
 	<!-- 파일 등록 -->
 	<insert id="insertBoardFile" parameterType="BoardFile">
 		INSERT INTO files(file_no, file_name, board_no)
 		VALUES (#{fileNo}, #{oriName}, #{boardNo});
-		
 	</insert>
 
 	<!-- 게시글 내용 수정 -->
