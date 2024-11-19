@@ -15,7 +15,7 @@ const userAddress = ref("");
 const userPhoneNumber = ref("");
 const userZipCode = ref("");
 
-// 기존 ref 유지
+// 기존 ref 유지 ddd
 const selectedGender = ref("");
 const profileImage = ref(null);
 const password = ref("");
