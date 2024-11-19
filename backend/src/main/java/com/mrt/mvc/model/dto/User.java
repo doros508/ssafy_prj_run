@@ -13,7 +13,7 @@ public class User {
     private String userGender;   // 사용자 성별 (M/F/O 등)
     private String userAddress;  // 사용자 주소
     private String userDetailAddress; // 사용자 상세 주소
-    private Integer userZipCode; // 사용자 우편번호
+    private	String userZipCode; // 사용자 우편번호
     private String userPhoneNumber; // 사용자 전화번호
     private Integer userAge;     // 사용자 나이
     private String userNickname; // 사용자 닉네임
@@ -77,10 +77,10 @@ public class User {
 	public void setUserDetailAddress(String userDetailAddress) {
 		this.userDetailAddress = userDetailAddress;
 	}
-	public Integer getUserZipCode() {
+	public String getUserZipCode() {
 		return userZipCode;
 	}
-	public void setUserZipCode(Integer userZipCode) {
+	public void setUserZipCode(String userZipCode) {
 		this.userZipCode = userZipCode;
 	}
 	public String getUserPhoneNumber() {
