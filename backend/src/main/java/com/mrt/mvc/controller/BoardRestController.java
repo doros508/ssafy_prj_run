@@ -28,7 +28,6 @@ import com.mrt.mvc.model.dto.SearchCondition;
 import com.mrt.mvc.model.service.BoardService;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/maratalk")
 public class BoardRestController {
 	
