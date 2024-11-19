@@ -32,31 +32,84 @@ function handleProfileImageUpload(event) {
 
 // 아이디 중복 검사 함수
 async function checkUsernameAvailability() {
-  const username = document.querySelector('input[placeholder="아이디"]').value;
+  const userId = document.querySelector('input[placeholder="아이디"]').value;
+  
+  // 아이디 입력 여부 확인
+  if (!userId) {
+    alert('아이디를 입력해주세요.');
+    return;
+  }
+
   try {
-    const response = await axios.get(
-      `/api-user/check-userid?userId=${username}`
-    );
+    const response = await axios.get('/api-user/check-userid', { 
+      params: {
+        userId: userId
+      }
+    });
+    
     isUsernameAvailable.value = !response.data.isDuplicate;
+    
+    // 중복 여부에 따른 메시지 
+    if (isUsernameAvailable.value) {
+      alert('사용 가능한 아이디입니다.');
+    } else {
+      alert('이미 존재하는 아이디입니다.');
+    }
   } catch (error) {
     console.error("아이디 중복 검사 오류", error);
     isUsernameAvailable.value = false;
+    alert('아이디 중복 검사 중 오류가 발생했습니다.');
   }
 }
 
 // 닉네임 중복 검사 함수
 async function checkNicknameAvailability() {
+  // v-model 또는 ref를 사용하도록 수정
   const nickname = document.querySelector('input[placeholder="별명"]').value;
+  
+  // 닉네임 입력 여부 확인
+  if (!nickname) {
+    alert('닉네임을 입력해주세요.');
+    return;
+  }
+
   try {
-    const response = await axios.get(
-      `/api-user/check-nickname?userNickname=${nickname}`
-    );
+    const response = await axios.get('/api-user/check-nickname', {
+      params: { 
+        userNickname: nickname 
+      }
+    });
+    
     isNicknameAvailable.value = !response.data.isDuplicate;
+    
+    // 중복 여부에 따른 메시지 
+    if (isNicknameAvailable.value) {
+      alert('사용 가능한 닉네임입니다.');
+    } else {
+      alert('이미 존재하는 닉네임입니다.');
+    }
   } catch (error) {
     console.error("닉네임 중복 검사 오류", error);
+    
+    // 에러 메시지 처리
+    if (error.response) {
+      alert(error.response.data.message || '닉네임 중복 검사 중 오류가 발생했습니다.');
+    } else {
+      alert('네트워크 오류가 발생했습니다.');
+    }
+    
     isNicknameAvailable.value = false;
   }
 }
+
+// ref로 입력 필드 관리
+const userId = ref('');
+const userNickname = ref('');
+const userName = ref('');
+const userEmail = ref('');
+const userBirthday = ref('');
+const userAddress = ref('');
+const userPhoneNumber = ref('');
 
 // 회원가입 함수
 async function signup() {
@@ -71,78 +124,74 @@ async function signup() {
     return;
   }
 
-  // FormData 생성
-  const formData = new FormData();
-
-  // 입력 필드 값 추가
-  formData.append(
-    "userId",
-    document.querySelector('input[placeholder="아이디"]').value
-  );
-  formData.append(
-    "userNickname",
-    document.querySelector('input[placeholder="별명"]').value
-  );
-  formData.append("userPassword", password.value);
-  formData.append(
-    "userName",
-    document.querySelector('input[placeholder="이름"]').value
-  );
-  formData.append(
-    "userEmail",
-    document.querySelector('input[placeholder="이메일"]').value
-  );
-  formData.append(
-    "userBirthday",
-    document.querySelector('input[type="date"]').value
-  );
-  formData.append("userGender", selectedGender.value);
-  formData.append(
-    "userAddress",
-    document.querySelector('input[placeholder="주소 검색"]').value
-  );
-  formData.append(
-    "userPhoneNumber",
-    document.querySelector('input[placeholder="전화번호"]').value
-  );
-
-  // 프로필 이미지 추가 (있는 경우)
-  if (profileImage.value) {
-    const blob = await fetch(profileImage.value).then((r) => r.blob());
-    formData.append("file", blob, "profile.jpg");
+  // 필수 입력 필드 검증
+  if (!userId.value || !userNickname.value || !userName.value) {
+    alert("필수 입력 항목을 모두 입력해주세요.");
+    return;
   }
 
+  // JSON 데이터 생성
+  const userData = {
+    userId: userId.value,
+    userNickname: userNickname.value,
+    userPassword: password.value,
+    userName: userName.value,
+    userEmail: userEmail.value,
+    userBirthday: userBirthday.value,
+    userGender: selectedGender.value,
+    userAddress: userAddress.value,
+    userPhoneNumber: userPhoneNumber.value
+  };
+
   try {
-    const response = await axios.post("/api-user/regist", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    // 프로필 이미지 있는 경우 별도 처리
+    if (profileImage.value) {
+      const formData = new FormData();
+      formData.append('userData', new Blob([JSON.stringify(userData)], {type: 'application/json'}));
+      
+      const fileInput = document.getElementById('profile-image');
+      if (fileInput.files.length > 0) {
+        formData.append('file', fileInput.files[0]);
+      }
+
+      const response = await axios.post("/api-user/regist", formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+    } else {
+      // 프로필 이미지 없는 경우 JSON으로 전송
+      const response = await axios.post("/api-user/regist", userData, {
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+    
     alert("회원가입 성공");
-    router.push("/login"); // 로그인 페이지로 이동
+    router.push("/login");
   } catch (error) {
     alert(error.response?.data?.message || "회원가입 실패");
   }
 }
+
 </script>
 
-<template>
+  <template>
   <div class="signup-container">
-    <img
-      class="background-img"
-      src="../../assets/user/sign_up/login_picture.png"
+    <img 
+      class="background-img" 
+      src="../../assets/user/sign_up/login_picture.png" 
     />
     <div class="signup-form">
       <h1 class="logo">Sign up</h1>
       <div class="spacing"></div>
-
+      
       <!-- 프로필 사진 업로드 -->
       <div class="form-group">
         <label for="profile-image" class="profile-image-label">
           <span v-if="!profileImage" class="upload-text">프로필 사진</span>
-          <img
-            v-if="profileImage"
-            :src="profileImage"
-            alt="Profile Image"
-            class="profile-image-preview"
+          <img 
+            v-if="profileImage" 
+            :src="profileImage" 
+            alt="Profile Image" 
+            class="profile-image-preview" 
           />
         </label>
         <input
@@ -156,40 +205,64 @@ async function signup() {
 
       <!-- 아이디 입력 및 중복검사 -->
       <div class="form-group">
-        <input type="text" placeholder="아이디" />
-        <button class="check-username-btn" @click="checkUsernameAvailability">
+        <input 
+          type="text" 
+          placeholder="아이디" 
+          v-model="userId"
+        />
+        <button 
+          class="check-username-btn" 
+          @click="checkUsernameAvailability"
+        >
           아이디 중복 검사
         </button>
-        <p v-if="!isUsernameAvailable" class="error-message">
+        <p 
+          v-if="!isUsernameAvailable" 
+          class="error-message"
+        >
           이미 존재하는 아이디입니다.
         </p>
       </div>
 
       <!-- 별명 입력 및 중복검사 -->
       <div class="form-group">
-        <input type="text" placeholder="별명" />
-        <button class="check-nickname-btn" @click="checkNicknameAvailability">
+        <input 
+          type="text" 
+          placeholder="별명" 
+          v-model="userNickname"
+        />
+        <button 
+          class="check-nickname-btn" 
+          @click="checkNicknameAvailability"
+        >
           별명 중복 검사
         </button>
-        <p v-if="!isNicknameAvailable" class="error-message">
+        <p 
+          v-if="!isNicknameAvailable" 
+          class="error-message"
+        >
           이미 존재하는 별명입니다.
         </p>
       </div>
 
       <!-- 비밀번호 입력 -->
       <div class="form-group">
-        <input type="password" placeholder="비밀번호" v-model="password" />
+        <input 
+          type="password" 
+          placeholder="비밀번호" 
+          v-model="password" 
+        />
       </div>
 
       <!-- 비밀번호 확인 입력 -->
       <div class="form-group">
-        <input
-          type="password"
-          placeholder="비밀번호 확인"
-          v-model="confirmPassword"
+        <input 
+          type="password" 
+          placeholder="비밀번호 확인" 
+          v-model="confirmPassword" 
         />
-        <p
-          v-if="password && confirmPassword && password !== confirmPassword"
+        <p 
+          v-if="password && confirmPassword && password !== confirmPassword" 
           class="error-message"
         >
           비밀번호가 일치하지 않습니다.
@@ -198,32 +271,45 @@ async function signup() {
 
       <!-- 이메일 입력 -->
       <div class="form-group">
-        <input type="text" placeholder="이메일" />
-        <button class="send-code-btn">인증코드 전송</button>
+        <input 
+          type="text" 
+          placeholder="이메일" 
+          v-model="userEmail"
+        />
+        <button class="send-code-btn">
+          인증코드 전송
+        </button>
       </div>
 
       <!-- 이름 입력 -->
       <div class="form-group">
-        <input type="text" placeholder="이름" />
+        <input 
+          type="text" 
+          placeholder="이름" 
+          v-model="userName"
+        />
       </div>
 
       <!-- 생일 입력 -->
       <div class="form-group">
-        <input type="date" />
+        <input 
+          type="date" 
+          v-model="userBirthday"
+        />
       </div>
 
       <!-- 성별 선택 -->
       <div class="form-group gender">
-        <button
-          class="gender-btn"
-          :class="{ active: selectedGender === '남자' }"
+        <button 
+          class="gender-btn" 
+          :class="{ active: selectedGender === '남자' }" 
           @click="selectGender('남자')"
         >
           남자
         </button>
-        <button
-          class="gender-btn"
-          :class="{ active: selectedGender === '여자' }"
+        <button 
+          class="gender-btn" 
+          :class="{ active: selectedGender === '여자' }" 
           @click="selectGender('여자')"
         >
           여자
@@ -232,27 +318,47 @@ async function signup() {
 
       <!-- 주소 검색 -->
       <div class="form-group">
-        <input type="text" placeholder="주소 검색" />
+        <input 
+          type="text" 
+          placeholder="주소 검색" 
+          v-model="userAddress"
+        />
       </div>
 
       <!-- 전화번호 입력 -->
       <div class="form-group">
-        <input type="tel" placeholder="전화번호" />
+        <input 
+          type="tel" 
+          placeholder="전화번호" 
+          v-model="userPhoneNumber"
+        />
       </div>
 
       <!-- 인증번호 확인 버튼 -->
       <div class="form-group">
-        <input type="text" placeholder="인증번호 입력" />
-        <button class="check-code-btn" @click="checkVerificationCode">
+        <input 
+          type="text" 
+          placeholder="인증번호 입력" 
+        />
+        <button 
+          class="check-code-btn" 
+          @click="checkVerificationCode"
+        >
           확인
         </button>
       </div>
 
       <!-- 회원가입 버튼 -->
-      <button class="submit-btn" @click="signup">회원가입</button>
+      <button 
+        class="submit-btn" 
+        @click="signup"
+      >
+        회원가입
+      </button>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .spacing {
@@ -264,7 +370,7 @@ async function signup() {
 .signup-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center;  
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   position: relative;

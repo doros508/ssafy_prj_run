@@ -1,6 +1,4 @@
 -- 테이블 생성
-DROP DATABASE run_prj;
-
 CREATE DATABASE run_prj;
 use run_prj;
 
@@ -111,6 +109,8 @@ CREATE TABLE `crew` (
     FOREIGN KEY (`district_no`, `city_no`) REFERENCES `District` (`district_no`, `city_no`)
 );
 
+
+
 -- Magazine_board 테이블
 CREATE TABLE `magazine_board` (
     `m_board_no` INT NOT NULL AUTO_INCREMENT,
@@ -119,11 +119,13 @@ CREATE TABLE `magazine_board` (
     `m_board_content` VARCHAR(5000) NULL,
     `m_board_reg_date` DATETIME NULL,
     `m_board_theme` VARCHAR(200) NULL,
+    `magazin_thumbnail` VARCHAR(1024) NULL,
     `m_board_view_cnt` INT NULL,
     `user_no` INT NOT NULL,
     PRIMARY KEY (`m_board_no`),
     FOREIGN KEY (`user_no`) REFERENCES `User` (`user_no`)
 );
+
 ALTER TABLE `magazine_board` 
 add column m_board_thumbnail varchar(1000) not null;
 
@@ -138,7 +140,6 @@ CREATE TABLE `magazine_comment` (
     FOREIGN KEY (`user_no`) REFERENCES `User` (`user_no`),
     FOREIGN KEY (`m_board_no`) REFERENCES `Magazine_board` (`m_board_no`)
 );
-
 INSERT INTO `user` (`user_id`, `user_password`, `user_email`, `user_name`, `user_birthday`, `user_gender`, `user_address`, `user_detail_address`, `user_zip_code`, `user_phone_number`, `user_age`, `user_nickname`, `user_reg_date`, `user_login_date`, `user_photo`, `user_role`, `user_iat`, `user_exp`)
 VALUES 
 ('user01', 'password123', 'user01@example.com', 'John Doe', '19900101', 'M', 'Seoul', 'Gangnam', 12345, '010-1234-5678', 30, 'johnny', NOW(), NOW(), 'path/to/photo.jpg', 'USER', 'some_iat', 'some_exp'),

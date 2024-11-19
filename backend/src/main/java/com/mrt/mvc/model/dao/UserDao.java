@@ -6,18 +6,24 @@ import java.util.Map;
 import com.mrt.mvc.model.dto.User;
 
 public interface UserDao {
-	public List<User> selectAll(); //전체 사용자 목록 
+    // 전체 사용자 목록 조회
+    List<User> selectAll();
 
-	public void insertUser(User user); //회원가입 (등록)
-	
-	public User selectOne(Map<String, String > info); // 로그인 
+    // 사용자 등록
+    void insertUser(User user);
 
-	public void deleteUser(int userNo); //탈퇴 (삭제)
-	
-	public User checkDuplicateUserId(String userId); //아이디 중복검사
-	public User checkDuplicateNickname(String userNickname); //닉네 중복검사
-	void updateLoginTime(String userId);
-	
-	
+    // 로그인을 위한 사용자 조회
+    User selectOne(Map<String, String> info);
+
+    // 사용자 삭제 (회원탈퇴)
+    void deleteUser(int userNo);
+
+    // 아이디 중복 검사
+    User checkDuplicateUserId(String userId);
+
+    // 닉네임 중복 검사
+    int checkDuplicateNickname(String userNickname);
+
+    // 사용자 프로필 이미지 업데이트
+    void updateUserProfileImage(String userId, String profileImagePath);
 }
- 	

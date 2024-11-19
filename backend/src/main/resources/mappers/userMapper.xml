@@ -4,80 +4,84 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.mrt.mvc.model.dao.UserDao">
-
-    <!-- 모든 사용자 조회 -->
+    <!-- 전체 사용자 조회 -->
     <select id="selectAll" resultType="User">
         SELECT 
             user_no AS userNo,
             user_id AS userId,
-            user_password AS userPassword,
+            user_nickname AS userNickname,
             user_email AS userEmail,
             user_name AS userName,
-            user_birthday AS userBirthday,
-            user_gender AS userGender,
-            user_address AS userAddress,
-            user_detail_address AS userDetailAddress,
-            user_zip_code AS userZipCode,
-            user_phone_number AS userPhoneNumber,
-            user_age AS userAge,
-            user_nickname AS userNickname,
-            user_reg_date AS userRegDate,
-            user_login_date AS userLoginDate,
-            user_photo AS userPhoto,
-            user_role AS userRole,
-            user_iat AS userIat,
-            user_exp AS userExp
+            user_reg_date AS userRegDate
         FROM user
     </select>
 
-    <!-- 회원가입. -->
-  <insert id="insertUser" parameterType="User">
+    <!-- 사용자 등록 -->
+    <insert id="insertUser" parameterType="User">
         INSERT INTO user (
-            user_id, user_password, user_email, user_name, 
-            user_birthday, user_gender, user_address, 
-            user_detail_address, user_zip_code, user_phone_number, 
-            user_age, user_nickname, user_reg_date, 
-            user_photo, user_role
+            user_id, 
+            user_password, 
+            user_nickname, 
+            user_email, 
+            user_name, 
+            user_birthday,
+            user_gender,
+            user_address,
+            user_detail_address,
+            user_zip_code,
+            user_phone_number,
+            user_reg_date,
+            user_photo,
+            user_role
         ) VALUES (
-            #{userId}, #{userPassword}, #{userEmail}, #{userName}, 
-            #{userBirthday}, #{userGender}, #{userAddress}, 
-            #{userDetailAddress}, #{userZipCode}, #{userPhoneNumber}, 
-            #{userAge}, #{userNickname}, NOW(), 
-            #{userPhoto}, 'user'
+            #{userId}, 
+            #{userPassword}, 
+            #{userNickname}, 
+            #{userEmail}, 
+            #{userName}, 
+            #{userBirthday},
+            #{userGender},
+            #{userAddress},
+            #{userDetailAddress},
+            #{userZipCode},
+            #{userPhoneNumber},
+            NOW(),
+            #{userPhoto},
+            #{userRole}
         )
     </insert>
 
-    <!-- 로그인 -->
+    <!-- 로그인을 위한 사용자 조회 -->
     <select id="selectOne" parameterType="map" resultType="User">
-        SELECT * FROM user 
+        SELECT * 
+        FROM user 
         WHERE user_id = #{id} AND user_password = #{password}
     </select>
 
     <!-- 사용자 삭제 -->
-    <delete id="deleteUser">
+    <delete id="deleteUser" parameterType="int">
         DELETE FROM user 
-        
         WHERE user_no = #{userNo}
     </delete>
-     <!-- 로그인 시간 업데이트 -->
-    <update id="updateLoginTime" parameterType="string">
-        UPDATE user 
-        SET user_login_date = NOW() 
-        WHERE user_id = #{userId}
-    </update>
-    
-    
-    
-    
-    
+
     <!-- 아이디 중복 검사 -->
-    <select id="checkDuplicateUserId" parameterType="string" resultType="int">
-        SELECT COUNT(*) FROM user WHERE user_id = #{userId}
-    </select>
-   
-   <!-- 닉네임 중복 검사 -->
-    <select id="checkDuplicateNickname" parameterType="string" resultType="int">
-        SELECT COUNT(*) FROM user WHERE user_nickname = #{userNickname}
+    <select id="checkDuplicateUserId" parameterType="string" resultType="User">
+        SELECT * 
+        FROM user 
+        WHERE user_id = #{userId}
     </select>
 
+    <!-- 닉네임 중복 검사 -->
+    <select id="checkDuplicateNickname" parameterType="string" resultType="int">
+        SELECT COUNT(*) 
+        FROM user 
+        WHERE user_nickname = #{userNickname}
+    </select>
+
+    <!-- 프로필 이미지 업데이트 -->
+    <update id="updateUserProfileImage">
+        UPDATE user 
+        SET user_photo = #{profileImagePath}
+        WHERE user_id = #{userId}
+    </update>
 </mapper>
