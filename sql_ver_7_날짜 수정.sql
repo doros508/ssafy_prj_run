@@ -21,7 +21,7 @@ CREATE TABLE `user` (
     `user_password` VARCHAR(500) NOT NULL,
     `user_email` VARCHAR(50),
     `user_name` VARCHAR(50),
-    `user_birthday` CHAR(20),
+    `user_birthday` date,
     `user_gender` CHAR(3),
     `user_address` VARCHAR(50),
     `user_detail_address` VARCHAR(200),

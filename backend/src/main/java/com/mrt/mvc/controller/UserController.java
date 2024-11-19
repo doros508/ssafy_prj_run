@@ -1,19 +1,18 @@
 package com.mrt.mvc.controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,28 +38,41 @@ public class UserController {
 	}
 
 	// 회원가입.
-	// 회원가입 메서드 수정
-	@PostMapping(value = "/regist", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> signup(@RequestBody User user) throws IOException {
-		try {
-			// 아이디 중복체크
-			if (userService.checkDuplicateUserId(user.getUserId())) {
-				System.out.println("아이디 중복 검사 요청: " + user.getUserId()); // 또는 userNickname
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "이미 존재하는 아이디입니다."));
-			}
+	@PostMapping(value = "/regist", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> signup(
+	        @RequestPart(value = "userData") User user,
+	        @RequestPart(value = "file", required = false) MultipartFile file) {
+		
+	    try {
+	    	System.out.println("-------------Received user data: " + user.toString()); // 임시검사 
+	    	
+	    	
+	        // 아이디 중복체크
+	        if (userService.checkDuplicateUserId(user.getUserId())) {
+	            System.out.println("아이디 중복 검사 요청: " + user.getUserId());
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body(Map.of("message", "이미 존재하는 아이디입니다."));
+	        }
 
-			// 닉네임 중복 체크
-			if (userService.checkDuplicateNickname(user.getUserNickname())) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "이미 존재하는 닉네임입니다."));
-			}
+	        // 닉네임 중복 체크
+	        if (userService.checkDuplicateNickname(user.getUserNickname())) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body(Map.of("message", "이미 존재하는 닉네임입니다."));
+	        }
 
-			// 프로필 사진 업로드 (선택적)
-			User registeredUser = userService.registUser(user, null);
-
-			return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "회원가입 완료", "user", registeredUser));
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "회원가입 중 오류 발생"));
-		}
+	        // 회원가입 처리 (파일 포함)
+	        System.out.println("**************************************Received user data: " + user.toString()); //임시검사
+	        User registeredUser = userService.registUser(user, file);
+	        
+	        return ResponseEntity.status(HttpStatus.CREATED)
+	                .body(Map.of(
+	                    "message", "회원가입 완료",
+	                    "user", registeredUser
+	                ));
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body(Map.of("message", "회원가입 중 오류 발생: " + e.getMessage()));
+	    }
 	}
 
 	// 프로필 사진 별도 업로드 엔드포인트 추가 (선택)
