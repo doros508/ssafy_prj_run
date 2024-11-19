@@ -9,6 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mrt.mvc.model.dao.BoardDao;
@@ -48,71 +49,33 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public boolean writeBoard(Board board) {
+		System.out.println("service: 넘어온 " + board.toString());
 		return dao.insertBoard(board) == 1;
-	}
-	@Transactional
-	@Override
-	public boolean writeBoard(Board board, MultipartFile file) {
-		if (file != null && file.getSize() > 0) {
-	        try {
-	        	String fileName = file.getOriginalFilename(); // 실제 파일 이름
-	        	String fileNo = UUID.randomUUID().toString(); // 고유한 이름
-	        	
-	        	// 확장자까지 저장하기
-	        	String fileExtension = "";
-	        	if (fileName != null && fileName.contains(".")) { // . 의 위치를 찾아서
-	        		fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1); // 그 다음부터의 문자열을 저장
-	        	}
-	        	System.out.println("원본 파일 이름: " + fileName);
-	        	System.out.println("고유 파일 이름: " + fileNo);
-	        	System.out.println("파일 확장자: " + fileExtension);
-	        	
-	        	if (board.getBoardFile() == null) {
-	        		board.setBoardFile(new BoardFile());
-	        	}
-	        		        	
-	        	board.getBoardFile().setFileNo(fileNo);
-	        	board.getBoardFile().setOriName(fileName);
-	        	
-	        	System.out.println("BoardFile 객체: " + board.getBoardFile().toString()); // 확인
-	        	
-	        	Resource resource = resourceLoader.getResource("classpath:/static/img");
-	        	file.transferTo(new File(resource.getFile(), fileNo));
-//	        	File directory = resource.getFile();
-//	        	if (!directory.exists()) {
-//	        		directory.mkdirs(); // 디렉토리가 없으면 생성
-//	            }
-//	        	File destinationFile = new File(directory, fileNo + "." + fileExtension);
-//				file.transferTo(new File(resource.getFile(), fileNo));
-				
-				dao.insertBoard(board);
-				dao.insertBoardFile(board.getBoardFile());
-				
-				return true;
-				
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
 	}
 
 	/** 게시글 수정 */
 	@Transactional
 	@Override
 	public boolean modify(Board board) {
+		System.out.println("service: 넘어온 " + board.toString());
+		
 		// 기존 게시글 저장
 		Board tmp = dao.selectOne(board.getBoardNo());
-		tmp.setBoardTitle(board.getBoardTitle());
+		System.out.println("service: 임시 " + tmp.toString());
 		
 		// 만약 수정한 게시글에 내용이 없는 경우
 		if (board.getBoardContent() == null)
 			tmp.setBoardTitle(board.getBoardTitle()); // 제목만 변경
 		// 수정한 게시글에 제목이 없는 경우
 		if (board.getBoardTitle() == null)
-			tmp.setBoardContent(tmp.getBoardContent()); // 내용만 변경
+			tmp.setBoardContent(board.getBoardContent()); // 내용만 변경
+		
+		if (board.getBoardContent() != null && board.getBoardTitle() != null) {
+			tmp.setBoardTitle(board.getBoardTitle());
+			tmp.setBoardContent(board.getBoardContent());
+		}
+		
+		System.out.println("service: 수정된 " + tmp.toString());
 		return dao.updateBoard(tmp) == 1;
 	}
 

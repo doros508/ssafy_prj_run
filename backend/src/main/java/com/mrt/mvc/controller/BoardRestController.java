@@ -66,12 +66,9 @@ public class BoardRestController {
 	 * @throws IOException 
 	 * @throws IllegalStateException */
 	@PostMapping("/board")
-	public ResponseEntity<String> write(@ModelAttribute Board board, @RequestParam("file") MultipartFile file) {
-		System.out.println("작성된 게시글: " + board.toString());
-		System.out.println("파일 이름: " + file.getOriginalFilename());
-		
-		
-		if (service.writeBoard(board, file))
+	public ResponseEntity<String> write(@RequestBody Board board) {
+		System.out.println("게시글: "+board.toString());
+		if (service.writeBoard(board))
 			return new ResponseEntity<>(board.getBoardNo()+"번 게시글이 작성되었습니다.", HttpStatus.CREATED);
 		return new ResponseEntity<>("게시글이 작성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
