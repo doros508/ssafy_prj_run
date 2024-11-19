@@ -27,7 +27,7 @@
           <tr v-for="board in store.boardList" :key="board.boardNo">
             <td>{{ board.boardNo }}</td>
             <td><RouterLink :to="`/board/${board.boardNo}`">{{ board.boardTitle }}</RouterLink></td>
-            <td>{{ board.boardNo }}</td>
+            <td>board.userNo</td>
             <td>{{ board.boardViewCnt }}</td>
             <td>{{ board.boardRegDate }}</td>
           </tr>
@@ -35,8 +35,28 @@
       </table>
       <!-- 글쓰기 버튼 -->
       <div class="write-box" @click="navigateToWrite">
-        <span class="write-text">글쓰기</span>
+        <span class="write-text"><RouterLink :to="{ name: 'boardWrite' }"><i class="bi bi-pencil-square"></i> 글쓰기</RouterLink></span>
       </div>
+
+      <!-- 페이지네이션 -->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
       <!-- 검색 -->
       <BoardSearchInput />
     </div>
@@ -63,13 +83,14 @@ onMounted(() => {
 }
 
 .board-background {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 0%;
+  top: 0%;
   object-fit: cover;
-  z-index: 0;
 }
 
 .board-content {

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>여기는 UserView.vue ~_~</h2>
         <TheHeader/>
         <RouterView/>
     </div>

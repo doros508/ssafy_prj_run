@@ -1,45 +1,19 @@
 <template>
     <div class="board-write">
       <img class="background-img" src="../../assets/board/detail/detail-background.png" alt="background" />
-      <div class="content-box">본문 내용을 입력하세요.</div>
-      <div class="div">
-        <div class="div">
-          <div class="box"></div>
-          <div class="text">확인</div>
-          <img class="div2" src="../../assets/board/write/확인.png" alt="icon" />
+      <div class="container">
+        <div class="writeForm">diqdiq</div>
+        <div class="aside">
+          <MainAside/>
         </div>
-      </div>
-      <div class="title">
-        <div class="div3">제목</div>
-        <div class="div4">
-          <span>
-            <span class="div-4-span">제목을 입력하세요.</span>
-            <span class="div-4-span2"></span>
-          </span>
-        </div>
-      </div>
-      <div class="file-attach">
-        <div class="attach-buttton">
-          <div class="attach-button-box"></div>
-          <div class="attach-button-text">내 pc</div>
-        </div>
-        <div class="div5">파일 첨부</div>
-        <img class="vector-6" src="../../assets/board/write/파일첨부.png" alt="vector" />
-      </div>
-      <!-- <img class="write-form-box" src="write-form-box0.svg" alt="write form" /> -->
-      <div class="magazine-search">
-        <div class="search-box"></div>
-        <img class="search-icon" src="../../assets/board/write/write-search.png" alt="search icon" />
-        <div class="search-text">커뮤니티 검색</div>
       </div>
       <div class="community-logo">Community</div>
     </div>
   </template>
   
-  <script>
-  export default {
-    name: "BoardWrite",
-  };
+  <script setup>
+import MainAside from '../main/aside/MainAside.vue';
+
   </script>
   
   <style scoped>
@@ -47,10 +21,10 @@
   .board-write * {
     box-sizing: border-box;
   }
-  .board-write {
+  /* .board-write {
     height: 1644px;
     position: relative;
-  }
+  } */
   .background-img {
     width: 100%;
     height: 100%;
@@ -60,6 +34,15 @@
     bottom: 0%;
     top: 0%;
     object-fit: cover;
+  }
+  .container {
+    display: flex;
+  }
+  .writeForm {
+    width: 70%;
+  }
+  .aside {
+    width: 30%;
   }
   .content-box {
     color: #9a9a9a;

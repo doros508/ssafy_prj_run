@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>RaceView.vue</h2>
         <!-- 헤더 영역 -->
         <TheHeader />
         <RaceList/>
