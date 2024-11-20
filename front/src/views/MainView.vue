@@ -3,11 +3,14 @@
     <div class="main-content">
     <TheHeader />
     <MainWelcome />
-    <div class="content-layout">
-      <MainContent />
+    <div class="content-box">
+      <div class="content">
+        <MainContent/>
+      </div>
       <MainAside />
     </div>
   </div>
+  <!-- 이 자리에 footer -->
   </div>
 </template>
   
@@ -23,7 +26,7 @@ import MainAside from '../components/main/aside/MainAsideRace.vue';
   background-color: #141414;
   color: #fff;
 }
-.content-layout {
+.content-box {
   display: flex;
   justify-content: space-between;
   padding: 20px;

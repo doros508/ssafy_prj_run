@@ -12,12 +12,11 @@
   
   <style scoped>
   .main-aside {
-    position: sticky;
-    top: 70px;
-    width: 300px;
     background: #1c1c1e;
     padding: 20px;
     border-radius: 10px;
+    position: sticky;
+    top: 120px;
   }
   </style>
   
