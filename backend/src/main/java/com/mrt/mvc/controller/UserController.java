@@ -111,18 +111,38 @@ public class UserController {
 		return ResponseEntity.ok(Map.of("isDuplicate", isDuplicate));
 	}
 
-	// 로그인
+//	// 로그인
 	@PostMapping("/login")
-	public ResponseEntity login(@RequestBody User user, HttpSession session) {
-		User tmpUser = userService.login(user.getUserId(), user.getUserPassword());
+	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
+	    User tmpUser = userService.login(user.getUserId(), user.getUserPassword());
 
-		if (tmpUser != null) {
-			session.setAttribute("user", tmpUser);
-			return new ResponseEntity<>("로그인 성공했습니다.", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>("로그인 실패 했습니다.", HttpStatus.UNAUTHORIZED);
-		}
+	    if (tmpUser != null) {
+	        session.setAttribute("user", tmpUser);
+	        return ResponseEntity.ok(Map.of(
+	            "message", "로그인 성공했습니다.",
+	            "user", tmpUser
+	        ));
+	    } else {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	            .body(Map.of("message", "로그인 실패했습니다."));
+	    }
 	}
+
+//	@PostMapping("/login")
+//	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
+//	    User tmpUser = userService.login(user.getUserId(), user.getUserPassword());
+//
+//	    if (tmpUser != null) {
+//	        session.setAttribute("user", tmpUser);
+//	        return ResponseEntity.ok(Map.of(
+//	            "message", "로그인 성공했습니다.",
+//	            "user", tmpUser
+//	        ));
+//	    } else {
+//	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//	            .body(Map.of("message", "로그인 실패했습니다."));
+//	    }
+//	}
 
 	// 로그아웃
 	@PostMapping("/logout")

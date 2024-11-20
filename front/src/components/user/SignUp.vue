@@ -162,23 +162,24 @@ async function checkNicknameAvailability() {
 // 회원가입 함수
 async function signup() {
   try {
-    // 기본 유효성 검사
+    // 필수 입력값 검증
     if (!userId.value || !userNickname.value || !password.value) {
       alert("필수 정보를 모두 입력해주세요.");
       return;
     }
 
+    // 중복 검사 확인
     if (!isUsernameAvailable.value || !isNicknameAvailable.value) {
       alert("아이디 또는 닉네임 중복을 확인해주세요.");
       return;
     }
 
+    // 비밀번호 확인
     if (password.value !== confirmPassword.value) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    // 사용자 데이터 객체 생성
     const userData = {
       userId: userId.value,
       userNickname: userNickname.value,
@@ -190,47 +191,33 @@ async function signup() {
       userAddress: userAddress.value,
       userPhoneNumber: userPhoneNumber.value,
       userZipCode: userZipCode.value,
-      userDetailAddress:userDetailAddress.value,
+      userDetailAddress: userDetailAddress.value,
     };
 
     const formData = new FormData();
     formData.append(
       "userData",
-      new Blob([JSON.stringify(userData)], {
-        type: "application/json",
-      })
+      new Blob([JSON.stringify(userData)], { type: "application/json" })
     );
 
-    // 프로필 이미지가 있는 경우에만 파일 추가
     const fileInput = document.getElementById("profile-image");
     if (fileInput?.files?.length > 0) {
       formData.append("file", fileInput.files[0]);
     }
 
-    // FormData의 내용 확인 (디버깅용)
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
-
     const response = await axios.post("/api-user/regist", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
-    if (response?.data) {
+    if (response.data.message === "회원가입 완료") {
       alert("회원가입이 완료되었습니다.");
       router.push("/user/login");
+    } else {
+      throw new Error("회원가입 실패");
     }
   } catch (error) {
     console.error("회원가입 오류:", error);
-    if (error.response) {
-      alert(
-        error.response.data.message || "회원가입 처리 중 오류가 발생했습니다."
-      );
-    } else {
-      alert("서버와의 통신 중 오류가 발생했습니다.");
-    }
+    alert(error.response?.data?.message || "회원가입 처리 중 오류가 발생했습니다.");
   }
 }
 </script>
@@ -345,7 +332,7 @@ async function signup() {
       <div class="form-group">
         <input type="text" placeholder="주소" v-model="userAddress" />
         <button class="search-address-btn" @click="execDaumPostcode">
-         주소 검색하기
+         주소 검색
         </button>
       </div>
 

@@ -33,6 +33,7 @@ const router = createRouter({
       path: "/",
       name: "main",
       component: MainView,
+      meta: { requiresAuth: false },  // 추가
       children: [
         {
           path: "",
@@ -62,6 +63,7 @@ const router = createRouter({
           path: "signup",
           name: "signUp",
           component: SignUp,
+          meta: { hideAuthButton: true },  // 메타 필드 추가 
           beforeEnter: (to, from, next) => {
             const userStore = useUserStore();
             if (userStore.getIsLoggedIn) {
@@ -75,6 +77,7 @@ const router = createRouter({
           path: "login",
           name: "login",
           component: Login,
+          meta: { requiresAuth: false },  // 추가
           beforeEnter: (to, from, next) => {
             const userStore = useUserStore();
             if (userStore.getIsLoggedIn) {
@@ -87,11 +90,47 @@ const router = createRouter({
       ],
     },
 
+
+    // {
+    //   path: "/user",
+    //   name: "user",
+    //   component: UserView,
+    //   children: [
+    //     {
+    //       path: "signup",
+    //       name: "signUp",
+    //       component: SignUp,
+    //       beforeEnter: (to, from, next) => {
+    //         const userStore = useUserStore();
+    //         if (userStore.getIsLoggedIn) {
+    //           next({ name: "main" });
+    //         } else {
+    //           next();
+    //         }
+    //       },
+    //     },
+    //     {
+    //       path: "login",
+    //       name: "login",
+    //       component: Login,
+    //       beforeEnter: (to, from, next) => {
+    //         const userStore = useUserStore();
+    //         if (userStore.getIsLoggedIn) {
+    //           next({ name: "main" });
+    //         } else {
+    //           next();
+    //         }
+    //       },
+    //     },
+    //   ],
+    // },
+
     // 게시판 페이지
     {
       path: "/board",
       name: "board",
       component: BoardView,
+      meta: { requiresAuth: false },  // 추가
       redirect: { name: "boardList" },
       children: [
         {
@@ -119,6 +158,7 @@ const router = createRouter({
       path: "/magazine",
       name: "magazine",
       component: MagazineView,
+      meta: { requiresAuth: false },  // 추가
       redirect: { name: "magazineList" },
       children: [
         {
@@ -134,6 +174,7 @@ const router = createRouter({
       path: "/crew",
       name: "crew",
       component: CrewView,
+      meta: { requiresAuth: false },  // 추가
       redirect: { name: "crewList" },
       children: [
         {
@@ -149,6 +190,7 @@ const router = createRouter({
       path: "/race",
       name: "race",
       component: RaceView,
+      meta: { requiresAuth: false },  // 추가
       children: [
         {
           path: "list",
