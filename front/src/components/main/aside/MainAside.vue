@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import MainAsideWeather from "./MainAsideWeather.vue";
+import MainAsideWeather from "./MainAsideWeather_tmp.vue";
 import MainAsideRace from "./MainAsideRace.vue";
 </script>
 
