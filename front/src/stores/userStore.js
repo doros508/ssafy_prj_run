@@ -1,9 +1,6 @@
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
-  //새로고침 상태유지 persist
-  persist: true,
-
   state: () => ({
     user: null,
     isLoggedIn: false,
@@ -11,20 +8,32 @@ export const useUserStore = defineStore("user", {
   actions: {
     setUser(userData) {
       this.user = userData;
+      this.isLoggedIn = !!userData;
+      if (userData) {
+        localStorage.setItem('user', JSON.stringify(userData));
+      }
     },
-    setIsLoggedIn(status) {
-      this.isLoggedIn = status;
-    },
-    logout() {
+    clearUser() {
       this.user = null;
       this.isLoggedIn = false;
-      this.token = null;
+      localStorage.removeItem('user');
     },
+    initializeFromLocalStorage() {
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        try {
+          const user = JSON.parse(savedUser);
+          this.setUser(user);
+        } catch (error) {
+          this.clearUser();
+        }
+      } else {
+        this.clearUser();
+      }
+    }
   },
   getters: {
-    getCurrentUser: (state) => state.user,
-    getIsLoggedIn: (state) => state.isLoggedIn,
-    getToken: (state) => state.token,
-  },
-  persist: true, // 상태 유지 (옵션)
+    getUser: (state) => state.user,
+    getIsLoggedIn: (state) => state.isLoggedIn
+  }
 });

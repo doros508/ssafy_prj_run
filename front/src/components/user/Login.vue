@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
 import { useUserStore } from "@/stores/userStore";
@@ -74,27 +74,42 @@ const userStore = useUserStore(); //Pinia 스토어 사용.
 const userId = ref("");
 const userPassword = ref("");
 
+// 페이지 로드 시 로그인 상태 확인
+onMounted(() => {
+  const savedUser = localStorage.getItem('user');
+  if (savedUser) {
+    const user = JSON.parse(savedUser);
+    userStore.setUser(user);
+    userStore.setIsLoggedIn(true);
+  }
+});
 async function login() {
   try {
+    if (!userId.value || !userPassword.value) {
+      alert("아이디와 비밀번호를 입력해주세요.");
+      return;
+    }
+
     const response = await axios.post("/api-user/login", {
       userId: userId.value,
       userPassword: userPassword.value,
     });
     
-    // 로그인 성공 시 Pinia 스토어에 사용자 정보 저장
-    userStore.setUser(response.data.user);
-    userStore.setIsLoggedIn(true);
-    alert("로그인 성공");
-
-    // 메인 페이지로 이동
-    const redirectPath = route.query.redirect || { name: "main" };
-    router.push(redirectPath);
+    if (response.data) {
+      const userData = {
+        userId: userId.value,
+        // 필요한 다른 사용자 정보도 포함
+      };
+      userStore.setUser(userData);
+      alert("로그인 성공");
+      router.push({ name: "main" });
+    }
   } catch (error) {
-    // 로그인 실패 시 처리
     alert(error.response?.data?.message || "로그인 실패");
-    userStore.setIsLoggedIn(false);
+    userStore.clearUser();
   }
 }
+
 
 function goToSignUp() {
   router.push({
