@@ -55,6 +55,8 @@ async function handleLogout() {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Notable&display=swap");
+
 a {
   text-decoration: none; /* 기본적으로 밑줄 제거 */
 }
@@ -73,15 +75,17 @@ a {
   box-sizing: border-box;
 }
 
+
 .mrt-logo {
+  font-family: "Notable", sans-serif;
   color: #ffffff;
   text-align: left;
-  font-family: "Notable-Regular", sans-serif;
+  /* font-family: "Notable-Regular", sans-serif; */
   font-size: 61px;
   font-weight: 400;
   position: relative;
   width: 174px;
-  height: 74px;
+  height: 108px; 
 }
 
 .center-links {
