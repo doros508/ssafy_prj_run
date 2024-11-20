@@ -2,6 +2,8 @@
   <div>
     <h4><i class="bi bi-geo-alt-fill"></i> 유성 날씨정보</h4>
     <div><i class="bi bi-thermometer-half"></i> 기온 : {{ tmp }}℃</div>
+    <div><i class="bi bi-thermometer-half"></i> 최고기온 : {{ tmx }}℃</div>
+    <div><i class="bi bi-thermometer-half"></i> 최저기온 : {{ tmn }}℃</div>
     <div><i class="bi bi-cloud-fill"></i> 하늘상태 : {{ sky }}</div>
     <div><i class="bi bi-cloud-rain-fill"></i> 강수형태 : {{ pty }}</div>
     <div><i class="bi bi-droplet-fill"></i> 강수확률 : {{ pop }}%</div>
@@ -11,6 +13,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import axios from "axios";
+const tmx = ref(null);
+const tmn = ref(null);
 const tmp = ref(null);
 const sky = ref(null);
 const pty = ref(null);
@@ -24,7 +28,7 @@ onMounted(() => {
   let day = today.getDate();
   month = month < 10 ? "0" + month : month;
   day = day < 10 ? "0" + day : day;
-  const todayStr = `${year}${month}${day}`;
+  let todayStr = `${year}${month}${day}`;
 
   // API 발표 시각 배열 (base_time)
   const baseTimes = [

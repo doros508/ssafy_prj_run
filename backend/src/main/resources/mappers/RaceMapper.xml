@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mrt.mvc.model.dao.RaceDao">
+    <select id="selectAll" resultType="Race">
+        SELECT * FROM race
+    </select>
+
+    <select id="selectByNo" parameterType="int" resultType="Race">
+        SELECT * FROM race WHERE race_no = #{raceNo}
+    </select>
+
+    <insert id="insert" parameterType="Race">
+        INSERT INTO race (race_name, race_date, race_place, race_distance, 
+                         race_url, user_no, race_reg_date, city_no)
+        VALUES (#{raceName}, #{raceDate}, #{racePlace}, #{raceDistance}, 
+                #{raceUrl}, #{userNo}, #{raceRegDate}, #{cityNo})
+    </insert>
+
+    <update id="update" parameterType="Race">
+        UPDATE race 
+        SET race_name = #{raceName},
+            race_date = #{raceDate},
+            race_place = #{racePlace},
+            race_distance = #{raceDistance},
+            race_url = #{raceUrl},
+            city_no = #{cityNo}
+        WHERE race_no = #{raceNo}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM race WHERE race_no = #{raceNo}
+    </delete>
+
+    <select id="selectByCity" parameterType="int" resultType="Race">
+        SELECT * FROM race WHERE city_no = #{cityNo}
+    </select>
+</mapper>

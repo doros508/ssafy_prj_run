@@ -31,6 +31,7 @@
   import { onMounted } from "vue";
   
   const store = useBoardStore();
+
   onMounted(() => {
     store.getBoardList();
   });

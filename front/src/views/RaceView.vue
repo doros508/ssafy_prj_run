@@ -8,7 +8,7 @@
         <RaceList />
       </main>
       <aside class="right">
-        <MainAside />
+        <MainAsideWeather />
       </aside>
     </div>
     <footer></footer>
@@ -17,7 +17,8 @@
 
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
-import MainAside from "@/components/main/aside/MainAside.vue";
+// import MainAside from "@/components/main/aside/MainAside.vue";
+import MainAsideWeather from "@/components/main/aside/MainAsideWeather.vue";
 import RaceList from "@/components/race/RaceList.vue";
 </script>
 

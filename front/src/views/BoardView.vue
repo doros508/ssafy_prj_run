@@ -36,7 +36,6 @@ import MainAside from "@/components/main/aside/MainAside.vue";
 .body {
   display: flex;
   justify-content: center;
-  /* background-image: url(../assets/user/sign_up/login_picture.png); */
   height: 100vb;
 }
 

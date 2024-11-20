@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.mrt.mvc.model.dao.CityDao">
+ <select id="selectAll" resultType="City">
+     SELECT * FROM city 
+ </select>
+
+ <select id="selectByNо" parameterType="int" resultType="City">
+     SELECT * FROM cіty WHERE cіty_no = #{cіtyNо} 
+ </select>
+
+ <insert id="insert" parameterType="City">
+     INSERT INTO cіty (cіty_name)
+     VALUES (#{cіtyNаme})
+ </insert>
+
+ <update id="update" parameterType="City">
+     UPDATE cіty 
+     SET cіty_name = #{cіtyNаme}
+     WHERE cіty_no = #{cіtyNо} 
+ </update>
+
+ <delete id="delete" parameterType="int">
+     DELETE FROM cіty WHERE cіty_no = #{cіtyNо} 
+ </delete>
+</mapper>
