@@ -91,40 +91,6 @@ const router = createRouter({
     },
 
 
-    // {
-    //   path: "/user",
-    //   name: "user",
-    //   component: UserView,
-    //   children: [
-    //     {
-    //       path: "signup",
-    //       name: "signUp",
-    //       component: SignUp,
-    //       beforeEnter: (to, from, next) => {
-    //         const userStore = useUserStore();
-    //         if (userStore.getIsLoggedIn) {
-    //           next({ name: "main" });
-    //         } else {
-    //           next();
-    //         }
-    //       },
-    //     },
-    //     {
-    //       path: "login",
-    //       name: "login",
-    //       component: Login,
-    //       beforeEnter: (to, from, next) => {
-    //         const userStore = useUserStore();
-    //         if (userStore.getIsLoggedIn) {
-    //           next({ name: "main" });
-    //         } else {
-    //           next();
-    //         }
-    //       },
-    //     },
-    //   ],
-    // },
-
     // 게시판 페이지
     {
       path: "/board",
