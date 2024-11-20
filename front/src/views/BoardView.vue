@@ -23,7 +23,6 @@
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
 import MainAside from "@/components/main/aside/MainAside.vue";
-import TheFooter from "@/components/common/TheFooter.vue";
 </script>
 
 <style scoped>

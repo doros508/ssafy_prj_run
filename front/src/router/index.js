@@ -111,7 +111,7 @@ const router = createRouter({
           meta: { requiresAuth: true },
         },
         {
-          path: ":id",
+          path: ":boardNo",
           name: "boardDetail",
           component: BoardDetail,
           props: true,
