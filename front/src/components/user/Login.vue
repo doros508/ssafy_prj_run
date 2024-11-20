@@ -131,7 +131,6 @@ function goToSignUp() {
   background-image: url("../../assets/user/login/login_picture.png");
   background-size: cover;
   background-position: center;
-  filter: blur(4px);
 }
 
 /* 로그인 폼 박스 */
