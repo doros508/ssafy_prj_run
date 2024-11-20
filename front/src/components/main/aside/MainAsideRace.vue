@@ -24,7 +24,7 @@ onMounted(async () => {
 
   // 예시 데이터
   races.value = [
-    { id: 1, name: '서울 마라톤', date: '2024-12-01' },
+    { id: 1, name: '대전 마라톤', date: '2024-12-01' },
     { id: 2, name: '부산 마라톤', date: '2024-12-15' },
     { id: 3, name: '대구 러닝', date: '2024-12-22' },
     { id: 4, name: '춘천 마라톤', date: '2024-12-30' },

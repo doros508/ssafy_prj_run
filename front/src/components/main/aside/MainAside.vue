@@ -1,13 +1,18 @@
 <template>
     <aside class="main-aside">
-      <MainAsideWeather />
+      <MainAsideWeather_tmp />
+      <!-- <MainAsideWeather/> -->
+      <!-- <WeatherForecast/> -->
       <MainAsideRace />
+      
     </aside>
   </template>
   
   <script setup>
-  import MainAsideWeather from './MainAsideWeather.vue';
+  // import MainAsideWeather from './MainAsideWeather.vue';
+  import MainAsideWeather_tmp from './MainAsideWeather_tmp.vue';
   import MainAsideRace from './MainAsideRace.vue';
+  // import WeatherForecast from '@/components/weather/WeatherForecast.vue';
   </script>
   
   <style scoped>

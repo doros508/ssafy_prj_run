@@ -9,7 +9,7 @@
       </div>
       <MainAside />
     </div>
-  </div>
+  </div>  
   <!-- 이 자리에 footer -->
   </div>
 </template>
@@ -18,7 +18,7 @@
 import TheHeader from '@/components/common/TheHeader.vue';
 import MainWelcome from '../components/main/MainWelcome.vue';
 import MainContent from '@/components/main/content/MainContent.vue';
-import MainAside from '../components/main/aside/MainAsideRace.vue';
+import MainAside from '@/components/main/aside/MainAside.vue';
 </script>
   
 <style scoped>
