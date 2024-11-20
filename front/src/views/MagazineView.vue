@@ -1,16 +1,22 @@
 <template>
   <div>
-    <h2>Magazine.vue (임시)</h2>
     <!-- 헤더 영역 -->
     <TheHeader/>
-    <!-- <MagazineList/> -->
-     <RouterView/>
+    <div class="content-box">
+      <RouterView/>
+      <MainAside/>
+    </div>
   </div>
 </template>
 
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
 import MagazineList from '@/components/magazine/MagazineList.vue';
+import MainAside from "@/components/main/aside/MainAside.vue";
 </script>
 
-<style scoped></style>
+<style scoped>
+  .content-box {
+    display: flex;
+  }
+</style>

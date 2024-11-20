@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>Crew.vue (임시)</h2>
     <!-- 헤더 영역 -->
     <TheHeader />
     <hr>
