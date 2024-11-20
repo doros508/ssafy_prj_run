@@ -146,7 +146,10 @@ function goToSignUp() {
   background-image: url("../../assets/user/login/login_picture.png");
   background-size: cover;
   background-position: center;
+  
 }
+
+
 
 /* 로그인 폼 박스 */
 .sign-in {
