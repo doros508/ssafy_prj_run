@@ -15,9 +15,13 @@
         </div>
       </div>
       <hr>
-      <div class="board-contnent">
+      <div class="board-content">
         <h2>내용</h2>
         <h5>{{ store.board.boardContent }}</h5>
+      </div>
+      <div class="btn-box">
+        <button class="btn btn-primary" type="submit">수정</button>
+        <button class="btn btn-primary" type="submit">삭제</button>
       </div>
       <div class="board-comment"></div>
     </div>
@@ -74,6 +78,15 @@ hr {
 .board-comment{
   background-color: black; /** 확인용 */
 
+}
+.btn-box {
+  display: flex;
+  justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
+  margin-top: 10px;
+}
+
+.btn {
+  margin: 2px;
 }
 
 </style>
