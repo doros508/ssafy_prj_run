@@ -345,7 +345,7 @@ async function signup() {
       <div class="form-group">
         <input type="text" placeholder="주소" v-model="userAddress" />
         <button class="search-address-btn" @click="execDaumPostcode">
-         주소 검색
+         주소 검색하기
         </button>
       </div>
 
