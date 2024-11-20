@@ -11,9 +11,12 @@ const userNickname = ref("");
 const userName = ref("");
 const userEmail = ref("");
 const userBirthday = ref("");
-const userAddress = ref("");
 const userPhoneNumber = ref("");
+
+// 주소 관련 ref
+const userAddress = ref("");
 const userZipCode = ref("");
+const userDetailAddress = ref("")
 
 // 기존 ref 유지 ddd
 const selectedGender = ref("");
@@ -22,6 +25,29 @@ const password = ref("");
 const confirmPassword = ref("");
 const isUsernameAvailable = ref(true);
 const isNicknameAvailable = ref(true);
+
+//주소(우편번호) 검색 함수 
+const execDaumPostcode = () => {
+  new window.daum.Postcode({
+    oncomplete: (data) => {
+      // 도로명 주소와 지번 주소 처리
+      let addr = '';
+
+      // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져옴
+      if (data.userSelectedType === 'R') {
+        addr = data.roadAddress;
+      } else {
+        addr = data.jibunAddress;
+      }
+
+      // 데이터 바인딩
+      userZipCode.value = data.zonecode;
+      userAddress.value = addr;
+      // 상세주소 초기화
+      userDetailAddress.value = '';
+    }
+  }).open();
+}
 
 // 성별 선택 함수
 function selectGender(gender) {
@@ -39,6 +65,9 @@ function handleProfileImageUpload(event) {
     reader.readAsDataURL(file);
   }
 }
+
+
+
 
 // 아이디 중복 검사 함수
 async function checkUsernameAvailability() {
@@ -161,6 +190,7 @@ async function signup() {
       userAddress: userAddress.value,
       userPhoneNumber: userPhoneNumber.value,
       userZipCode: userZipCode.value,
+      userDetailAddress:userDetailAddress.value,
     };
 
     const formData = new FormData();
@@ -313,8 +343,17 @@ async function signup() {
 
       <!-- 주소 검색 -->
       <div class="form-group">
-        <input type="text" placeholder="주소 검색" v-model="userAddress" />
+        <input type="text" placeholder="주소" v-model="userAddress" />
+        <button class="search-address-btn" @click="execDaumPostcode">
+         주소 검색
+        </button>
       </div>
+
+       <!-- 상세주소 -->
+        <div class="form-group">
+        <input type="text" placeholder="상세주소" v-model="userDetailAddress" />
+      </div>
+
 
       <!-- 우편번호 입력 -->
       <div class="form-group">
