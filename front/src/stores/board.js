@@ -39,13 +39,18 @@ export const useBoardStore = defineStore("board", () => {
     });
   };
 
+  // 게시글 조회
   const board = ref({})
-
   const getBoard = function (boardNo) {
     axios.get(`${REST_API_URL}/${boardNo}`)
     .then((response)=>{
-      board.value = response,data
+      board.value = response.data
+      console.log(board)
     })
+    .catch((error)=>{
+      console.log(boardNo)
+      console.log("흠 잘 안되네", error)
+    });
   }
 
   const updateBoard = function () {
