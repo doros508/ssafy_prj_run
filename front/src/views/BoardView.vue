@@ -1,28 +1,28 @@
 <template>
-  <div class="body">
+  <div>
     <header>
       <TheHeader />
     </header>
-    <div class="main">
-      <main>
-        <RouterView />
-      </main>
-      <aside class="right">
-        <MainAside />
-        <!-- <MainAsideWeather />
-              <MainAsideRace /> -->
-      </aside>
+    <img
+      class="background-img"
+      src="../assets/user/sign_up/login_picture.png"
+    />
+    <div class="body">
+      <div class="main">
+        <main>
+          <RouterView />
+        </main>
+        <aside class="right">
+          <MainAside />
+        </aside>
+      </div>
     </div>
-    <footer>
-    </footer>
   </div>
 </template>
 
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
 import MainAside from "@/components/main/aside/MainAside.vue";
-import MainAsideWeather from "@/components/main/aside/MainAsideWeather.vue";
-import MainAsideRace from "@/components/main/aside/MainAsideRace.vue";
 import TheFooter from "@/components/common/TheFooter.vue";
 </script>
 
@@ -31,47 +31,40 @@ import TheFooter from "@/components/common/TheFooter.vue";
   margin: 0px;
   box-sizing: border-box;
 }
-.body {
-  height: 100%; /* 여기 */
-  background: black;
-  font-family: sans-serif;
-  color: grey;
-  
-  /* color: white; */
-  font-size: 20px; /* 전체 기본값, 디테일마다 크기 조정할 것 */
-  display: felx;
-  flex-direction: column;
-}
-/* .header {
 
-  } */
-.main {
+
+
+.body {
   display: flex;
-  flex: 1; /* 여기 */
+  justify-content: center;
+  /* background-image: url(../assets/user/sign_up/login_picture.png); */
+  height: 100vb;
 }
+
+.main {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
 
 main {
+  width: 70%;
   display: flex;
-  flex: 5 5 150px;
   justify-content: center;
 }
 
 .right {
-  /* background: green; */
-  padding: 3em 0 3em 0; /* 여기 */
-  flex: 1 1 100px;
+  margin: 20px;
 }
 
-@media all and (max-width: 550px) {
-  .main {
-    flex-direction: column;
-  }
-  main {
-    padding: 5em 0 5em 0;
-  }
+.background-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 }
 
-footer {
-  padding: 5em 0 5em 0;
-}
 </style>

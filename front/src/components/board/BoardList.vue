@@ -1,13 +1,9 @@
 <template>
-  <div class="board-container">
-    <!-- 배경 이미지 -->
+  <div class="container">
+    <!-- 커뮤니티 텍스트 -->
+    <h1 class="community">Community</h1>
 
-    <!-- 게시판 콘텐츠 영역 -->
-    <div class="board-content-box">
-      <!-- 커뮤니티 텍스트 -->
-      <h1 class="community">Community</h1>
-
-      <div class="content">
+    <div class="content">
       <!-- 게시판 목록 테이블 -->
       <table class="table table-dark table-striped">
         <thead>
@@ -45,10 +41,8 @@
           ><i class="bi bi-pencil-square"></i> 글쓰기</RouterLink
         >
       </button>
-
-      <!-- ---------------------------------------------------------------------------- -->
       <!-- 페이지네이션 -->
-      <nav aria-label="Page navigation example">
+      <!-- <nav aria-label="Page navigation example">
         <ul class="pagination">
           <li class="page-item"><a class="page-link" href="#">Previous</a></li>
           <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -56,16 +50,7 @@
           <li class="page-item"><a class="page-link" href="#">3</a></li>
           <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
-      </nav>
-      <!-- ---------------------------------------------------------------------------- -->
-    </div>
-
-      
-
-      <!-- ---------------------------------------------------------------------------- -->
-      <!-- 검색 -->
-      <!-- <BoardSearchInput /> -->
-      <!-- ---------------------------------------------------------------------------- -->
+      </nav> -->
     </div>
   </div>
 </template>
@@ -82,25 +67,31 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.board-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
+* {
+  text-decoration: none;
+}
+a {
+  color: grey;
+}
+h1 {
+  text-align: center;
+  margin: 15px 0;
+  color: #fff;
+  font-weight: bold;
+}
+
+.table {
+  text-align: center;
+  border-radius: 15px;
   overflow: hidden;
 }
 
-
-.board-content-box {
+.content {
+  position: relative;
   width: 100%;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.content {
-  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -108,25 +99,7 @@ onMounted(() => {
 }
 
 #writeform-btn {
-  align-self: flex-end;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.community {
-  color: #ffffff;
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 0px;
-}
-.table {
-  width: 90%;
-  max-width: 1200px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 30px;
+  align-self: flex-end; /* 버튼을 오른쪽 끝에 배치 */
+  margin-top: 0; /* 버튼과 다른 요소들 간 간격 조정 */
 }
 </style>
