@@ -2,23 +2,18 @@
   <div class="nav-bar">
     <RouterLink class="mrt-logo" :to="{ name: 'main' }">MRT</RouterLink>
     <div class="center-links">
-      <RouterLink class="magazine" :to="{ name: 'magazine' }"
-        >Magazine</RouterLink
-      >
-      <RouterLink class="community" :to="{ name: 'board' }"
-        >Community</RouterLink
-      >
+      <RouterLink class="magazine" :to="{ name: 'magazine' }">Magazine</RouterLink>
+      <RouterLink class="community" :to="{ name: 'board' }">Community</RouterLink>
       <RouterLink class="crew" :to="{ name: 'crew' }">Crew</RouterLink>
       <RouterLink class="race" :to="{ name: 'race' }">Race</RouterLink>
     </div>
-    <!--조건부 렌더링 -->
-    <div v-if="!isLoggedIn">
-      <RouterLink class="sign-up-in2" :to="{ name: 'login' }"
-        >Sign up/in</RouterLink
-      >
-    </div>
-    <div v-else>
-      <button class="sign-up-in2" @click="handleLogout">Logout</button>
+    <div>
+      <RouterLink v-if="!isLoggedIn" class="sign-up-in2" :to="{ name: 'login' }">
+        Sign up/in
+      </RouterLink>
+      <button v-else class="sign-up-in2" @click="handleLogout">
+        Logout
+      </button>
     </div>
   </div>
 </template>
@@ -28,33 +23,33 @@ import { RouterLink } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import axios from "axios";
-import { computed } from "vue";
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+
 const userStore = useUserStore();
 const router = useRouter();
+const { isLoggedIn } = storeToRefs(userStore);
 
-// 로그인 상태 계산된 속성
-const isLoggedIn = computed(() => userStore.getIsLoggedIn);
+onMounted(() => {
+  userStore.initializeFromLocalStorage();
+});
 
-// 로그아웃 핸들러
 async function handleLogout() {
   try {
-    // 서버에 로그아웃 요청 (세션 무효화)
     await axios.post("/api-user/logout");
-
-    // Pinia 스토어 로그아웃 액션 호출
-    userStore.logout();
-
-    // 메인 페이지로 리다이렉트
+    userStore.clearUser();
     router.push({ name: "main" });
   } catch (error) {
     console.error("로그아웃 실패", error);
-    // 에러 처리 (선택적)
     alert("로그아웃 중 오류가 발생했습니다.");
   }
 }
 </script>
 
+
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Notable&display=swap");
+
 a {
   text-decoration: none; /* 기본적으로 밑줄 제거 */
 }
@@ -73,15 +68,17 @@ a {
   box-sizing: border-box;
 }
 
+
 .mrt-logo {
+  font-family: "Notable", sans-serif;
   color: #ffffff;
   text-align: left;
-  font-family: "Notable-Regular", sans-serif;
+  /* font-family: "Notable-Regular", sans-serif; */
   font-size: 61px;
   font-weight: 400;
   position: relative;
   width: 174px;
-  height: 74px;
+  height: 108px; 
 }
 
 .center-links {

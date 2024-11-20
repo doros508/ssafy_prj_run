@@ -11,9 +11,12 @@ const userNickname = ref("");
 const userName = ref("");
 const userEmail = ref("");
 const userBirthday = ref("");
-const userAddress = ref("");
 const userPhoneNumber = ref("");
+
+// 주소 관련 ref
+const userAddress = ref("");
 const userZipCode = ref("");
+const userDetailAddress = ref("")
 
 // 기존 ref 유지 ddd
 const selectedGender = ref("");
@@ -22,6 +25,29 @@ const password = ref("");
 const confirmPassword = ref("");
 const isUsernameAvailable = ref(true);
 const isNicknameAvailable = ref(true);
+
+//주소(우편번호) 검색 함수 
+const execDaumPostcode = () => {
+  new window.daum.Postcode({
+    oncomplete: (data) => {
+      // 도로명 주소와 지번 주소 처리
+      let addr = '';
+
+      // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져옴
+      if (data.userSelectedType === 'R') {
+        addr = data.roadAddress;
+      } else {
+        addr = data.jibunAddress;
+      }
+
+      // 데이터 바인딩
+      userZipCode.value = data.zonecode;
+      userAddress.value = addr;
+      // 상세주소 초기화
+      userDetailAddress.value = '';
+    }
+  }).open();
+}
 
 // 성별 선택 함수
 function selectGender(gender) {
@@ -39,6 +65,9 @@ function handleProfileImageUpload(event) {
     reader.readAsDataURL(file);
   }
 }
+
+
+
 
 // 아이디 중복 검사 함수
 async function checkUsernameAvailability() {
@@ -133,23 +162,24 @@ async function checkNicknameAvailability() {
 // 회원가입 함수
 async function signup() {
   try {
-    // 기본 유효성 검사
+    // 필수 입력값 검증
     if (!userId.value || !userNickname.value || !password.value) {
       alert("필수 정보를 모두 입력해주세요.");
       return;
     }
 
+    // 중복 검사 확인
     if (!isUsernameAvailable.value || !isNicknameAvailable.value) {
       alert("아이디 또는 닉네임 중복을 확인해주세요.");
       return;
     }
 
+    // 비밀번호 확인
     if (password.value !== confirmPassword.value) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    // 사용자 데이터 객체 생성
     const userData = {
       userId: userId.value,
       userNickname: userNickname.value,
@@ -161,46 +191,33 @@ async function signup() {
       userAddress: userAddress.value,
       userPhoneNumber: userPhoneNumber.value,
       userZipCode: userZipCode.value,
+      userDetailAddress: userDetailAddress.value,
     };
 
     const formData = new FormData();
     formData.append(
       "userData",
-      new Blob([JSON.stringify(userData)], {
-        type: "application/json",
-      })
+      new Blob([JSON.stringify(userData)], { type: "application/json" })
     );
 
-    // 프로필 이미지가 있는 경우에만 파일 추가
     const fileInput = document.getElementById("profile-image");
     if (fileInput?.files?.length > 0) {
       formData.append("file", fileInput.files[0]);
     }
 
-    // FormData의 내용 확인 (디버깅용)
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
-
     const response = await axios.post("/api-user/regist", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
-    if (response?.data) {
+    if (response.data.message === "회원가입 완료") {
       alert("회원가입이 완료되었습니다.");
       router.push("/user/login");
+    } else {
+      throw new Error("회원가입 실패");
     }
   } catch (error) {
     console.error("회원가입 오류:", error);
-    if (error.response) {
-      alert(
-        error.response.data.message || "회원가입 처리 중 오류가 발생했습니다."
-      );
-    } else {
-      alert("서버와의 통신 중 오류가 발생했습니다.");
-    }
+    alert(error.response?.data?.message || "회원가입 처리 중 오류가 발생했습니다.");
   }
 }
 </script>
@@ -313,8 +330,17 @@ async function signup() {
 
       <!-- 주소 검색 -->
       <div class="form-group">
-        <input type="text" placeholder="주소 검색" v-model="userAddress" />
+        <input type="text" placeholder="주소" v-model="userAddress" />
+        <button class="search-address-btn" @click="execDaumPostcode">
+         주소 검색
+        </button>
       </div>
+
+       <!-- 상세주소 -->
+        <div class="form-group">
+        <input type="text" placeholder="상세주소" v-model="userDetailAddress" />
+      </div>
+
 
       <!-- 우편번호 입력 -->
       <div class="form-group">
