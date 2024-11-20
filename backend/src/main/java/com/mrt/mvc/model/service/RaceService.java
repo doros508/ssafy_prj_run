@@ -1,0 +1,24 @@
+package com.mrt.mvc.model.service;
+
+import java.util.List;
+
+import com.mrt.mvc.model.dto.Race;
+
+public interface RaceService {
+	//전체 목록 조회	
+	List<Race> getAllRaces();
+	
+	//1개 조회
+	Race getRaceByNo(int raceNo);
+	//생성
+	boolean createRace(Race race);
+	//수정
+	boolean updateRace(Race race);	
+	//삭제
+	boolean deleteRace(int raceNo);
+	
+	//도시번호로 경기 가져오기
+	List<Race> getRacesByCity(int cityNo);
+	
+	
+}
