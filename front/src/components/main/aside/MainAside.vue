@@ -1,27 +1,21 @@
 <template>
-    <aside class="main-aside">
-      <MainAsideWeather_tmp />
-      <!-- <MainAsideWeather/> -->
-      <!-- <WeatherForecast/> -->
-      <MainAsideRace />
-      
-    </aside>
-  </template>
-  
-  <script setup>
-  // import MainAsideWeather from './MainAsideWeather.vue';
-  import MainAsideWeather_tmp from './MainAsideWeather_tmp.vue';
-  import MainAsideRace from './MainAsideRace.vue';
-  // import WeatherForecast from '@/components/weather/WeatherForecast.vue';
-  </script>
-  
-  <style scoped>
-  .main-aside {
-    background: #1c1c1e;
-    padding: 20px;
-    border-radius: 10px;
-    position: sticky;
-    top: 120px;
-  }
-  </style>
-  
+  <aside>
+    <MainAsideWeather />
+    <MainAsideRace />
+  </aside>
+</template>
+
+<script setup>
+import MainAsideWeather from "./MainAsideWeather_tmp.vue";
+import MainAsideRace from "./MainAsideRace.vue";
+</script>
+
+<style scoped>
+aside {
+  position: sticky;
+  top: 60px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+}
+</style>

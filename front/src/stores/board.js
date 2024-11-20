@@ -32,7 +32,7 @@ export const useBoardStore = defineStore("board", () => {
     })
     .then(()=>{
       console.log("완료");
-      router.push({name: boardList});
+      router.push({name: 'boardList'});
     })
     .catch((error)=>{
       console.log("실패", error)
