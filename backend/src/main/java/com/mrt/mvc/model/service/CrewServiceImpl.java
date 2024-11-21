@@ -8,7 +8,6 @@ import com.mrt.mvc.model.dto.SearchCondition;
 
 @Service
 public class CrewServiceImpl implements CrewService {
-    
     private final CrewDao dao;
     
     public CrewServiceImpl(CrewDao dao) {
@@ -38,5 +37,10 @@ public class CrewServiceImpl implements CrewService {
     @Override
     public boolean removeCrew(int crewNo) {
         return dao.delete(crewNo) > 0;
+    }
+    
+    @Override
+    public List<Crew> getCrewsByLocation(double lat, double lng, double radius) {
+        return dao.selectByLocation(lat, lng, radius);
     }
 }

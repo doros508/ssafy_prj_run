@@ -12,4 +12,6 @@ public interface CrewDao {
     int insert(Crew crew);
     int update(Crew crew);
     int delete(int crewNo);
+    List<Crew> selectByLocation(double lat, double lng, double radius);
+    
 }
