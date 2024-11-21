@@ -1,27 +1,11 @@
 <template>
     <div class="container">
-      <!-- 커뮤니티 텍스트 -->
-      <h1 class="community">Community</h1>
+      <!-- 커뮤니티 로고 -->
+      <h1 class="logo">Race</h1>
   
       <div class="content">
         <!-- 대회 카드 리스트 -->
-        <div class="card" style="width: 18rem;" v-for="race in store.raceList" :key="board.boardNo">
-            <img src="../../assets/race/image.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">춘천봄내마라톤대회</h5>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">일시</li>
-                <li class="list-group-item">장소</li>
-                <li class="list-group-item">종목</li>
-            </ul>
-            <!-- <div class="card-body">
-                <a href="여기에 디테일 또는 공식 홈페이지" class="card-link"></a>
-            </div> -->
-            <div class="d-grid gap-2">
-                <button class="btn btn-primary" type="button">Button</button>
-            </div>
-            </div>
+
       </div>
     </div>
   </template>

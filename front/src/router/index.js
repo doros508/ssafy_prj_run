@@ -13,6 +13,9 @@ import RaceView from "@/views/RaceView.vue";
 import BoardList from "@/components/board/BoardList.vue";
 import BoardWrite from "@/components/board/BoardWrite.vue";
 import BoardDetail from "@/components/board/BoardDetail.vue";
+// import RaceDetail from 
+
+
 
 import Login from "@/components/user/Login.vue";
 import SignUp from "@/components/user/SignUp.vue";
@@ -163,6 +166,11 @@ const router = createRouter({
           name: "raceList",
           component: RaceList,
         },
+        // {
+        //   path: "",
+        //   name: "raceDetail",
+        //   component: RaceDetail,
+        // },
       ],
     },
   ],
