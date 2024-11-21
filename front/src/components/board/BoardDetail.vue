@@ -17,11 +17,11 @@
       <hr>
       <div class="board-content">
         <h2>내용</h2>
-        <h5>{{ store.board.boardContent }}</h5>
+        <p>{{ store.board.boardContent }}</p>
       </div>
       <div class="btn-box">
         <button class="btn btn-primary" type="submit" @click="updateBoard">수정</button>
-        <button class="btn btn-primary" type="submit">삭제</button>
+        <button class="btn btn-primary" type="submit" @click="deleteBoard">삭제</button>
       </div>
       <div class="board-comment"></div>
     </div>
@@ -46,6 +46,12 @@ onMounted(() => {
 const updateBoard = function (boardNo) {
   router.push({ name: 'boardUpdate'})
 }
+
+// 게시글 삭제
+const deleteBoard = function() {
+        console.log(route.params.boardNo) 
+        store.deleteBoard(route.params.boardNo)
+    }
 </script>
 
 <style scoped>
@@ -58,7 +64,7 @@ const updateBoard = function (boardNo) {
 }
 
 .board-info{
-  background-color: black; /** 확인용 */
+  background-color: #444;
   display: flex;
   border-radius: 10px;
 
@@ -78,14 +84,6 @@ hr {
   color: white;
 }
 
-.board-content{
-  background-color: blue; /** 확인용 */
-
-}
-.board-comment{
-  background-color: black; /** 확인용 */
-
-}
 .btn-box {
   display: flex;
   justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
