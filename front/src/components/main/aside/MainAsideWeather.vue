@@ -1,6 +1,6 @@
 <template>
   <div class = "weatherWidget">
-    <h4><i class="bi bi-geo-alt-fill"></i> 유성구 날씨정보</h4>
+    <h4><i class="bi bi-geo-alt-fill"></i>유성구 날씨정보</h4>
     <div><i class="bi bi-thermometer-half"></i> 기온 : {{ tmp }}℃</div>
     <div><i class="bi bi-thermometer-half"></i> 최고기온 : {{ tmx }}℃</div>
     <div><i class="bi bi-thermometer-half"></i> 최저기온 : {{ tmn }}℃</div>
@@ -143,7 +143,11 @@ onMounted(() => {
 
 <style>
 .weatherWidget{
-  color: white;
+  color: #FFFFFF;
+  background-color: #212529;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 

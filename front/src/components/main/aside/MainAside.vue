@@ -15,7 +15,7 @@ aside {
   position: sticky;
   top: 60px;
   background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
 }
 </style>
