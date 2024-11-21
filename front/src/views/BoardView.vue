@@ -33,10 +33,21 @@ import MainAside from "@/components/main/aside/MainAside.vue";
 
 
 
-.body {
+/* - 글씨 작은 버전
+ .body {
   display: flex;
   justify-content: center;
   height: 100vb;
+} */
+
+.body {
+  height: 100vh;
+  background-color: #181818;
+  font-family: sans-serif;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
 }
 
 .main {

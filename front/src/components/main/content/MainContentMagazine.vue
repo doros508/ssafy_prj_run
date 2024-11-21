@@ -6,42 +6,51 @@
       <div class="magazine-container">
         <div
           class="magazine-item"
-          v-for="(magazine, index) in magazines"
-          :key="index"
+          v-for="magazine in store.magazineList.slice(0, 8)"
+          :key="magazine.magazineNo"
         >
           <img
             class="magazine-image"
             :src="magazine.image"
             alt="magazine image"
           />
-          <h3 class="magazine-title">{{ magazine.title }}</h3>
+          <h3 class="magazine-title">{{ magazine.magazineTitle }}</h3>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import img1 from "../../../assets/main/mainContentMagazine/img2.png";
-import img2 from "../../../assets/main/mainContentMagazine/img2.png";
-import img3 from "../../../assets/main/mainContentMagazine/img3.png";
+<script setup>
+import { useMagazineStore } from '@/stores/magazine';
+import { onMounted } from 'vue';
 
-export default {
-  data() {
-    return {
-      magazines: [
-        { image: img1, title: "매거진 제목1" },
-        { image: img2, title: "매거진 제목2" },
-        { image: img3, title: "매거진 제목3" },
-        { image: img1, title: "매거진 제목1" },
-        { image: img2, title: "매거진 제목2" },
-        { image: img3, title: "매거진 제목3" },
-        { image: img2, title: "매거진 제목2" },
-        { image: img3, title: "매거진 제목3" },
-      ],
-    };
-  },
-};
+const store = useMagazineStore();
+
+onMounted(() => {
+  store.getMagazineList()
+})
+
+// import img1 from "../../../assets/main/mainContentMagazine/img2.png";
+// import img2 from "../../../assets/main/mainContentMagazine/img2.png";
+// import img3 from "../../../assets/main/mainContentMagazine/img3.png";
+
+// export default {
+//   data() {
+//     return {
+//       magazines: [
+//         { image: img1, title: "매거진 제목1" },
+//         { image: img2, title: "매거진 제목2" },
+//         { image: img3, title: "매거진 제목3" },
+//         { image: img1, title: "매거진 제목1" },
+//         { image: img2, title: "매거진 제목2" },
+//         { image: img3, title: "매거진 제목3" },
+//         { image: img2, title: "매거진 제목2" },
+//         { image: img3, title: "매거진 제목3" },
+//       ],
+//     };
+//   },
+// };
 </script>
 
 <style scoped>

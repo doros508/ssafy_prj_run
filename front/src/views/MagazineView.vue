@@ -38,12 +38,24 @@ import MainAside from "@/components/main/aside/MainAside.vue";
 
 
 
+/* - 글씨 작은 버전 
 .body {
   display: flex;
   justify-content: center;
   height: 100vh;
-  background-color: black;
+  background-color: #181818;
+} */
+
+.body {
+  height: 100vh;
+  background: #181818;
+  font-family: sans-serif;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
 }
+
 
 .main {
   width: 100%;
