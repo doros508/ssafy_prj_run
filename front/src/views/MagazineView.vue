@@ -27,7 +27,6 @@
 
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
-// import MagazineList from '@/components/magazine/MagazineList.vue';
 import MainAside from "@/components/main/aside/MainAside.vue";
 </script>
 
