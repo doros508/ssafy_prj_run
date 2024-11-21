@@ -41,4 +41,7 @@ onMounted(() => {
 .bi-trophy-fill {
   color: gold;
 }
+p {
+  margin: 0px;
+}
 </style>

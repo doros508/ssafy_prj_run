@@ -206,7 +206,7 @@ onMounted(() => {
 }
 
 a {
-  color: grey;
+  color: white;
   text-decoration: none;
 }
 

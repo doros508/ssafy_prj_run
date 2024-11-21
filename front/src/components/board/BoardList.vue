@@ -64,8 +64,9 @@ const writeBoard = function() {
 * {
   text-decoration: none;
 }
+
 a {
-  color: grey;
+  color: white;
 }
 .logo {
   text-align: center;
