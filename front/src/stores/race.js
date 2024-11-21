@@ -1,39 +1,26 @@
-// stores/race.js
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import router from '@/router'
 
-export const useRaceStore = defineStore('race', {
-  state: () => ({
-    raceList: [],
-    race: null,
-    error: null
-  }),
-  
-  actions: {
-    async getRaceList() {
-      try {
-        const response = await axios.get('http://localhost:8080/api/race')
-        this.raceList = response.data
-        this.error = null
-      } catch (error) {
-        console.error('Error fetching races:', error)
-        this.error = error.message
-        this.raceList = []
-      }
-    },
+const REST_API_URL = `http://localhost:8080/maratalk/race`
 
-    async getRacesByCity(cityNo) {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/race/city/${cityNo}`)
-        if (response.data) {
-          this.raceList = response.data
-          this.error = null
-        }
-      } catch (error) {
-        console.error('Error fetching races by city:', error)
-        this.error = error.message
-        this.raceList = []
-      }
-    }
-  }
+export const useRaceStore = defineStore("race", () => {
+  const raceList = ref([]);
+
+  // 대회 전체 및 검색 조회
+  const getRaceList = function () {
+    axios.get(REST_API_URL, {
+
+    })
+    .then((response)=>{
+      console.log(response.data);
+      raceList.value = response.data;
+    })
+    .catch((error)=>{
+      console.log("뭐여 왜 안되는겨", error)
+    })
+  };
+
+  return { raceList, getRaceList };
 })

@@ -8,7 +8,7 @@
         <RaceList />
       </main>
       <aside class="right">
-        <MainAsideWeather />
+        <MainAside/>
       </aside>
     </div>
     <footer></footer>
@@ -17,6 +17,7 @@
 
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
+import MainAside from "@/components/main/aside/MainAside.vue";
 // import MainAside from "@/components/main/aside/MainAside.vue";
 import MainAsideWeather from "@/components/main/aside/MainAsideWeather.vue";
 import RaceList from "@/components/race/RaceList.vue";
@@ -28,32 +29,51 @@ import RaceList from "@/components/race/RaceList.vue";
   box-sizing: border-box;
 }
 .body {
-  height: 95vh; /* 여기 */
-  background: black;
+  height: 100%; /* 여기 */
+  background: #181818;
   font-family: sans-serif;
   color: white;
   font-size: 24px;
   display: flex;
   flex-direction: column;
+  
 }
 /* .header {
 
     } */
-.main {
+/* .main {
   display: flex;
-  flex: 1; /* 여기 */
+  flex: 1;
 }
 
 main {
-    display: flex;
+  display: flex;
   flex: 5 5 150px;
+  justify-content: center;
+  
+}
+
+.right {
+  padding: 3em 0 3em 0;
+  flex: 1 1 100px;
+} */
+
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+
+main {
+  width: 70%;
+  display: flex;
   justify-content: center;
 }
 
 .right {
-  /* background: green; */
-  padding: 3em 0 3em 0; /* 여기 */
-  flex: 1 1 100px;
+  margin: 20px;
 }
 
 @media all and (max-width: 550px) {

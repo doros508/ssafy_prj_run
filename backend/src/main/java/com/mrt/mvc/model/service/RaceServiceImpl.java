@@ -9,40 +9,41 @@ import com.mrt.mvc.model.dto.Race;
 
 @Service
 public class RaceServiceImpl implements RaceService {
-	private final RaceDao raceDao;
 	
-	public RaceServiceImpl(RaceDao raceDao) {
-		this.raceDao = raceDao;
+	// 의존성 주입
+	private final RaceDao dao;
+	public RaceServiceImpl(RaceDao dao) {
+		this.dao = dao;
 	}
-
+	
 	@Override
-	public List<Race> getAllRaces() {
-		return raceDao.selectAll();
+	public List<Race> getRaceList() {
+		return dao.selectAll();
 	}
-
+	
 	@Override
-	public Race getRaceByNo(int raceNo) {
-		return raceDao.selectByNo(raceNo);
+	public Race getRaceByNo(int no) {
+		return dao.selectOne(no);
 	}
 
 	@Override
 	public boolean createRace(Race race) {
 		//MyBatis 입력 성공시 1 반환
-		return raceDao.insert(race) >0;
+		return dao.insertRace(race) >0;
 	}
 
 	@Override
-	public boolean updateRace(Race race) {
-		return raceDao.update(race)>0;
+	public boolean modifyRace(Race race) {
+		return dao.updateRace(race)>0;
 	}
 
 	@Override
-	public boolean deleteRace(int raceNo) {
-		return raceDao.delete(raceNo)>0;
+	public boolean removeRace(int raceNo) {
+		return dao.deleteRace(raceNo)>0;
 	}
 
 	@Override
 	public List<Race> getRacesByCity(int cityNo) {
-		return raceDao.selectByCity(cityNo);
+		return dao.selectByCity(cityNo);
 	}
 }

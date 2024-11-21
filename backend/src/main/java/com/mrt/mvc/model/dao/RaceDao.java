@@ -6,9 +6,9 @@ import com.mrt.mvc.model.dto.Race;
 
 public interface RaceDao {
     List<Race> selectAll();
-    Race selectByNo(int raceNo);
-    int insert(Race race);
-    int update(Race race);
-    int delete(int raceNo);
+    Race selectOne(int raceNo);
+    int insertRace(Race race);
+    int updateRace(Race race);
+    int deleteRace(int raceNo);
     List<Race> selectByCity(int cityNo);
 }

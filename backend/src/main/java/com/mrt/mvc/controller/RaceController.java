@@ -19,42 +19,42 @@ import com.mrt.mvc.model.dto.Race;
 import com.mrt.mvc.model.service.RaceService;
 
 @RestController
-@RequestMapping("/api/race")
-@CrossOrigin("*")
+@RequestMapping("/maratalk")
+//@CrossOrigin("*")
 public class RaceController {
 
-    private RaceService raceService;
-
-    public RaceController(RaceService raceService) {
-		this.raceService = raceService;
+	// 의존성 주입
+    private RaceService service;
+    public RaceController(RaceService service) {
+		this.service = service;
 	}
 
-	@GetMapping
-    public ResponseEntity<List<Race>> getAllRaces() {
-        return new ResponseEntity<>(raceService.getAllRaces(), HttpStatus.OK);
+	@GetMapping("/race")
+    public ResponseEntity<List<Race>> list() {
+        return new ResponseEntity<>(service.getRaceList(), HttpStatus.OK);
     }
 
-    @GetMapping("/{raceNo}")
-    public ResponseEntity<Race> getRace(@PathVariable int raceNo) {
-        Race race = raceService.getRaceByNo(raceNo);
+    @GetMapping("/race/{no}")
+    public ResponseEntity<Race> detail(@PathVariable("no") int no) {
+        Race race = service.getRaceByNo(no);
         if (race != null) {
             return new ResponseEntity<>(race, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createRace(@RequestBody Race race) {
-        if (raceService.createRace(race)) {
+    @PostMapping("/race")
+    public ResponseEntity<String> write(@RequestBody Race race) {
+        if (service.createRace(race)) {
             return new ResponseEntity<>("Successfully created", HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/{raceNo}")
-    public ResponseEntity<String> updateRace(@PathVariable int raceNo, @RequestBody Race race) {
-        race.setRaceNo(raceNo);
-        if (raceService.updateRace(race)) {
+    @PutMapping("/race/{no}")
+    public ResponseEntity<String> updateRace(@PathVariable int no, @RequestBody Race race) {
+        race.setRaceNo(no);
+        if (service.modifyRace(race)) {
             return new ResponseEntity<>("Successfully updated", HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -62,7 +62,7 @@ public class RaceController {
 
     @DeleteMapping("/{raceNo}")
     public ResponseEntity<String> deleteRace(@PathVariable int raceNo) {
-        if (raceService.deleteRace(raceNo)) {
+        if (service.removeRace(raceNo)) {
             return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -70,6 +70,6 @@ public class RaceController {
 
     @GetMapping("/city/{cityNo}")
     public ResponseEntity<List<Race>> getRacesByCity(@PathVariable int cityNo) {
-        return new ResponseEntity<>(raceService.getRacesByCity(cityNo), HttpStatus.OK);
+        return new ResponseEntity<>(service.getRacesByCity(cityNo), HttpStatus.OK);
     }
 }
