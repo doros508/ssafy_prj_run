@@ -31,6 +31,10 @@ import MainContentCommunity from "@/components/main/content/MainContentCommunity
 .main-container {
   background-color: #141414;
   color: #fff;
+  background-color: #181818;
+  font-family: sans-serif;
+  color: white;
+  font-size: 24px;
 }
 .content-box {
   display: flex;
