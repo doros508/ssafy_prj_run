@@ -2,35 +2,26 @@
   <div class="race-widget">
     <h4><i class="bi bi-trophy-fill"></i>대회 일정</h4>
     <ul>
-      <li v-for="race in races" :key="race.id" class="race-item">
-        <p>{{ race.name }}</p>
-        <small>{{ race.date }}</small>
+      <li v-for="race in store.raceList" :key="race.raceNo" class="race-item">
+        <p>{{ race.raceName }}</p>
+        <small>{{ race.raceDate }}</small>
       </li>
     </ul>
-    <div v-if="races.length === 0">대회 정보를 불러오는 중...</div>
+    <div v-if="store.raceList.length === 0">대회 정보를 불러오는 중...</div>
   </div>
 </template>
 
 <script setup>
+import { useRaceStore } from '@/stores/race'
 import { ref, onMounted } from 'vue';
 
-const races = ref([]);
+const store = useRaceStore()
+// const raceList = ref([]);
 
-onMounted(async () => {
-  // 서버에서 대회 정보 가져오기 (예시 API 호출 코드)
-  // const response = await fetch('/api/races');
-  // const data = await response.json();
-  // races.value = data.slice(0, 5); // 5개의 대회만 표시
+onMounted(() => {
+  store.getRaceList()
+})
 
-  // 예시 데이터
-  races.value = [
-    { id: 1, name: '대전 마라톤', date: '2024-12-01' },
-    { id: 2, name: '부산 마라톤', date: '2024-12-15' },
-    { id: 3, name: '대구 러닝', date: '2024-12-22' },
-    { id: 4, name: '춘천 마라톤', date: '2024-12-30' },
-    { id: 5, name: '제주 런', date: '2025-01-05' },
-  ];
-});
 </script>
 
 <style scoped>
