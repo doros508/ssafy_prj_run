@@ -62,7 +62,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="race in filteredRaces" :key="race.raceNo">
+          <tr v-for="race in store.raceList" :key="race.raceNo">
             <td>{{ race.raceNo }}</td>
             <td>
               <RouterLink :to="`/race/${race.raceNo}`">{{ race.raceName }}</RouterLink>
@@ -168,6 +168,10 @@ onMounted(() => {
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  /* height: auto; */
+  /* min-height: 500px; */
 }
 
 .table {
@@ -186,7 +190,8 @@ onMounted(() => {
 }
 
 #writeform-btn {
-  float: right;
+  /* float: right; */
+  align-self: flex-end; /* 버튼을 오른쪽 끝에 배치 */
   margin-top: 10px;
 }
 
