@@ -1,29 +1,31 @@
 <template>
   <div class="container">
-    <h1 class="community">Community</h1>
+    <h1 class="logo">Community</h1>
     <div class="content">
       <div class="board-info">
         <div class="board-info-left">
-          <h2>제목</h2>
+          <h3>제목</h3>
           <p>작성자</p>
           <p>작성일자</p>
         </div>
         <div class="board-info-right">
-          <h2>{{ store.board.boardTitle }}</h2>
+          <h3>{{ store.board.boardTitle }}</h3>
           <p>{{ store.board.boardNo}}</p>
           <p>{{ store.board.boardRegDate }}</p>
         </div>
       </div>
       <hr>
       <div class="board-content">
-        <h2>내용</h2>
+        <!-- <h5>내용</h5> -->
         <p>{{ store.board.boardContent }}</p>
       </div>
       <div class="btn-box">
         <button class="btn btn-primary" type="submit" @click="updateBoard">수정</button>
         <button class="btn btn-primary" type="submit" @click="deleteBoard">삭제</button>
       </div>
-      <div class="board-comment"></div>
+      <div class="board-comment">
+        <!-- 여기에 댓글ㅎ -->
+      </div>
     </div>
   </div>
 </template>
@@ -55,19 +57,24 @@ const deleteBoard = function() {
 </script>
 
 <style scoped>
-
+.logo {
+  text-align: center;
+  margin: 15px 0;
+  color: #fff;
+  font-weight: bold;
+}
 .content{
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
   padding: 20px;
   color: white;
 }
 
 .board-info{
-  background-color: #444;
+  background-color: black;
   display: flex;
   border-radius: 10px;
-
+  padding: 10px;
 }
 .board-info-left{
   width: 20%;
@@ -75,7 +82,11 @@ const deleteBoard = function() {
 .board-info-right{
   width: 100%;
 }
-
+.board-content {
+  padding: 10px;
+  background-color: black;
+  border-radius: 10px;
+}
 p {
   margin: 0px;
 }
@@ -90,8 +101,15 @@ hr {
   margin-top: 10px;
 }
 
-.btn {
-  margin: 2px;
+.btn-primary {
+  background-color: #ff5722;
+  border-color: #ff5722;
+  margin: 3px;
+}
+
+.btn-primary:hover {
+  background-color: #e64a19;
+  border-color: #e64a19;
 }
 
 </style>

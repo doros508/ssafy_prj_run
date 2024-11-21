@@ -49,7 +49,7 @@ import MainAside from "@/components/main/aside/MainAside.vue";
   width: 70%;
   display: flex;
   justify-content: center;
-  height: 100%;
+  height: 100vh;
 }
 
 

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- 커뮤니티 텍스트 -->
-    <h1 class="community">Community</h1>
+    <h1 class="logo">Community</h1>
     <div class="writeform-box">
       <div class="mb-3">
         <label for="formGroupExampleInput" class="form-label">제목</label>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="d-flex justify-content-end">
-        <button class="btn btn-outline-primary" @click="createBoard">
+        <button class="btn btn-primary" @click="createBoard">
           등록
         </button>
       </div>
@@ -60,8 +60,11 @@ const createBoard = function () {
 </script>
 
 <style scoped>
-h1 {
+.logo {
   text-align: center;
+  margin: 15px 0;
+  color: #fff;
+  font-weight: bold;
 }
 #board-content {
   height: 50vb;
@@ -76,5 +79,15 @@ h1 {
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
   padding: 20px;
+}
+
+.btn-primary {
+  background-color: #ff5722;
+  border-color: #ff5722;
+}
+
+.btn-primary:hover {
+  background-color: #e64a19;
+  border-color: #e64a19;
 }
 </style>

@@ -27,6 +27,7 @@ import RaceList from "@/components/race/RaceList.vue";
 import MagazineZone from "@/components/main/content/MainContentMagazine.vue";
 import CommunityZone from "@/components/main/content/MainContentCommunity.vue";
 import Welcome from "@/components/main/MainWelcome.vue";
+import MagazineDetail from "@/components/magazine/MagazineDetail.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -117,7 +118,6 @@ const router = createRouter({
           path: ":boardNo",
           name: "boardDetail",
           component: BoardDetail,
-          props: true,
         },
         {
           path: "update/:boardNo",
@@ -139,6 +139,12 @@ const router = createRouter({
           path: "",
           name: "magazineList",
           component: MagazineList,
+        },
+        {
+          path: ":magazineNo",
+          name: "magazineDetail",
+          component: MagazineDetail,
+          
         },
       ],
     },
