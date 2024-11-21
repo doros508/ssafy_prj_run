@@ -29,7 +29,7 @@ import RaceList from "@/components/race/RaceList.vue";
   box-sizing: border-box;
 }
 .body {
-  height: 100%; /* 여기 */
+  height: 100vh; /* 여기 */
   background: #181818;
   font-family: sans-serif;
   color: white;
