@@ -177,11 +177,7 @@ const router = createRouter({
           name: "raceList",
           component: RaceList,
         },
-        // {
-        //   path: "",
-        //   name: "raceDetail",
-        //   component: RaceDetail,
-        // },
+        
       ],
     },
   ],

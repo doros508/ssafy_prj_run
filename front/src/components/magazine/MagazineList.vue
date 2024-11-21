@@ -68,6 +68,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: auto;
 }
 
 .magazine-list-box {
