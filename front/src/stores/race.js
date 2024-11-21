@@ -5,7 +5,8 @@ import axios from 'axios'
 export const useRaceStore = defineStore('race', {
   state: () => ({
     raceList: [],
-    currentRace: null
+    race: null,
+    error: null
   }),
   
   actions: {
@@ -13,17 +14,25 @@ export const useRaceStore = defineStore('race', {
       try {
         const response = await axios.get('http://localhost:8080/api/race')
         this.raceList = response.data
+        this.error = null
       } catch (error) {
-        console.error('Error:', error)
+        console.error('Error fetching races:', error)
+        this.error = error.message
+        this.raceList = []
       }
     },
-    
-    async getRaceByNo(raceNo) {
+
+    async getRacesByCity(cityNo) {
       try {
-        const response = await axios.get(`http://localhost:8080/api/race/${raceNo}`)
-        this.currentRace = response.data
+        const response = await axios.get(`http://localhost:8080/api/race/city/${cityNo}`)
+        if (response.data) {
+          this.raceList = response.data
+          this.error = null
+        }
       } catch (error) {
-        console.error('Error:', error)
+        console.error('Error fetching races by city:', error)
+        this.error = error.message
+        this.raceList = []
       }
     }
   }
