@@ -13,7 +13,7 @@ import MainAsideRace from "./MainAsideRace.vue";
 <style scoped>
 aside {
   position: sticky;
-  top: 60px;
+  top: 80px;
   background-color: rgba(0, 0, 0, 0.7);
   padding: 10px;
   border-radius: 10px;

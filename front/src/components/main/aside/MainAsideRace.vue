@@ -1,6 +1,6 @@
 <template>
   <div class="race-widget">
-    <h3>대회 일정</h3>
+    <h4><i class="bi bi-trophy-fill"></i>대회 일정</h4>
     <ul>
       <li v-for="race in races" :key="race.id" class="race-item">
         <p>{{ race.name }}</p>
@@ -46,5 +46,8 @@ onMounted(async () => {
 }
 .race-item:last-child {
   border-bottom: none;
+}
+.bi-trophy-fill {
+  color: gold;
 }
 </style>
