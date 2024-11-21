@@ -53,8 +53,9 @@ export const useBoardStore = defineStore("board", () => {
     });
   }
 
-  const updateBoard = function () {
-    axios.put(REST_API_URL, board.value)
+  // 게시글 수정
+  const updateBoard = function (boardNo) {
+    axios.put(`${REST_API_URL}/${boardNo}`, board.value)
     .then(() => {
       router.push({ name: 'boardList' })
     })

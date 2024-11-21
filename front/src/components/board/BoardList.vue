@@ -35,22 +35,11 @@
         type="button"
         id="writeform-btn"
         class="btn btn-outline-dark"
-        @click="navigateToWrite"
       >
         <RouterLink :to="{ name: 'boardWrite' }"
           ><i class="bi bi-pencil-square"></i> 글쓰기</RouterLink
         >
       </button>
-      <!-- 페이지네이션 -->
-      <!-- <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-      </nav> -->
     </div>
   </div>
 </template>
@@ -58,7 +47,6 @@
 <script setup>
 import { useBoardStore } from "@/stores/board";
 import { onMounted } from "vue";
-import BoardSearchInput from "./BoardSearchInput.vue";
 
 const store = useBoardStore();
 onMounted(() => {

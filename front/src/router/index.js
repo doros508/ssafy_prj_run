@@ -10,10 +10,13 @@ import CrewView from "@/views/CrewView.vue";
 import RaceView from "@/views/RaceView.vue";
 
 // components
+// 게시판
 import BoardList from "@/components/board/BoardList.vue";
 import BoardWrite from "@/components/board/BoardWrite.vue";
 import BoardDetail from "@/components/board/BoardDetail.vue";
+import BoardUpdate from "@/components/board/BoardUpdate.vue";
 
+// 유저
 import Login from "@/components/user/Login.vue";
 import SignUp from "@/components/user/SignUp.vue";
 
@@ -115,6 +118,11 @@ const router = createRouter({
           name: "boardDetail",
           component: BoardDetail,
           props: true,
+        },
+        {
+          path: "update/:boardNo",
+          name: "boardUpdate",
+          component: BoardUpdate
         },
       ],
     },
