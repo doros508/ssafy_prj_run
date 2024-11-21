@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.mrt.mvc.model.dao.CrewDao">
+    <select id="selectAll" parameterType="SearchCondition" resultType="Crew">
+        SELECT * FROM crew
+        <where>
+            <if test="key != null and key != ''">
+                <if test="word != null and word != ''">
+                    ${key} LIKE CONCAT('%', #{word}, '%')
+                </if>
+            </if>
+        </where>
+        ORDER BY crew_no DESC
+    </select>
+    
+    <select id="selectOne" parameterType="int" resultType="Crew">
+        SELECT * FROM crew WHERE crew_no = #{crewNo}
+    </select>
+    
+    <insert id="insert" parameterType="Crew">
+        INSERT INTO crew (crew_name, crew_size, district_no, city_no, crew_content, crew_url, crew_day)
+        VALUES (#{crewName}, #{crewSize}, #{districtNo}, #{cityNo}, #{crewContent}, #{crewUrl}, #{crewDay})
+    </insert>
+    
+    <update id="update" parameterType="Crew">
+        UPDATE crew 
+        SET crew_name = #{crewName},
+            crew_size = #{crewSize},
+            district_no = #{districtNo},
+            city_no = #{cityNo},
+            crew_content = #{crewContent},
+            crew_url = #{crewUrl},
+            crew_day = #{crewDay} 
+        WHERE crew_no = #{crewNo}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        DELETE FROM crew WHERE crew_no = #{crewNo}
+    </delete>
+</mapper>

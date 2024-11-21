@@ -23,8 +23,5 @@ public interface BoardService {
 	boolean modify(Board board);
 
 	/** 게시글 삭제 */
-	boolean removeBoard(int no);
-
-	
-	
+	boolean removeBoard(int no);	
 }

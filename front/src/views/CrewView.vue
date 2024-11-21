@@ -2,7 +2,7 @@
   <div>
     <!-- 헤더 영역 -->
     <TheHeader />
-    <hr>
+    <hr />
     <CrewList />
   </div>
 </template>
