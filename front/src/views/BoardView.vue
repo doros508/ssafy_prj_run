@@ -40,7 +40,7 @@ import MainAside from "@/components/main/aside/MainAside.vue";
 }
 
 .main {
-  width: 70%;
+  width: 80%;
   display: flex;
   justify-content: center;
   height: 100%;

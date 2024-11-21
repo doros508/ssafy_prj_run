@@ -35,7 +35,7 @@ onMounted(async () => {
 
 <style scoped>
 .race-widget {
-  background: #333;
+  background-color: #212529;
   padding: 15px;
   border-radius: 10px;
   color: #fff;
