@@ -1,11 +1,7 @@
 <template>
   <div class="magazine-list">
-    <img
-      class="magazine-list-background-img"
-      src="../../assets/common/background1.png"
-    />
-    <div class="magazine-logo">Magazine</div>
-
+    <h1 class="magazine-logo">Magazine</h1>
+<div class="content"> <!--회색 박스 처리.-->
     <div class="search-bar">
       <span class="search-box">
         <img class="search-icon" :src="searchIcon" />
@@ -32,6 +28,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -61,11 +58,16 @@ export default {
 </script>
 
 <style scoped>
-.magazine-list {
-  min-height: 100vh;
-  background-color: #000;
-  padding: 2rem;
+.content {
   position: relative;
+  width: 100%;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
 }
 
 .magazine-list-background-img {
@@ -79,12 +81,16 @@ export default {
 }
 
 .magazine-logo {
+  text-align: center;
+  margin: 15px 0;
   color: #fff;
-  font-size: 2.5rem;
+  font-weight: bold;
+
+  /* font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 2rem;
   position: relative;
-  z-index: 1;
+  z-index: 1; */
 }
 
 .search-bar {
