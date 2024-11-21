@@ -41,16 +41,18 @@ export const useMagazineStore = defineStore("magazine", () => {
     });
   };
 
-  // 게시글 조회
-  const board = ref({})
-  const getBoard = function (boardNo) {
-    axios.get(`${REST_API_URL}/${boardNo}`)
+  // 매거진 상세 조회
+  const magazine = ref({})
+  const getMagazine = function (magazineNo) {
+    axios.get(`${REST_API_URL}/${magazineNo}`)
     .then((response)=>{
-      board.value = response.data
-      console.log(board)
+      magazine.value = response.data
+      console.log(magazine)
+      router.push({ name: 'magazineDetail', params: { magazineNo } })
     })
     .catch((error)=>{
-      console.log(boardNo)
+      console.log(magazineNo)
+      console.log(magazine)
       console.log("흠 잘 안되네", error)
     });
   }
@@ -80,6 +82,6 @@ export const useMagazineStore = defineStore("magazine", () => {
     })
   }
 
-  return { magazineList, getMagazineList };
+  return { magazineList, getMagazineList, magazine, getMagazine };
 });
 

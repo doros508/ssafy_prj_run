@@ -5,7 +5,7 @@
 
     <div class="content">
       <!-- 게시판 목록 테이블 -->
-      <table class="table table-dark table-striped">
+      <table class="table table-dark table-striped table-hover">
         <thead>
           <tr>
             <th scope="col">글 번호</th>
@@ -34,11 +34,10 @@
       <button
         type="button"
         id="writeform-btn"
-        class="btn btn-outline-dark"
+        class="btn btn-primary"
+        @click="writeBoard"
       >
-        <RouterLink :to="{ name: 'boardWrite' }"
-          ><i class="bi bi-pencil-square"></i> 글쓰기</RouterLink
-        >
+        <i class="bi bi-pencil-square"></i> 글쓰기
       </button>
     </div>
   </div>
@@ -47,11 +46,18 @@
 <script setup>
 import { useBoardStore } from "@/stores/board";
 import { onMounted } from "vue";
+import { useRouter } from "vue-router"; 
 
 const store = useBoardStore();
+const router = useRouter();
 onMounted(() => {
   store.getBoardList();
 });
+
+const writeBoard = function() {
+  console.log("글쓰기 버튼 클릭!")
+  router.push({ name: 'boardWrite' })
+}
 </script>
 
 <style scoped>
@@ -61,7 +67,7 @@ onMounted(() => {
 a {
   color: grey;
 }
-h1 {
+.logo {
   text-align: center;
   margin: 15px 0;
   color: #fff;
@@ -89,5 +95,16 @@ h1 {
 #writeform-btn {
   align-self: flex-end; /* 버튼을 오른쪽 끝에 배치 */
   margin-top: 0; /* 버튼과 다른 요소들 간 간격 조정 */
+}
+
+.btn-primary {
+  background-color: #ff5722;
+  border-color: #ff5722;
+  margin: 3px;
+}
+
+.btn-primary:hover {
+  background-color: #e64a19;
+  border-color: #e64a19;
 }
 </style>

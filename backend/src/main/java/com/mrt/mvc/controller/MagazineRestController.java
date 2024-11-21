@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,4 +34,15 @@ public class MagazineRestController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
+	@GetMapping("/magazine/{no}")
+	public ResponseEntity<Magazine> detail(@PathVariable("no") int no) {
+		Magazine magazine = service.getMagazineByNo(no);
+		System.out.println("넘어온 게시글: " + magazine.toString());
+		if (magazine != null) {
+			System.out.println(no + "번 매거진을 조회합니다.");
+			return new ResponseEntity<>(magazine, HttpStatus.OK);
+		}
+		System.out.println("조회한 게시글이 없습니다.");
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 }

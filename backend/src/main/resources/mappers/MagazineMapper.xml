@@ -17,9 +17,19 @@
 	</select>
 	
 	<!-- 게시글 상세 조회 -->
+	<select id="selectOne" resultType="Magazine" parameterType="int">
+		SELECT *
+		FROM magazine
+		WHERE magazine_no = #{no}
+	</select>
 	
 	<!-- 조회수 증가 -->
-
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE magazine
+		SET magazine_view_cnt = magazine_view_cnt + 1
+		WHERE magazine_no = #{no}
+	</update>
+	
 	<!-- 게시글 등록 -->
 	
 	<!-- 파일 등록 -->

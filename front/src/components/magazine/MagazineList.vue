@@ -4,7 +4,7 @@
     <div class="content">
       <!-- 네비게이션 탭 -->
       <div class="magazine-list-box">
-        <div class="magazine-card" v-for="magazine in store.magazineList" :key="magazine.magazineNo">
+        <div class="magazine-card" v-for="magazine in store.magazineList" :key="magazine.magazineNo" @click="detailMagazine(magazine.magazineNo)">
           <div class="card text-bg-dark">
             <img
               src="../../assets/magazine/list/img2.png"
@@ -24,11 +24,21 @@
 <script setup>
   import { useMagazineStore } from '@/stores/magazine';
   import { onMounted } from 'vue';
+  import { useRoute, useRouter } from "vue-router";
 
   const store = useMagazineStore();
+  const route = useRoute(); // 이거 안쓰나?
+  const router = useRouter();
+
   onMounted(()=>{
     store.getMagazineList();
   })
+
+
+  const detailMagazine = function(magazineNo) {
+    console.log(magazineNo+"번 매거진 클릭")
+    store.getMagazine(magazineNo);
+  }
 </script>
 
 <style scoped>

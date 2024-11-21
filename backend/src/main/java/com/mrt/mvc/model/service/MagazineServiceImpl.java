@@ -17,10 +17,17 @@ public class MagazineServiceImpl implements MagazineService {
 		this.dao = dao;
 	}
 	
-	// 게시글 전체 조회 및 검색 조회
+	// 매거진 전체 조회 및 검색 조회
 	@Override
 	public List<Magazine> getMagazineList(SearchCondition condition) {
 		return dao.selectAll(condition);
+	}
+
+	// 매거진 상세 조회
+	@Override
+	public Magazine getMagazineByNo(int no) {
+		dao.updateViewCnt(no);
+		return dao.selectOne(no);
 	}
 	
 }
