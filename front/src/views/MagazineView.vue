@@ -6,7 +6,7 @@
     </header>
     <img
       class="background-img"
-      src="../assets/common/background1.png"
+      src="../assets/user/sign_up/login_picture.png"
     />
     <div class="body">
       <div class="main">

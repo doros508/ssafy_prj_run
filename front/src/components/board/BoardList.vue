@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- 커뮤니티 텍스트 -->
-    <h1 class="community">Community</h1>
+    <h1 class="logo">Community</h1>
 
     <div class="content">
       <!-- 게시판 목록 테이블 -->
