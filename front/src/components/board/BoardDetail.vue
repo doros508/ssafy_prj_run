@@ -20,7 +20,7 @@
         <h5>{{ store.board.boardContent }}</h5>
       </div>
       <div class="btn-box">
-        <button class="btn btn-primary" type="submit">수정</button>
+        <button class="btn btn-primary" type="submit" @click="updateBoard">수정</button>
         <button class="btn btn-primary" type="submit">삭제</button>
       </div>
       <div class="board-comment"></div>
@@ -29,20 +29,27 @@
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
-import { onMounted } from "vue";
 import { useBoardStore } from "@/stores/board";
+import { onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-const route = useRoute();
 const store = useBoardStore();
 
+const route = useRoute();
+const router = useRouter();
+
 onMounted(() => {
-  console.log("route.params.boardNo: ", route.params.boardNo);
   store.getBoard(route.params.boardNo);
 });
+
+// 게시글 수정
+const updateBoard = function (boardNo) {
+  router.push({ name: 'boardUpdate'})
+}
 </script>
 
 <style scoped>
+
 .content{
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
