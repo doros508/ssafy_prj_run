@@ -61,6 +61,14 @@ export const useBoardStore = defineStore("board", () => {
     })
   }
 
+  // 게시글 삭제
+  const deleteBoard = function(boardNo) {
+    axios.delete(`${REST_API_URL}/${boardNo}`)
+    .then(()=>{
+      router.push({name: 'boardList'})
+    })
+  }
+
   const searchBoardList = function (searchCondition) {
     axios.get(REST_API_URL, {
       params:searchCondition
@@ -70,6 +78,6 @@ export const useBoardStore = defineStore("board", () => {
     })
   }
 
-  return { boardList, getBoardList, createBoard, board, getBoard, updateBoard, searchBoardList };
+  return { boardList, getBoardList, createBoard, board, getBoard, updateBoard, deleteBoard, searchBoardList };
 });
 
