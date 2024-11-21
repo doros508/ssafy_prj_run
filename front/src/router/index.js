@@ -173,11 +173,10 @@ const router = createRouter({
       meta: { requiresAuth: false },  // 추가
       children: [
         {
-          path: "list",
+          path: "",
           name: "raceList",
           component: RaceList,
         },
-        
       ],
     },
   ],

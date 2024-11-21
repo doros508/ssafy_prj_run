@@ -8,18 +8,18 @@
         SELECT * FROM race
     </select>
 
-    <select id="selectByNo" parameterType="int" resultType="Race">
+    <select id="selectOne" parameterType="int" resultType="Race">
         SELECT * FROM race WHERE race_no = #{raceNo}
     </select>
 
-    <insert id="insert" parameterType="Race">
+    <insert id="insertRace" parameterType="Race">
         INSERT INTO race (race_name, race_date, race_place, race_distance, 
                          race_url, user_no, race_reg_date, city_no)
         VALUES (#{raceName}, #{raceDate}, #{racePlace}, #{raceDistance}, 
                 #{raceUrl}, #{userNo}, #{raceRegDate}, #{cityNo})
     </insert>
 
-    <update id="update" parameterType="Race">
+    <update id="updateRace" parameterType="Race">
         UPDATE race 
         SET race_name = #{raceName},
             race_date = #{raceDate},
@@ -30,7 +30,7 @@
         WHERE race_no = #{raceNo}
     </update>
 
-    <delete id="delete" parameterType="int">
+    <delete id="deleteRace" parameterType="int">
         DELETE FROM race WHERE race_no = #{raceNo}
     </delete>
 
