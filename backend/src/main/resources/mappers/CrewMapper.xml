@@ -3,40 +3,81 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.mrt.mvc.model.dao.CrewDao">
-    <select id="selectAll" parameterType="SearchCondition" resultType="Crew">
-        SELECT * FROM crew
+    <!-- 전체 크루 조회 -->
+    <select id="selectAll" parameterType="map" resultType="Crew">
+        SELECT c.*, ct.city_name 
+        FROM crew c
+        JOIN city ct ON c.city_no = ct.city_no
         <where>
-            <if test="key != null and key != ''">
-                <if test="word != null and word != ''">
-                    ${key} LIKE CONCAT('%', #{word}, '%')
-                </if>
+            <if test="cityNo != null and cityNo != ''">
+                AND c.city_no = #{cityNo}
+            </if>
+            <if test="crewDays != null and crewDays != ''">
+                AND
+                <foreach item="day" collection="crewDays.split(',')" 
+                         open="(" separator="OR" close=")">
+                    c.crew_day LIKE CONCAT('%', #{day}, '%')
+                </foreach>
             </if>
         </where>
-        ORDER BY crew_no DESC
+        ORDER BY c.crew_no DESC
     </select>
-    
+
+    <!-- 단일 크루 조회 -->
     <select id="selectOne" parameterType="int" resultType="Crew">
-        SELECT * FROM crew WHERE crew_no = #{crewNo}
+        SELECT * 
+        FROM crew 
+        WHERE crew_no = #{crewNo}
     </select>
-    
+
+    <!-- 크루 등록 -->
     <insert id="insert" parameterType="Crew">
-        INSERT INTO crew (crew_name, crew_size, district_no, city_no, crew_content, crew_url, crew_day)
-        VALUES (#{crewName}, #{crewSize}, #{districtNo}, #{cityNo}, #{crewContent}, #{crewUrl}, #{crewDay})
+        INSERT INTO crew (
+            crew_name, crew_size, district_no, city_no, 
+            crew_content, crew_url, crew_day, 
+            crew_lat, crew_lng, crew_location
+        ) VALUES (
+            #{crewName}, #{crewSize}, #{districtNo}, #{cityNo}, 
+            #{crewContent}, #{crewUrl}, #{crewDay}, 
+            #{crewLat}, #{crewLng}, #{crewLocation}
+        )
     </insert>
-    
+
+    <!-- 크루 정보 수정 -->
     <update id="update" parameterType="Crew">
         UPDATE crew 
-        SET crew_name = #{crewName},
+        SET 
+            crew_name = #{crewName},
             crew_size = #{crewSize},
             district_no = #{districtNo},
             city_no = #{cityNo},
             crew_content = #{crewContent},
             crew_url = #{crewUrl},
-            crew_day = #{crewDay} 
+            crew_day = #{crewDay},
+            crew_lat = #{crewLat},
+            crew_lng = #{crewLng},
+            crew_location = #{crewLocation}
         WHERE crew_no = #{crewNo}
     </update>
-    
+
+    <!-- 크루 삭제 -->
     <delete id="delete" parameterType="int">
-        DELETE FROM crew WHERE crew_no = #{crewNo}
+        DELETE FROM crew 
+        WHERE crew_no = #{crewNo}
     </delete>
+
+    <!-- 위치 기반 크루 검색 -->
+    <select id="selectByLocation" resultType="Crew">
+        SELECT *,
+            (6371 * acos(
+                cos(radians(#{lat})) * 
+                cos(radians(crew_lat)) * 
+                cos(radians(crew_lng) - radians(#{lng})) + 
+                sin(radians(#{lat})) * 
+                sin(radians(crew_lat))
+            )) AS distance 
+        FROM crew 
+        HAVING distance <![CDATA[ < ]]> #{radius}
+        ORDER BY distance
+    </select>
 </mapper>

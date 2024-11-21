@@ -10,4 +10,5 @@ public interface CrewService {
     boolean writeCrew(Crew crew);
     boolean modify(Crew crew);
     boolean removeCrew(int crewNo);
+    List<Crew> getCrewsByLocation(double lat, double lng, double radius);
 }

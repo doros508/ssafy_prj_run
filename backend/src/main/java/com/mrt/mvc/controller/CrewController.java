@@ -17,6 +17,14 @@ public class CrewController {
     public CrewController(CrewService service) {
         this.service = service;
     }
+    @GetMapping("/crews/location")
+    public ResponseEntity<List<Crew>> getCrewsByLocation(
+            @RequestParam double lat,
+            @RequestParam double lng,
+            @RequestParam(defaultValue = "5") double radius) {
+        List<Crew> crews = service.getCrewsByLocation(lat, lng, radius);
+        return ResponseEntity.ok(crews);
+    }
     
     @GetMapping("/crew")
     public ResponseEntity<List<Crew>> list(@ModelAttribute SearchCondition condition) {

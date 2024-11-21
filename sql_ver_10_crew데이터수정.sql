@@ -155,16 +155,63 @@ CREATE TABLE `magazine_comment` (
 );
 
 -- 13. 데이터 삽입
+INSERT INTO `city` (`city_no`, `city_name`) VALUES
+(1, '서울'),
+(2, '대전'),
+(3, '부산');
+
+INSERT INTO `district` (`district_no`, `district_name`, `city_no`) VALUES
+-- 서울의 구
+(1, '강남구', 1),
+(2, '강북구', 1),
+(3, '서초구', 1),
+
+-- 대전의 구
+(4, '유성구', 2),
+(5, '서구', 2),
+(6, '중구', 2),
+
+-- 부산의 구
+(7, '해운대구', 3),
+(8, '동래구', 3),
+(9, '부산진구', 3);
+
+
+
+INSERT INTO `district` (`city_no`, `district_name`) VALUES 
+(1, 'Gangnam'), (1, 'Hongdae'), (2, 'Haeundae'), (2, 'Seomyeon');
+
 INSERT INTO `user` (`user_id`, `user_password`, `user_email`, `user_name`, `user_birthday`, `user_gender`, `user_address`, `user_detail_address`, `user_zip_code`, `user_phone_number`, `user_age`, `user_nickname`, `user_photo`, `user_role`, `user_iat`, `user_exp`)
 VALUES 
 ('user01', 'password123', 'user01@example.com', 'John Doe', '19900101', 'M', 'Seoul', 'Gangnam', 12345, '010-1234-5678', 30, 'johnny', 'path/to/photo.jpg', 'USER', 'some_iat', 'some_exp'),
 ('user02', 'password456', 'user02@example.com', 'Jane Smith', '19920304', 'F', 'Busan', 'Haeundae', 67890, '010-2345-6789', 28, 'janey', 'path/to/photo2.jpg', 'USER', 'some_iat', 'some_exp'),
 ('qwe', '123', 'user02@example.com', 'Jane Smith', '19920304', 'F', 'Busan', 'Haeundae', 67890, '010-2345-6789', 28, 'janey', 'path/to/photo2.jpg', 'USER', 'some_iat', 'some_exp');
 
-INSERT INTO `city` (`city_name`) VALUES ('Seoul'), ('Busan');
+INSERT INTO `crew` 
+(`crew_name`, `crew_size`, `district_no`, `city_no`, `crew_content`, `crew_url`, `crew_day`, `crew_lat`, `crew_lng`, `crew_location`) 
+VALUES
+('서울 Innovators', 8, 1, 1, '기술과 개발 혁신을 목표로 하는 팀입니다.', 'https://example.com/seoul-innovators', '월, 수, 금', 37.5665, 126.9780, '서울, 대한민국'),
+('대전 Pioneers', 6, 3, 2, '새로운 도전과 혁신을 추구하는 크루입니다.', 'https://example.com/daejeon-pioneers', '화, 목, 토', 36.3508, 127.3845, '대전, 대한민국'),
+('부산 Waves', 10, 4, 3, '활기찬 활동을 즐기는 크루입니다.', 'https://example.com/busan-waves', '월, 수, 일', 35.1796, 129.0756, '부산, 대한민국');
 
-INSERT INTO `district` (`city_no`, `district_name`) VALUES 
-(1, 'Gangnam'), (1, 'Hongdae'), (2, 'Haeundae'), (2, 'Seomyeon');
+INSERT INTO `crew` 
+(`crew_name`, `crew_size`, `district_no`, `city_no`, `crew_content`, `crew_url`, `crew_day`, `crew_lat`, `crew_lng`, `crew_location`) 
+VALUES
+-- 서울 크루 추가
+('강남 러너스', 12, 1, 1, '강남 지역에서 함께 달리기를 즐기는 크루입니다.', 'https://example.com/gangnam-runners', '월, 수, 금', 37.4979, 127.0276, '서울 강남구'),
+('강북 에너자이저', 10, 2, 1, '강북에서 활기차게 활동하는 러닝 크루입니다.', 'https://example.com/gangbuk-energizers', '화, 목, 토', 37.6396, 127.0257, '서울 강북구'),
+('서초 스트라이더스', 8, 3, 1, '서초구를 기반으로 하는 달리기 동호회입니다.', 'https://example.com/seocho-striders', '화, 금, 일', 37.4835, 127.0323, '서울 서초구'),
+('홍대 나이트 러너', 15, 1, 1, '밤에 달리는 것을 좋아하는 홍대 크루입니다.', 'https://example.com/hongdae-night-runners', '월, 목, 토', 37.5502, 126.9205, '서울 마포구'),
+('잠실 스프린터스', 20, 1, 1, '잠실 종합운동장에서 훈련하는 스프린터 크루입니다.', 'https://example.com/jamsil-sprinters', '수, 금, 일', 37.5133, 127.1020, '서울 송파구'),
+
+-- 대전 크루 추가
+('유성 피닉스', 10, 4, 2, '유성구에서 활발히 활동하는 러닝 크루입니다.', 'https://example.com/yuseong-phoenix', '월, 수, 토', 36.3623, 127.3561, '대전 유성구'),
+('서구 익스트림 러너스', 8, 5, 2, '서구에서 모험적인 러닝을 즐기는 팀입니다.', 'https://example.com/seogu-extreme', '화, 금, 일', 36.3511, 127.3780, '대전 서구'),
+('중구 마라토너스', 12, 6, 2, '중구에서 마라톤을 준비하는 크루입니다.', 'https://example.com/junggu-marathoners', '화, 목, 토', 36.3193, 127.4168, '대전 중구'),
+('대전 새벽 러너스', 6, 4, 2, '새벽에 달리기를 즐기는 대전 크루입니다.', 'https://example.com/daejeon-dawn-runners', '월, 수, 금', 36.3552, 127.3860, '대전 유성구'),
+('대전 밤 러너스', 8, 5, 2, '밤에 대전을 달리는 크루입니다.', 'https://example.com/daejeon-night-runners', '월, 목, 토', 36.3516, 127.3794, '대전 서구');
+
+
 
 INSERT INTO `race` (`race_name`, `race_date`, `race_place`, `race_distance`, `race_url`, `user_no`, `race_reg_date`, `city_no`)
 VALUES 
@@ -176,17 +223,6 @@ VALUES
 ('file001', 'Spring Marathon Tips', 'Here are some tips for spring marathon preparation.', 100, 1),
 ('file002', 'Running Shoes Review', 'A detailed review of the best running shoes for 2024.', 150, 2);
 
--- 서울 Innovators 크루
-INSERT INTO `crew` 
-(`crew_name`, `crew_size`, `district_no`, `city_no`, `crew_content`, `crew_url`, `crew_day`, `crew_lat`, `crew_lng`, `crew_location`)
-VALUES 
-('서울 Innovators', 8, 1, 1, '기술과 개발 혁신을 목표로 하는 팀입니다.', 'https://example.com/seoul-innovators', '월, 수, 금', 37.5665, 126.9780, '서울, 대한민국'),
-
--- 대전 Pioneers 크루
-('대전 Pioneers', 6, 3, 2, '새로운 도전과 혁신을 추구하는 크루입니다.', 'https://example.com/daejeon-pioneers', '화, 목, 토', 36.3508, 127.3845, '대전, 대한민국'),
-
--- 부산 Waves 크루
-('부산 Waves', 10, 4, 3, '활기찬 활동을 즐기는 크루입니다.', 'https://example.com/busan-waves', '월, 수, 일', 35.1796, 129.0756, '부산, 대한민국');
 
 select * from user;
 
@@ -208,4 +244,5 @@ INSERT INTO `magazine` (
 ('하프 마라톤 준비하기', '오세훈', '하프 마라톤을 준비하는 사람들을 위한 훈련법과 전략을 소개합니다.', NOW(), '런닝', 170, 9, ''),
 ('달리기와 정신 건강', '이하늘', '달리기가 정신 건강에 미치는 긍정적인 영향과 이를 통해 얻을 수 있는 장점에 대해 설명합니다.', NOW(), '런닝', 200, 10, '');
 
-
+select * from city;
+select * from crew;

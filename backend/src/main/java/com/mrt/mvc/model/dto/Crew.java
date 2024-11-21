@@ -9,22 +9,72 @@ public class Crew {
     private String crewContent;
     private String crewUrl;
     private String crewDay;
+    private String crewLat;  //위도
+    private String crewLng;		//경도
+    private String crewLocation;  //상세위치
+    
+    
 
     public Crew() {
     }
 
-    public Crew(int crewNo, String crewName, int crewSize, int districtNo, int cityNo, String crewContent, String crewUrl, String crewDay) {
-        this.crewNo = crewNo;
-        this.crewName = crewName;
-        this.crewSize = crewSize;
-        this.districtNo = districtNo;
-        this.cityNo = cityNo;
-        this.crewContent = crewContent;
-        this.crewUrl = crewUrl;
-        this.crewDay = crewDay;
-    }
+    
 
-    public int getCrewNo() {
+    public String getCrewLat() {
+		return crewLat;
+	}
+
+
+
+	public void setCrewLat(String crewLat) {
+		this.crewLat = crewLat;
+	}
+
+
+
+	public String getCrewLng() {
+		return crewLng;
+	}
+
+
+
+	public void setCrewLng(String crewLng) {
+		this.crewLng = crewLng;
+	}
+
+
+
+	public String getCrewLocation() {
+		return crewLocation;
+	}
+
+
+
+	public void setCrewLocation(String crewLocation) {
+		this.crewLocation = crewLocation;
+	}
+
+
+
+	public Crew(int crewNo, String crewName, int crewSize, int districtNo, int cityNo, String crewContent,
+			String crewUrl, String crewDay, String crewLat, String crewLng, String crewLocation) {
+		super();
+		this.crewNo = crewNo;
+		this.crewName = crewName;
+		this.crewSize = crewSize;
+		this.districtNo = districtNo;
+		this.cityNo = cityNo;
+		this.crewContent = crewContent;
+		this.crewUrl = crewUrl;
+		this.crewDay = crewDay;
+		this.crewLat = crewLat;
+		this.crewLng = crewLng;
+		this.crewLocation = crewLocation;
+	}
+
+
+
+	public int getCrewNo() {
         return crewNo;
     }
 
@@ -88,15 +138,15 @@ public class Crew {
         this.crewDay = crewDay;
     }
 
-    @Override
-    public String toString() {
-        return "Crew [crewNo=" + crewNo + 
-               ", crewName=" + crewName + 
-               ", crewSize=" + crewSize + 
-               ", districtNo=" + districtNo + 
-               ", cityNo=" + cityNo + 
-               ", crewContent=" + crewContent + 
-               ", crewUrl=" + crewUrl + 
-               ", crewDay=" + crewDay + "]";
-    }
+
+
+	@Override
+	public String toString() {
+		return "Crew [crewNo=" + crewNo + ", crewName=" + crewName + ", crewSize=" + crewSize + ", districtNo="
+				+ districtNo + ", cityNo=" + cityNo + ", crewContent=" + crewContent + ", crewUrl=" + crewUrl
+				+ ", crewDay=" + crewDay + ", crewLat=" + crewLat + ", crewLng=" + crewLng + ", crewLocation="
+				+ crewLocation + "]";
+	}
+
+   
 }
