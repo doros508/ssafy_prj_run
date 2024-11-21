@@ -53,10 +53,19 @@ export const useBoardStore = defineStore("board", () => {
     });
   }
 
-  const updateBoard = function () {
-    axios.put(REST_API_URL, board.value)
+  // 게시글 수정
+  const updateBoard = function (boardNo) {
+    axios.put(`${REST_API_URL}/${boardNo}`, board.value)
     .then(() => {
       router.push({ name: 'boardList' })
+    })
+  }
+
+  // 게시글 삭제
+  const deleteBoard = function(boardNo) {
+    axios.delete(`${REST_API_URL}/${boardNo}`)
+    .then(()=>{
+      router.push({name: 'boardList'})
     })
   }
 
@@ -69,6 +78,6 @@ export const useBoardStore = defineStore("board", () => {
     })
   }
 
-  return { boardList, getBoardList, createBoard, board, getBoard, updateBoard, searchBoardList };
+  return { boardList, getBoardList, createBoard, board, getBoard, updateBoard, deleteBoard, searchBoardList };
 });
 
