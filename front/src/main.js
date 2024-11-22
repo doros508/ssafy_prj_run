@@ -17,7 +17,9 @@ useKakao(import.meta.env.VITE_KAKAOMAP_API_KEY);
 
 
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "http://localhost:8080"; // 로컬
+// axios.defaults.baseURL = "http://192.168.210.63:8080"; // 종수
+// axios.defaults.baseURL = "http://192.168.210.53:8080"; // 건우
 axios.defaults.withCredentials = true;
 
 // CORS 대응을 위한 추가 설정

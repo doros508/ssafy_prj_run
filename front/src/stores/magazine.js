@@ -3,7 +3,9 @@ import { defineStore } from "pinia";
 import axios from 'axios'
 import router from '@/router'
 
-const REST_API_URL = `http://localhost:8080/maratalk/magazine`
+const REST_API_URL = `http://localhost:8080/maratalk/magazine` // 로컬
+// const REST_API_URL = `http://192.168.210.63:8080/maratalk/magazine` //종수
+// const REST_API_URL = `http://192.168.210.53:8080/maratalk/magazine` // 건우
 
 export const useMagazineStore = defineStore("magazine", () => {
   
