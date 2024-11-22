@@ -1,6 +1,7 @@
 <template>
   <aside>
     <MainAsideWeather />
+    <!-- <Weather_test/> -->
     <MainAsideRace />
   </aside>
 </template>
@@ -8,6 +9,7 @@
 <script setup>
 import MainAsideWeather from "./MainAsideWeather.vue";
 import MainAsideRace from "./MainAsideRace.vue";
+import Weather_test from "./weather_test.vue";
 </script>
 
 <style scoped>

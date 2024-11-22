@@ -1,20 +1,16 @@
 <template>
-  <div class = "weatherWidget">
-    <h4><i class="bi bi-geo-alt-fill"></i>유성구 날씨정보</h4>
-    <div><i class="bi bi-thermometer-half"></i> 기온 : {{ tmp }}℃</div>
-    <div><i class="bi bi-thermometer-half"></i> 최고기온 : {{ tmx }}℃</div>
-    <div><i class="bi bi-thermometer-half"></i> 최저기온 : {{ tmn }}℃</div>
-    <div><i class="bi bi-cloud-fill"></i> 하늘상태 : {{ sky }}</div>
-    <div><i class="bi bi-cloud-rain-fill"></i> 강수형태 : {{ pty }}</div>
-    <div><i class="bi bi-droplet-fill"></i> 강수확률 : {{ pop }}%</div>
+  <div>
+    <h4>날씨정보</h4>
+    <div>기온 : {{ tmp }}℃</div>
+    <div>하늘상태 : {{ sky }}</div>
+    <div>강수형태 : {{ pty }}</div>
+    <div>강수확률 : {{ pop }}%</div>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
 import axios from "axios";
-const tmx = ref(null);
-const tmn = ref(null);
 const tmp = ref(null);
 const sky = ref(null);
 const pty = ref(null);
@@ -28,38 +24,20 @@ onMounted(() => {
   let day = today.getDate();
   month = month < 10 ? "0" + month : month;
   day = day < 10 ? "0" + day : day;
-  let todayStr = `${year}${month}${day}`;
+  const todayStr = `${year}${month}${day}`;
 
   // API 발표 시각 배열 (base_time)
-  const baseTimes = [
-    "0200",
-    "0500",
-    "0800",
-    "1100",
-    "1400",
-    "1700",
-    "2000",
-    "2300",
-  ];
+  const baseTimes = ['0200', '0500', '0800', '1100', '1400', '1700', '2000', '2300'];
   // API 제공 시각 배열 (실제 데이터 이용 가능 시각, 발표시각 + 10분)
-  const availableTimes = [
-    "0210",
-    "0510",
-    "0810",
-    "1110",
-    "1410",
-    "1710",
-    "2010",
-    "2310",
-  ];
+  const availableTimes = ['0210', '0510', '0810', '1110', '1410', '1710', '2010', '2310'];
 
   // 현재 시각 (HHMM 형식)
-  const currentHour = today.getHours().toString().padStart(2, "0");
-  const currentMinute = today.getMinutes().toString().padStart(2, "0");
+  const currentHour = today.getHours().toString().padStart(2, '0');
+  const currentMinute = today.getMinutes().toString().padStart(2, '0');
   const currentTime = currentHour + currentMinute;
 
   // 현재 시각보다 이전인 가장 최근 발표 시각 찾기
-  let baseTime = "0200"; // 기본값
+  let baseTime = '0200';  // 기본값
   for (let i = availableTimes.length - 1; i >= 0; i--) {
     if (currentTime >= availableTimes[i]) {
       baseTime = baseTimes[i];
@@ -67,35 +45,33 @@ onMounted(() => {
     }
   }
   // 현재 시각이 02:10 이전인 경우 전날 마지막 발표 데이터 사용
-  if (currentTime < "0210") {
+  if (currentTime < '0210') {
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
     year = yesterday.getFullYear();
-    month = (yesterday.getMonth() + 1).toString().padStart(2, "0");
-    day = yesterday.getDate().toString().padStart(2, "0");
+    month = (yesterday.getMonth() + 1).toString().padStart(2, '0');
+    day = yesterday.getDate().toString().padStart(2, '0');
     todayStr = `${year}${month}${day}`;
-    baseTime = "2300";
+    baseTime = '2300';
   }
-  
+
   axios
-  .get(API_URL, {
-    params: {
-      ServiceKey: import.meta.env.VITE_WEATHER_API_KEY,
-      dataType: "JSON",
-      base_date: todayStr,
-      base_time: baseTime,
-      numOfRows: 100,
-      nx: 66, //유성
-      ny: 100,
-    },
-    withCredentials: false, 
-  })
-  
-  .then((response) => {
-    console.log("전체 응답:", response); // 전체 응답 구조 확인
-    console.log("API 호출 시각:", todayStr, baseTime);
-    console.log("날씨 데이터:", response.data.response.body.items.item);
-    return response.data.response.body.items.item;
+    .get(API_URL, {
+      params: {
+        ServiceKey: import.meta.env.VITE_WEATHER_API_KEY,
+        dataType: "JSON",
+        base_date: todayStr,
+        base_time: baseTime,
+        numOfRows: 60,
+        nx: 66,
+        ny: 100,
+      },
+      withCredentials: false
+    })
+    .then((response) => {
+      console.log("API 호출 시각:", todayStr, baseTime);
+      console.log("날씨 데이터:", response.data.response.body.items.item);
+      return response.data.response.body.items.item;
     })
     .then((items) => {
       items.forEach((item) => {
@@ -143,37 +119,4 @@ onMounted(() => {
 });
 </script>
 
-<style>
-.weatherWidget{
-  color: #FFFFFF;
-  background-color: #212529;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-
-.bi {
-  margin-right: 8px;
-}
-
-.bi-thermometer-half {
-  color: #ff9800;
-}
-
-.bi-cloud-fill {
-  color: #a9a9a9;
-}
-
-.bi-cloud-rain-fill {
-  color: #4a90e2;
-}
-
-.bi-droplet-fill {
-  color: #4a90e2;
-}
-
-.bi-geo-alt-fill {
-  color: #dc3545;
-}
-</style>
+<style scoped></style>

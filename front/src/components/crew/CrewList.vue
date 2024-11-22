@@ -1,50 +1,59 @@
 <template>
+  <div class =background-img> 
   <div class="container-fluid">
-    <!-- 검색 조건 섹션 -->
+
+    
+    검색 조건 섹션
     <div class="search-section bg-white rounded p-4 mb-4">
       <div class="row">
         <!-- 도시 드롭다운 -->
         <div class="col-md-6 mb-3">
           <label class="form-label fw-bold">도시</label>
           <select
-            v-model="selectedCity"
-            class="form-select"
-            @change="handleCityChange"
+          v-model="selectedCity"
+          class="form-select"
+          @change="handleCityChange"
           >
-            <option value="">전체</option>
-            <option
-              v-for="city in cities"
-              :key="city.cityNo"
-              :value="city.cityNo"
-            >
-              {{ city.cityName }}
-            </option>
-          </select>
-        </div>
-
-        <!-- 요일 드롭다운 -->
-        <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">모임요일 (다중선택 가능)</label>
-          <select v-model="selectedDays" class="form-select" multiple>
-            <option value="">전체</option>
-            <option v-for="day in days" :key="day.value" :value="day.value">
-              {{ day.label }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row mt-3">
-        <div class="col">
-          <button @click="searchCrews" class="btn btn-primary w-100">
-            크루 검색
-          </button>
-        </div>
-      </div>
+          <option value="">전체</option>
+          <option
+          v-for="city in cities"
+          :key="city.cityNo"
+          :value="city.cityNo"
+          >
+          {{ city.cityName }}
+        </option>
+      </select>
     </div>
+    
+    <!-- 요일 드롭다운 -->
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">모임요일 (다중선택 가능)</label>
+      <select v-model="selectedDays" class="form-select" multiple>
+        <option value="">전체</option>
+        <option v-for="day in days" :key="day.value" :value="day.value">
+          {{ day.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="row mt-3">
+    <div class="col">
+      <button @click="searchCrews" class="btn btn-primary w-100">
+        크루 검색
+      </button>
+    </div>
+  </div>
+</div>
 
-    <!-- 카카오맵 섹션 -->
-    <div class="map-section mb-4">
+<!-- 카카오맵 섹션 -->
+ <h2>맵</h2>
+<KakaoView/>
+
+
+
+
+    <!-- <div class="map-section mb-4">
       <KakaoMap
         :center="mapCenter"
         :level="3"
@@ -71,7 +80,7 @@
           </KakaoMapInfoWindow>
         </KakaoMapMarker>
       </KakaoMap>
-    </div>
+    </div> -->
 
     <!-- 크루 리스트 섹션 -->
     <div class="crew-list-section">
@@ -106,12 +115,14 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { KakaoMap, KakaoMapMarker, KakaoMapInfoWindow } from "vue3-kakao-maps";
 import axios from "axios";
+import KakaoView from "./kakaoView.vue";
 
 // 상태 관리
 const crews = ref([]);
@@ -133,32 +144,32 @@ const days = [
 ];
 
 // 도시 정보 로드
-const loadCities = async () => {
-  try {
-    const response = await axios.get("/api/cities");
-    cities.value = response.data;
-  } catch (error) {
-    console.error("도시 정보 로딩 실패:", error);
-  }
-};
+// const loadCities = async () => {
+//   try {
+//     const response = await axios.get("/api/cities");
+//     cities.value = response.data;
+//   } catch (error) {
+//     console.error("도시 정보 로딩 실패:", error);
+//   }
+// };
 
 // 크루 검색
-const searchCrews = async () => {
-  try {
-    const params = {};
-    if (selectedCity.value) {
-      params.cityNo = selectedCity.value;
-    }
-    if (selectedDays.value.length > 0 && !selectedDays.value.includes("")) {
-      params.crewDays = selectedDays.value.join(",");
-    }
-    const response = await axios.get("/api/crews", { params });
-    crews.value = response.data;
-    updateMapCenter();
-  } catch (error) {
-    console.error("크루 검색 실패:", error);
-  }
-};
+// const searchCrews = async () => {
+//   try {
+//     const params = {};
+//     if (selectedCity.value) {
+//       params.cityNo = selectedCity.value;
+//     }
+//     if (selectedDays.value.length > 0 && !selectedDays.value.includes("")) {
+//       params.crewDays = selectedDays.value.join(",");
+//     }
+//     const response = await axios.get("/api/crews", { params });
+//     crews.value = response.data;
+//     updateMapCenter();
+//   } catch (error) {
+//     console.error("크루 검색 실패:", error);
+//   }0
+// };
 
 // 지도 중심 좌표 업데이트
 const updateMapCenter = () => {
@@ -194,12 +205,17 @@ const handleCityChange = () => {
 };
 
 onMounted(() => {
-  loadCities();
-  searchCrews();
+  // loadCities();
+  // searchCrews();
 });
 </script>
 
 <style scoped>
+/* .background-img{
+background-image: "../";
+
+} */
+
 .search-section {
   background-color: #f8f9fa;
   border-radius: 10px;
