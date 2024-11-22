@@ -1,17 +1,13 @@
 package com.mrt.mvc.model.dto;
 
 public class BoardFile {
-	private String fileNo;
-	private String oriName;
-	private int boardNo;
+	private String fileNo; // UUID + 파일 원본이름
+	private String oriName; // 파일 원본 이름
+	private String path; // 파일 저장 경로(업로드 날짜로 폴더링 할 예정)
+	private String systemName; // 시스템상 파일 이름
+	private int boardNo; // 게시글 번호
 	public BoardFile() {
 		
-	}
-	public BoardFile(String fileNo, String oriName, int boardNo) {
-		super();
-		this.fileNo = fileNo;
-		this.oriName = oriName;
-		this.boardNo = boardNo;
 	}
 	public String getFileNo() {
 		return fileNo;
@@ -25,6 +21,18 @@ public class BoardFile {
 	public void setOriName(String oriName) {
 		this.oriName = oriName;
 	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public String getSystemName() {
+		return systemName;
+	}
+	public void setSystemName(String systemName) {
+		this.systemName = systemName;
+	}
 	public int getBoardNo() {
 		return boardNo;
 	}
@@ -33,7 +41,9 @@ public class BoardFile {
 	}
 	@Override
 	public String toString() {
-		return "BoardFile [fileNo=" + fileNo + ", oriName=" + oriName + ", boardNo=" + boardNo + "]";
+		return "BoardFile [fileNo=" + fileNo + ", oriName=" + oriName + ", path=" + path + ", systemName=" + systemName
+				+ ", boardNo=" + boardNo + "]";
 	}
+	
 	
 }

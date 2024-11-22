@@ -20,6 +20,7 @@
           type="file"
           id="formFileMultiple"
           multiple
+          @change="uploadFile"
         />
       </div>
       <div class="mb-3">
@@ -52,10 +53,23 @@ const board = ref({
   content: "",
 });
 
+const files = ref([]); // 첨부된 파일 리스트
+
 const store = useBoardStore();
 
-const createBoard = function () {
-  store.createBoard(board.value);
+const uploadFile = function(event) {
+  console.log("파일 들어왔다 :)")
+  files.value = Array.from(event.target.files); // 첨부된 파일 저장
+
+}
+
+const createBoard = async function () {
+  const formData = new FormData();
+  formData.append("board", new Blob([JSON.stringify(board.value)], { type: "application/json" }));
+  files.value.forEach((file) => {
+    formData.append("files", file);
+  });
+  await  store.createBoard(formData);
 };
 </script>
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,9 +74,13 @@ public class BoardRestController {
 	 * @throws IOException 
 	 * @throws IllegalStateException */
 	@PostMapping("/board")
-	public ResponseEntity<String> write(@RequestBody Board board) {
+	public ResponseEntity<String> write(
+			@RequestPart("board") Board board,
+			@RequestPart("files") List<MultipartFile> files
+			) {
 		System.out.println("게시글: "+board.toString());
-		if (service.writeBoard(board))
+		System.out.println("첨부된 파일은 " + files.size() + "개 입니다.");
+		if (service.writeBoard(board, files))
 			return new ResponseEntity<>(board.getBoardNo()+"번 게시글이 작성되었습니다.", HttpStatus.CREATED);
 		return new ResponseEntity<>("게시글이 작성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
