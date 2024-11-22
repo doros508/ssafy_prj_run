@@ -1,3 +1,4 @@
+
 <template>
   <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true">
     <KakaoMapMarker :lat="coordinate.lat" :lng="coordinate.lng"></KakaoMapMarker>

@@ -13,12 +13,19 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import axios from "axios";
-const tmx = ref(null);
-const tmn = ref(null);
-const tmp = ref(null);
-const sky = ref(null);
-const pty = ref(null);
-const pop = ref(0);
+const tmp = ref('로딩 중...');
+const tmx = ref('로딩 중...');
+const tmn = ref('로딩 중...');
+const sky = ref('로딩 중...');
+const pty = ref('로딩 중...');
+const pop = ref('로딩 중...');
+
+// const tmx = ref(null);
+// const tmn = ref(null);
+// const tmp = ref(null);
+// const sky = ref(null);
+// const pty = ref(null);
+// const pop = ref(0);
 onMounted(() => {
   const API_URL = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst`;
 
@@ -80,7 +87,8 @@ onMounted(() => {
   axios
   .get(API_URL, {
     params: {
-      ServiceKey: import.meta.env.VITE_WEATHER_API_KEY,
+      ServiceKey:"zwAO6IQSX/4n4/Hoq0UNV+G7I2RtEt6TwRhfs8tS2PuCZYpfRGr41iYMOl727nPrUJ9teOMkIhG4nZNChc3gfA==",
+      // import.meta.env.VITE_WEATHER_API_KEY,
       dataType: "JSON",
       base_date: todayStr,
       base_time: baseTime,

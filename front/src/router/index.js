@@ -21,7 +21,7 @@ import Login from "@/components/user/Login.vue";
 import SignUp from "@/components/user/SignUp.vue";
 
 import MagazineList from "@/components/magazine/MagazineList.vue";
-import CrewList from "@/components/crew/CrewList.vue";
+import CrewList from "@/components/crew/CrewMain.vue";
 import RaceList from "@/components/race/RaceList.vue";
 
 import MagazineZone from "@/components/main/content/MainContentMagazine.vue";
