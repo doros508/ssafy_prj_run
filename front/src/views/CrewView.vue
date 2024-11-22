@@ -12,7 +12,7 @@
 
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
-import CrewList from "@/components/crew/CrewList.vue";
+import CrewList from "@/components/crew/CrewMain.vue";
 </script>
 
 <style scoped></style>
