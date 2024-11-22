@@ -29,6 +29,7 @@ import CommunityZone from "@/components/main/content/MainContentCommunity.vue";
 import Welcome from "@/components/main/MainWelcome.vue";
 import MagazineDetail from "@/components/magazine/MagazineDetail.vue";
 import KakaoView from "@/components/crew/kakaoView.vue";
+import CrewMain from "@/components/crew/CrewMain.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
