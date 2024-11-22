@@ -31,7 +31,7 @@
   const router = useRouter();
 
   onMounted(()=>{
-    store.getMagazineList();
+    store.getMagazineList();;
   })
 
 
@@ -51,12 +51,6 @@
   margin: 15px 0;
   color: #fff;
   font-weight: bold;
-
-  /* font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    position: relative;
-    z-index: 1; */
 }
 .content {
   position: relative;
@@ -75,8 +69,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* justify-content: flex-start; */
-  /* background-color: #444; */
   border-radius: 10px;
   gap:15px;
 }

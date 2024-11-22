@@ -2,7 +2,7 @@
   <div class="race-widget">
     <h4><i class="bi bi-trophy-fill"></i>대회 일정</h4>
     <ul>
-      <li v-for="race in store.raceList" :key="race.raceNo" class="race-item">
+      <li v-for="race in store.raceList.slice(0, 5)" :key="race.raceNo" class="race-item">
         <p>{{ race.raceName }}</p>
         <small>{{ race.raceDate }}</small>
       </li>
@@ -43,5 +43,11 @@ onMounted(() => {
 }
 p {
   margin: 0px;
+}
+ul {
+  padding: 0px;
+}
+li {
+  list-style-type: none;
 }
 </style>
