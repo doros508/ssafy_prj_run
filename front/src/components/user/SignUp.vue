@@ -258,10 +258,10 @@ async function signup() {
         <button class="check-username-btn" @click="checkUsernameAvailability">
           아이디 중복 검사
         </button>
+      </div>
         <p v-if="!isUsernameAvailable" class="error-message">
           이미 존재하는 아이디입니다.
         </p>
-      </div>
 
       <!-- 별명 입력 및 중복검사 -->
       <div class="form-group">
@@ -269,10 +269,10 @@ async function signup() {
         <button class="check-nickname-btn" @click="checkNicknameAvailability">
           별명 중복 검사
         </button>
+      </div>
         <p v-if="!isNicknameAvailable" class="error-message">
           이미 존재하는 별명입니다.
         </p>
-      </div>
 
       <!-- 비밀번호 입력 -->
       <div class="form-group">
@@ -286,13 +286,13 @@ async function signup() {
           placeholder="비밀번호 확인"
           v-model="confirmPassword"
         />
+      </div>
         <p
           v-if="password && confirmPassword && password !== confirmPassword"
           class="error-message"
         >
           비밀번호가 일치하지 않습니다.
         </p>
-      </div>
 
       <!-- 이메일 입력 -->
       <div class="form-group">
