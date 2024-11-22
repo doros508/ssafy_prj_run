@@ -11,7 +11,7 @@
         >
           <img
             class="magazine-image"
-            :src="magazine.image"
+            src="../../../assets/magazine/list/img2.png"
             alt="magazine image"
           />
           <h3 class="magazine-title">{{ magazine.magazineTitle }}</h3>
