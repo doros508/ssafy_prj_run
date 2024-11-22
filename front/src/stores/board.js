@@ -20,15 +20,16 @@ export const useBoardStore = defineStore("board", () => {
   };
 
   // 게시글 등록
-  const createBoard = function(board) {
-    const boardData = {
-      boardTitle: board.boardTitle,
-      boardContent: board.boardContent
-    }
+  const createBoard = function(formData) {
+    // const boardData = {
+    //   boardTitle: board.boardTitle,
+    //   boardContent: board.boardContent
+    // }
 
-    axios.post(REST_API_URL, boardData, {
+    axios.post(REST_API_URL, formData, {
       headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       }
     })
     .then(()=>{
