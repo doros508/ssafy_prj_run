@@ -53,24 +53,24 @@
       <table class="table table-dark table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">번호</th>
-            <th scope="col">대회명</th>
             <th scope="col">대회 일자</th>
+            <!-- <th scope="col">번호</th> -->
+            <th scope="col">대회명</th>
             <th scope="col">장소</th>
-            <th scope="col">거리</th>
-            <th scope="col">등록일</th>
+            <th scope="col">코스</th>
+            <!-- <th scope="col">등록일</th> -->
           </tr>
         </thead>
         <tbody>
-          <tr v-for="race in store.raceList" :key="race.raceNo">
-            <td>{{ race.raceNo }}</td>
+          <tr v-for="race in store.raceList.slice(0,15)" :key="race.raceNo">
+            <td>{{ formatDate(race.raceDate) }}</td>
+            <!-- <td>{{ race.raceNo }}</td> -->
             <td>
               <RouterLink :to="`/race/${race.raceNo}`">{{ race.raceName }}</RouterLink>
             </td>
-            <td>{{ formatDate(race.raceDate) }}</td>
             <td>{{ race.racePlace }}</td>
             <td>{{ race.raceDistance }}</td>
-            <td>{{ formatDate(race.raceRegDate) }}</td>
+            <!-- <td>{{ formatDate(race.raceRegDate) }}</td> -->
           </tr>
         </tbody>
       </table>

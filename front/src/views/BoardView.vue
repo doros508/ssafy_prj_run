@@ -41,7 +41,7 @@ import MainAside from "@/components/main/aside/MainAside.vue";
 } */
 
 .body {
-  height: 100vh;
+  height: 100%;
   background-color: #181818;
   font-family: sans-serif;
   color: white;
