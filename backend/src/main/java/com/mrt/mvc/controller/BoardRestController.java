@@ -26,6 +26,7 @@ import com.mrt.mvc.model.dto.Board;
 import com.mrt.mvc.model.dto.BoardFile;
 import com.mrt.mvc.model.dto.SearchCondition;
 import com.mrt.mvc.model.service.BoardService;
+import com.mrt.mvc.model.service.UserService;
 
 @RestController
 @RequestMapping("/maratalk")
@@ -33,9 +34,14 @@ public class BoardRestController {
 	
 	// 의존성 주입
 	private final BoardService service;
-	public BoardRestController(BoardService service) {
+	private final UserService userService;
+	
+	public BoardRestController(BoardService service, UserService userService) {
+		super();
 		this.service = service;
+		this.userService = userService;
 	}
+	
 	
 	/** 게시글 전체 조회 및 검색 조회 */
 	@GetMapping("/board")
