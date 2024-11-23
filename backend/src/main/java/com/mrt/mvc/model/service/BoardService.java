@@ -16,8 +16,8 @@ public interface BoardService {
 	Board getBoardByNo(int no);
 
 	/** 게시글 등록 */
-	boolean writeBoard(Board board);
-//	boolean writeBoard(Board board, MultipartFile file);
+//	boolean writeBoard(Board board);
+	boolean writeBoard(Board board, List<MultipartFile> files);
 
 	/** 게시글 수정 */
 	boolean modify(Board board);

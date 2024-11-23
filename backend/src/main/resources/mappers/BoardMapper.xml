@@ -41,8 +41,8 @@
 	
 	<!-- 파일 등록 -->
 	<insert id="insertBoardFile" parameterType="BoardFile">
-		INSERT INTO files(file_no, file_name, board_no)
-		VALUES (#{fileNo}, #{oriName}, #{boardNo});
+		INSERT INTO files(file_no, file_name, file_path, file_system_name, board_no)
+		VALUES (#{fileNo}, #{oriName}, #{path}, #{systemName}, #{boardNo});
 	</insert>
 
 	<!-- 게시글 내용 수정 -->

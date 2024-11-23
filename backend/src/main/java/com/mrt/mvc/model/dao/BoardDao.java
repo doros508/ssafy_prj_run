@@ -20,14 +20,16 @@ public interface BoardDao {
 	/** 게시글 수정 */
 	int updateBoard(Board board);
 
-//	/** 파일 등록 */
-//	void insertBoardFile(BoardFile boardFile);
+	/** 파일 등록 */
+	int insertBoardFile(BoardFile boardFile);
 
 	/** 조회수 증가 */
 	void updateViewCnt(int no);
 
 	/** 게시글 삭제 */
 	int deleteBoard(int no);
+
+	
 	
 	
 }
