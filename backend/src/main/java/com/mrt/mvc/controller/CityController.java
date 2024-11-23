@@ -19,7 +19,7 @@ import com.mrt.mvc.model.dto.City;
 import com.mrt.mvc.model.service.CityService;
 
 @RestController
-@RequestMapping("/api/city")
+@RequestMapping("/maratalk/city-info")  // 경로를 변경하여 raceController와 겹치지 않도록 수정
 @CrossOrigin("*")
 public class CityController {
 

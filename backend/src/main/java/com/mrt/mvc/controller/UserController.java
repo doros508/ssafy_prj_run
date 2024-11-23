@@ -22,7 +22,7 @@ import com.mrt.mvc.model.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/api-user")
+@RequestMapping("/maratalk")
 
 public class UserController {
 	private final UserService userService;
