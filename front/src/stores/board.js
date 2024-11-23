@@ -44,10 +44,22 @@ export const useBoardStore = defineStore("board", () => {
   // 게시글 조회
   const board = ref({})
   const getBoard = function (boardNo) {
+    console.log("게시글 가져오기 시도(프론트)")
     axios.get(`${REST_API_URL}/${boardNo}`)
     .then((response)=>{
       board.value = response.data
-      console.log(board)
+      console.log("보드가 가져온 것은?")
+      console.log(board.value.boardFileList);
+      // 파일 노출
+      if (Array.isArray(board.value.boardFileList)) {
+        console.log("배열이군")
+        board.value.boardFileList.forEach(file => {
+          file.imageUrl = `http://localhost:8080/uploads${file.path}/${file.systemName}`;
+          console.log("이미지 URL: " + file.imageUrl)
+        })
+      } else {
+        console.log("배열이 아니군")
+      }
     })
     .catch((error)=>{
       console.log(boardNo)
