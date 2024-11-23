@@ -27,17 +27,35 @@ onMounted(() => {
   const todayStr = `${year}${month}${day}`;
 
   // API 발표 시각 배열 (base_time)
-  const baseTimes = ['0200', '0500', '0800', '1100', '1400', '1700', '2000', '2300'];
+  const baseTimes = [
+    "0200",
+    "0500",
+    "0800",
+    "1100",
+    "1400",
+    "1700",
+    "2000",
+    "2300",
+  ];
   // API 제공 시각 배열 (실제 데이터 이용 가능 시각, 발표시각 + 10분)
-  const availableTimes = ['0210', '0510', '0810', '1110', '1410', '1710', '2010', '2310'];
+  const availableTimes = [
+    "0210",
+    "0510",
+    "0810",
+    "1110",
+    "1410",
+    "1710",
+    "2010",
+    "2310",
+  ];
 
   // 현재 시각 (HHMM 형식)
-  const currentHour = today.getHours().toString().padStart(2, '0');
-  const currentMinute = today.getMinutes().toString().padStart(2, '0');
+  const currentHour = today.getHours().toString().padStart(2, "0");
+  const currentMinute = today.getMinutes().toString().padStart(2, "0");
   const currentTime = currentHour + currentMinute;
 
   // 현재 시각보다 이전인 가장 최근 발표 시각 찾기
-  let baseTime = '0200';  // 기본값
+  let baseTime = "0200"; // 기본값
   for (let i = availableTimes.length - 1; i >= 0; i--) {
     if (currentTime >= availableTimes[i]) {
       baseTime = baseTimes[i];
@@ -45,14 +63,14 @@ onMounted(() => {
     }
   }
   // 현재 시각이 02:10 이전인 경우 전날 마지막 발표 데이터 사용
-  if (currentTime < '0210') {
+  if (currentTime < "0210") {
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
     year = yesterday.getFullYear();
-    month = (yesterday.getMonth() + 1).toString().padStart(2, '0');
-    day = yesterday.getDate().toString().padStart(2, '0');
+    month = (yesterday.getMonth() + 1).toString().padStart(2, "0");
+    day = yesterday.getDate().toString().padStart(2, "0");
     todayStr = `${year}${month}${day}`;
-    baseTime = '2300';
+    baseTime = "2300";
   }
 
   axios
@@ -66,7 +84,7 @@ onMounted(() => {
         nx: 66,
         ny: 100,
       },
-      withCredentials: false
+      withCredentials: false,
     })
     .then((response) => {
       console.log("API 호출 시각:", todayStr, baseTime);

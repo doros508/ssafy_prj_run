@@ -3,9 +3,11 @@
     <h1 class="logo">크루 검색</h1>
 
     <div class="content">
+
       <!-- Search Filters -->
       <div class="row mb-4">
         <!-- 지역 선택 -->
+
         <div class="col-md-4">
           <div class="form-group">
             <label for="cityFilter" class="text-white mb-2">도시</label>
@@ -13,6 +15,7 @@
               class="form-control"
               id="cityFilter"
               v-model="filters.cityNo"
+
               @change="onCityChange"
             >
               <option value="">전체</option>
@@ -64,6 +67,7 @@
             </select>
           </div>
         </div>
+
       </div>
 
       <!-- Search Button -->
@@ -108,6 +112,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
+
 import { useCrewStore } from "@/stores/crew";
 
 const store = useCrewStore();
@@ -146,7 +151,9 @@ const filteredCrews = computed(() => {
     results = results.filter(
       (crew) => crew.cityNo === parseInt(filters.value.cityNo)
     );
+
   }
+
 
   if (filters.value.districtNo) {
     results = results.filter(
@@ -170,6 +177,7 @@ const applyFilters = () => {
 
 const writeCrew = () => {
   // 크루 등록 페이지로 이동
+
 };
 </script>
 
@@ -187,6 +195,7 @@ const writeCrew = () => {
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
+
   display: flex;
   flex-direction: column;
 }
@@ -236,5 +245,6 @@ label {
 
 .form-group {
   margin-bottom: 15px;
+
 }
 </style>

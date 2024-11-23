@@ -16,7 +16,7 @@ public class CrewServiceImpl implements CrewService {
     
     @Override
     public List<Crew> getCrewList(SearchCondition condition) {
-        return dao.selectAll(condition);
+        return dao.selectCrewListByCondition(condition);
     }
     
     @Override

@@ -13,5 +13,6 @@ public interface CrewDao {
     int update(Crew crew);
     int delete(int crewNo);
     List<Crew> selectByLocation(double lat, double lng, double radius);
+    List<Crew> selectCrewListByCondition(SearchCondition condition);
     
 }
