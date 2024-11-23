@@ -1,18 +1,27 @@
 <template>
   <div>
-    <!-- 헤더 영역 -->
     <TheHeader />
-    
-    <hr />
-    <div>
-    <CrewList />
-      </div>
+    <div class="crew-picture">
+      <CrewMain />
+    </div>
   </div>
 </template>
 
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
-import CrewList from "@/components/crew/CrewMain.vue";
+import CrewMain from "@/components/crew/CrewMain.vue";
 </script>
 
-<style scoped></style>
+<style scoped>
+/* 배경 이미지 설정 */
+.crew-picture {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("../../assets/common/backgroundSample/원본 8.png");
+  background-size: cover;
+  background-position: center;
+}
+</style>

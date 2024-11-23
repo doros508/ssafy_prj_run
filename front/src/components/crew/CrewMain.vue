@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="logo">크루 검색</h1>
+    <h1 class="logo">Crew</h1>
 
     <div class="content">
       <!-- Search Filters -->
@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="districtFilter" class="text-white mb-2">구</label>
+            <label for="districtFilter" class="text-white mb-2">요일</label>
             <select
               class="form-control"
               id="districtFilter"
@@ -46,12 +46,16 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="daysFilter" class="text-white mb-2">기타</label>
+            <label for="daysFilter" class="text-white mb-2">요일</label>
             <select class="form-control" id="daysFilter" v-model="filters.days">
               <option value="">전체</option>
-              <option value="1">하루</option>
-              <option value="2">이틀</option>
-              <option value="3">3일</option>
+              <option value="1">월요일</option>
+              <option value="2">화요일</option>
+              <option value="3">수요일</option>
+              <option value="4">목요일</option>
+              <option value="5">금요일</option>
+              <option value="6">토요일</option>
+              <option value="7">일요일</option>
             </select>
           </div>
         </div>
@@ -71,9 +75,10 @@
         <thead>
           <tr>
             <th scope="col">크루명</th>
-            <th scope="col">도시</th>
-            <th scope="col">구</th>
-            <th scope="col">기타</th>
+            <th scope="col">소개글</th>
+            <th scope="col">모임장소</th>
+            <th scope="col">모임요일</th>
+            <th scope="col">크루페이지 바로가기</th>
           </tr>
         </thead>
         <tbody>
@@ -102,7 +107,7 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useCrewStore } from "@/stores/crew";
+import { useCrewStore } from "@/stores/useCrewStore"; // 수정 주의
 
 const store = useCrewStore();
 const router = useRouter();
@@ -135,6 +140,11 @@ const filteredCrews = computed(() => {
 
   return results;
 });
+// 도시 목록 가져오기
+const cities = computed(() => store.cityList);
+
+// 구 목록 가져오기
+const districts = computed(() => store.districtList);
 
 // 도시와 구 목록 로드
 const loadCitiesAndDistricts = async () => {
