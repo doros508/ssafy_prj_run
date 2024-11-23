@@ -1,10 +1,14 @@
 package com.mrt.mvc.model.service;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
 import com.mrt.mvc.model.dao.CrewDao;
+import com.mrt.mvc.model.dto.City;
 import com.mrt.mvc.model.dto.Crew;
-import com.mrt.mvc.model.dto.SearchCondition;
+import com.mrt.mvc.model.dto.CrewSearchCondition;
+import com.mrt.mvc.model.dto.District;
 
 @Service
 public class CrewServiceImpl implements CrewService {
@@ -14,9 +18,15 @@ public class CrewServiceImpl implements CrewService {
         this.dao = dao;
     }
     
+    
+    
+    
+    
+    
+    
     @Override
-    public List<Crew> getCrewList(SearchCondition condition) {
-        return dao.selectAll(condition);
+    public List<Crew> getCrewList(CrewSearchCondition crewSearchCondition) {
+        return dao.selectCrewByCondition(crewSearchCondition);
     }
     
     @Override
@@ -43,4 +53,12 @@ public class CrewServiceImpl implements CrewService {
     public List<Crew> getCrewsByLocation(double lat, double lng, double radius) {
         return dao.selectByLocation(lat, lng, radius);
     }
+	@Override
+	public List<City> getCityList() {
+		return dao.getCityList();
+	}
+	@Override
+	public List<District> getDistrictList(int cityNo) {
+		return dao.getDistrictList(cityNo);
+	}
 }

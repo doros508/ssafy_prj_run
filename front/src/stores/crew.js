@@ -1,4 +1,4 @@
-// src/stores/crew.js
+// src/stores/crew.js 사용 xxx
 import { defineStore } from "pinia";
 
 export const useCrewStore = defineStore("crew", {
@@ -13,4 +13,3 @@ export const useCrewStore = defineStore("crew", {
     },
   },
 });
-//18:11 push 해야됌
