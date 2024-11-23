@@ -64,9 +64,9 @@
       <!-- Search Button -->
       <div class="row mb-4">
         <div class="col-12">
-          <button class="btn btn-primary w-100" @click="searchCrews">
+          <!-- <button class="btn btn-primary w-100" @click="searchCrews">
             검색
-          </button>
+          </button> -->
         </div>
       </div>
 
@@ -97,14 +97,14 @@
       </table>
 
       <!-- Register Button -->
-      <button
+      <!-- <button
         type="button"
         id="writeform-btn"
         class="btn btn-primary"
         @click="writeCrew"
       >
         <i class="bi bi-pencil-square"></i> 크루 등록
-      </button>
+      </button> -->
     </div>
   </div>
 </template>

@@ -3,6 +3,7 @@
     <TheHeader />
     <div class="crew-picture">
       <CrewMain />
+      <!-- <KakaoView /> -->
     </div>
   </div>
 </template>
@@ -10,6 +11,7 @@
 <script setup>
 import TheHeader from "@/components/common/TheHeader.vue";
 import CrewMain from "@/components/crew/CrewMain.vue";
+import KakaoView from "@/components/crew/kakaoView.vue";
 </script>
 
 <style scoped>
