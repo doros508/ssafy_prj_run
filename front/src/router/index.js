@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useUserStore } from "@/stores/userStore"; // Pinia 스토어 추가
+import { useUserStore } from "@/stores/userStore";
 
 // views
 import MainView from "@/views/MainView.vue";
@@ -10,26 +10,25 @@ import CrewView from "@/views/CrewView.vue";
 import RaceView from "@/views/RaceView.vue";
 
 // components
-// 게시판
 import BoardList from "@/components/board/BoardList.vue";
 import BoardWrite from "@/components/board/BoardWrite.vue";
 import BoardDetail from "@/components/board/BoardDetail.vue";
 import BoardUpdate from "@/components/board/BoardUpdate.vue";
-
-// 유저
 import Login from "@/components/user/Login.vue";
 import SignUp from "@/components/user/SignUp.vue";
-
 import MagazineList from "@/components/magazine/MagazineList.vue";
-import CrewList from "@/components/crew/CrewMain.vue";
+import MagazineDetail from "@/components/magazine/MagazineDetail.vue";
 import RaceList from "@/components/race/RaceList.vue";
 
+// 메인 컴포넌트
 import MagazineZone from "@/components/main/content/MainContentMagazine.vue";
 import CommunityZone from "@/components/main/content/MainContentCommunity.vue";
 import Welcome from "@/components/main/MainWelcome.vue";
-import MagazineDetail from "@/components/magazine/MagazineDetail.vue";
-import KakaoView from "@/components/crew/kakaoView.vue";
-import CrewMain from "@/components/crew/CrewMain.vue";
+
+// 크루 관련 컴포넌트
+import CrewSearch from "@/components/crew/CrewSearch.vue";
+import CrewMap from "@/components/crew/CrewMap.vue";
+import CrewList from "@/components/crew/CrewList.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +38,7 @@ const router = createRouter({
       path: "/",
       name: "main",
       component: MainView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false },
       children: [
         {
           path: "",
@@ -69,7 +68,7 @@ const router = createRouter({
           path: "signup",
           name: "signUp",
           component: SignUp,
-          meta: { hideAuthButton: true },  // 메타 필드 추가 
+          meta: { hideAuthButton: true },
           beforeEnter: (to, from, next) => {
             const userStore = useUserStore();
             if (userStore.getIsLoggedIn) {
@@ -83,7 +82,7 @@ const router = createRouter({
           path: "login",
           name: "login",
           component: Login,
-          meta: { requiresAuth: false },  // 추가
+          meta: { requiresAuth: false },
           beforeEnter: (to, from, next) => {
             const userStore = useUserStore();
             if (userStore.getIsLoggedIn) {
@@ -96,13 +95,12 @@ const router = createRouter({
       ],
     },
 
-
     // 게시판 페이지
     {
       path: "/board",
       name: "board",
       component: BoardView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false },
       redirect: { name: "boardList" },
       children: [
         {
@@ -124,17 +122,17 @@ const router = createRouter({
         {
           path: "update/:boardNo",
           name: "boardUpdate",
-          component: BoardUpdate
+          component: BoardUpdate,
         },
       ],
     },
 
-    // 메거진 페이지
+    // 매거진 페이지
     {
       path: "/magazine",
       name: "magazine",
       component: MagazineView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false },
       redirect: { name: "magazineList" },
       children: [
         {
@@ -146,7 +144,6 @@ const router = createRouter({
           path: ":magazineNo",
           name: "magazineDetail",
           component: MagazineDetail,
-          
         },
       ],
     },
@@ -156,20 +153,23 @@ const router = createRouter({
       path: "/crew",
       name: "crew",
       component: CrewView,
-      meta: { requiresAuth: false },  // 추가
-      redirect: { name: "crewList" },
+      meta: { requiresAuth: false },
       children: [
+        {
+          path: "",
+          name: "crewSearch",
+          component: CrewSearch,
+        },
+        {
+          path: "map",
+          name: "crewMap",
+          component: CrewMap,
+        },
         {
           path: "list",
           name: "crewList",
           component: CrewList,
         },
-        {
-          path: "/kakao",
-          name : "kakao",
-          component: KakaoView
-        }
-
       ],
     },
 
@@ -178,7 +178,7 @@ const router = createRouter({
       path: "/race",
       name: "race",
       component: RaceView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false },
       children: [
         {
           path: "",
@@ -194,9 +194,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
 
-  // 인증이 필요한 라우트 체크
   if (to.meta.requiresAuth && !userStore.getIsLoggedIn) {
-    // 로그인되지 않은 사용자를 로그인 페이지로 리다이렉트
     next({
       name: "login",
       query: { redirect: to.fullPath },

@@ -10,6 +10,7 @@ import com.mrt.mvc.model.service.CrewService;
 
 @RestController
 @RequestMapping("/maratalk")
+@CrossOrigin("*")
 public class CrewController {
     
     private final CrewService service;
