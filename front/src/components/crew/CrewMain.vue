@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="districtFilter" class="text-white mb-2">요일</label>
+            <label for="districtFilter" class="text-white mb-2">구</label>
             <select
               class="form-control"
               id="districtFilter"
@@ -75,8 +75,8 @@
         <thead>
           <tr>
             <th scope="col">크루명</th>
-            <th scope="col">소개글</th>
             <th scope="col">모임장소</th>
+            <th scope="col">크루인원</th>
             <th scope="col">모임요일</th>
             <th scope="col">크루페이지 바로가기</th>
           </tr>
@@ -84,9 +84,14 @@
         <tbody>
           <tr v-for="crew in filteredCrews.slice(0, 15)" :key="crew.crewNo">
             <td>{{ crew.crewName }}</td>
-            <td>{{ crew.cityName }}</td>
-            <td>{{ crew.districtName }}</td>
-            <td>{{ crew.days }}</td>
+            <td>{{ crew.crewLocation }}</td>
+            <td>{{ crew.crewSize }}</td>
+            <td>{{ crew.crewDay }}</td>
+            <td>
+              <a :href="crew.crewUrl" target="_blank" class="btn btn-link">
+                크루 페이지 바로가기
+              </a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -134,12 +139,26 @@ const filteredCrews = computed(() => {
     );
   }
 
-  if (filters.value.days.length > 0) {
-    results = results.filter((crew) => filters.value.days.includes(crew.days));
+  // 요일 필터링
+  if (filters.value.days && filters.value.days.length > 0) {
+    // filters.value.days가 배열이 아니면 배열로 변환
+    const selectedDays = Array.isArray(filters.value.days)
+      ? filters.value.days
+      : [filters.value.days];
+
+    results = results.filter((crew) => {
+      const crewDays = crew.crewDay.split(","); // "토,일"을 배열로 변환
+
+      return selectedDays.some((day) => {
+        // crewDays 배열에 선택된 요일이 포함되어 있는지 확인
+        return crewDays.includes(getDayName(day)[0]);
+      });
+    });
   }
 
   return results;
 });
+
 // 도시 목록 가져오기
 const cities = computed(() => store.cityList);
 
@@ -166,6 +185,20 @@ const searchCrews = async () => {
 // 크루 등록
 const writeCrew = () => {
   router.push({ name: "crewWrite" });
+};
+
+// 요일을 숫자로 변환
+const getDayName = (dayNumber) => {
+  const days = [
+    "월요일",
+    "화요일",
+    "수요일",
+    "목요일",
+    "금요일",
+    "토요일",
+    "일요일",
+  ];
+  return days[dayNumber - 1];
 };
 
 onMounted(() => {
