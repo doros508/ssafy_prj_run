@@ -1,50 +1,32 @@
 package com.mrt.mvc.model.dto;
 
 public class SearchCondition {
-	private String key;					// 검색 조건
-	private String word;				// 검색어
-	private String orderBy;				// 정렬 기준
-	private String orderByDir;			// 정렬 방향
+    private Integer cityNo;       // 도시 번호
+    private Integer districtNo;   // 구 번호
+    private String meetingDay;    // 모임 요일
 
-	public SearchCondition() {
-	}
+    // Getters and Setters
+    public Integer getCityNo() {
+        return cityNo;
+    }
 
-	public String getKey() {
-		return key;
-	}
+    public void setCityNo(Integer cityNo) {
+        this.cityNo = cityNo;
+    }
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    public Integer getDistrictNo() {
+        return districtNo;
+    }
 
-	public String getWord() {
-		return word;
-	}
+    public void setDistrictNo(Integer districtNo) {
+        this.districtNo = districtNo;
+    }
 
-	public void setWord(String word) {
-		this.word = word;
-	}
+    public String getMeetingDay() {
+        return meetingDay;
+    }
 
-	public String getOrderBy() {
-		return orderBy;
-	}
-
-	public void setOrderBy(String orderBy) {
-		this.orderBy = orderBy;
-	}
-
-	public String getOrderByDir() {
-		return orderByDir;
-	}
-
-	public void setOrderByDir(String orderByDir) {
-		this.orderByDir = orderByDir;
-	}
-
-	@Override
-	public String toString() {
-		return "SearchCondition [key=" + key + ", word=" + word + ", orderBy=" + orderBy + ", orderByDir=" + orderByDir
-				+ "]";
-	}
-
+    public void setMeetingDay(String meetingDay) {
+        this.meetingDay = meetingDay;
+    }
 }
