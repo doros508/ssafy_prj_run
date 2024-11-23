@@ -27,9 +27,10 @@ import RaceList from "@/components/race/RaceList.vue";
 import MagazineZone from "@/components/main/content/MainContentMagazine.vue";
 import CommunityZone from "@/components/main/content/MainContentCommunity.vue";
 import Welcome from "@/components/main/MainWelcome.vue";
+
 import MagazineDetail from "@/components/magazine/MagazineDetail.vue";
+
 import KakaoView from "@/components/crew/kakaoView.vue";
-import CrewMain from "@/components/crew/CrewMain.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +40,7 @@ const router = createRouter({
       path: "/",
       name: "main",
       component: MainView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false }, // 추가
       children: [
         {
           path: "",
@@ -69,7 +70,7 @@ const router = createRouter({
           path: "signup",
           name: "signUp",
           component: SignUp,
-          meta: { hideAuthButton: true },  // 메타 필드 추가 
+          meta: { hideAuthButton: true }, // 메타 필드 추가
           beforeEnter: (to, from, next) => {
             const userStore = useUserStore();
             if (userStore.getIsLoggedIn) {
@@ -83,7 +84,7 @@ const router = createRouter({
           path: "login",
           name: "login",
           component: Login,
-          meta: { requiresAuth: false },  // 추가
+          meta: { requiresAuth: false }, // 추가
           beforeEnter: (to, from, next) => {
             const userStore = useUserStore();
             if (userStore.getIsLoggedIn) {
@@ -96,13 +97,12 @@ const router = createRouter({
       ],
     },
 
-
     // 게시판 페이지
     {
       path: "/board",
       name: "board",
       component: BoardView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false }, // 추가
       redirect: { name: "boardList" },
       children: [
         {
@@ -124,7 +124,7 @@ const router = createRouter({
         {
           path: "update/:boardNo",
           name: "boardUpdate",
-          component: BoardUpdate
+          component: BoardUpdate,
         },
       ],
     },
@@ -134,7 +134,7 @@ const router = createRouter({
       path: "/magazine",
       name: "magazine",
       component: MagazineView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false }, // 추가
       redirect: { name: "magazineList" },
       children: [
         {
@@ -146,7 +146,6 @@ const router = createRouter({
           path: ":magazineNo",
           name: "magazineDetail",
           component: MagazineDetail,
-          
         },
       ],
     },
@@ -156,7 +155,7 @@ const router = createRouter({
       path: "/crew",
       name: "crew",
       component: CrewView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false }, // 추가
       redirect: { name: "crewList" },
       children: [
         {
@@ -166,10 +165,9 @@ const router = createRouter({
         },
         {
           path: "/kakao",
-          name : "kakao",
-          component: KakaoView
-        }
-
+          name: "kakao",
+          component: KakaoView,
+        },
       ],
     },
 
@@ -178,7 +176,7 @@ const router = createRouter({
       path: "/race",
       name: "race",
       component: RaceView,
-      meta: { requiresAuth: false },  // 추가
+      meta: { requiresAuth: false }, // 추가
       children: [
         {
           path: "",
