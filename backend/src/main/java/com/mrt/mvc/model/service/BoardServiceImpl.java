@@ -44,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
 	public Board getBoardByNo(int no) {
 		dao.updateViewCnt(no);
 		Board board = dao.selectOne(no);
-		System.out.println(board.toString());
+		System.out.println("상세 조회 할 게시글: " + board.toString());
 		return board;
 	}
 
@@ -65,13 +65,13 @@ public class BoardServiceImpl implements BoardService {
 			
 			System.out.println("service: " + files.size() +"개의 파일이 첨부되었습니다.");
 			String datePath = new SimpleDateFormat("/yyyy/MM/dd").format(new Date());
-			File dir = new File("C:/SSAFY/uploads" + datePath); // 디렉토리 주소를 나타내는 File 객체를 생성
+			File dir = new File("C:/maratalk/uploads" + datePath); // 디렉토리 주소를 나타내는 File 객체를 생성
 			dir.mkdirs(); // 날짜에 해당하는 디렉토리가 없는 경우에 생성한다.
 			
 			for (MultipartFile file : files) {
 				String fileNo = UUID.randomUUID().toString(); // 파일의 고유 번호
 				String oriName = file.getOriginalFilename(); // 파일의 원본 이름
-				String fileSystemName = fileNo + "_" + oriName;
+				String fileSystemName = fileNo + "_" + oriName; // UUID_Dog.png
 				
 				File fileLocation = new File(dir, fileSystemName);
 				try {

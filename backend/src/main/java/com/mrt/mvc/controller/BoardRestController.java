@@ -60,6 +60,7 @@ public class BoardRestController {
 	/** 게시글 상세 조회*/
 	@GetMapping("/board/{no}")
 	public ResponseEntity<Board> detail(@PathVariable("no") int no) {
+		System.out.println("detail() 실행");
 		Board board = service.getBoardByNo(no);
 		System.out.println("넘어온 게시글: " + board.toString());
 		if (board != null) {
