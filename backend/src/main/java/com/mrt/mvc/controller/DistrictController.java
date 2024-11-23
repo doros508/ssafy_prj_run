@@ -39,7 +39,7 @@ public class DistrictController {
        }
        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
    }
-
+   
    @GetMapping("/city/{cityNo}")
    public ResponseEntity<List<District>> getDistrictsByCity(@PathVariable int cityNo) {
        return new ResponseEntity<>(districtService.getDistrictsByCity(cityNo), HttpStatus.OK);

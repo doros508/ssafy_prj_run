@@ -1,11 +1,10 @@
 <template>
   <div class="container">
-    <h1 class="logo">크루 검색</h1>
+    <h1 class="logo">Crew</h1>
 
     <div class="content">
       <!-- Search Filters -->
       <div class="row mb-4">
-        <!-- 지역 선택 -->
         <div class="col-md-4">
           <div class="form-group">
             <label for="cityFilter" class="text-white mb-2">도시</label>
@@ -13,17 +12,19 @@
               class="form-control"
               id="cityFilter"
               v-model="filters.cityNo"
-              @change="onCityChange"
+              @change="loadDistricts"
             >
               <option value="">전체</option>
-              <option v-for="city in cities" :key="city.id" :value="city.id">
-                {{ city.name }}
+              <option
+                v-for="city in cities"
+                :key="city.cityNo"
+                :value="city.cityNo"
+              >
+                {{ city.cityName }}
               </option>
             </select>
           </div>
         </div>
-
-        <!-- 구 선택 -->
         <div class="col-md-4">
           <div class="form-group">
             <label for="districtFilter" class="text-white mb-2">구</label>
@@ -35,32 +36,26 @@
               <option value="">전체</option>
               <option
                 v-for="district in districts"
-                :key="district.id"
-                :value="district.id"
+                :key="district.districtNo"
+                :value="district.districtNo"
               >
-                {{ district.name }}
+                {{ district.districtName }}
               </option>
             </select>
           </div>
         </div>
-
-        <!-- 요일 선택 -->
         <div class="col-md-4">
           <div class="form-group">
-            <label for="daysFilter" class="text-white mb-2">모임 요일</label>
-            <select
-              class="form-control"
-              id="daysFilter"
-              v-model="filters.days"
-              multiple
-            >
-              <option value="Mon">월</option>
-              <option value="Tue">화</option>
-              <option value="Wed">수</option>
-              <option value="Thu">목</option>
-              <option value="Fri">금</option>
-              <option value="Sat">토</option>
-              <option value="Sun">일</option>
+            <label for="daysFilter" class="text-white mb-2">요일</label>
+            <select class="form-control" id="daysFilter" v-model="filters.days">
+              <option value="">전체</option>
+              <option value="1">월요일</option>
+              <option value="2">화요일</option>
+              <option value="3">수요일</option>
+              <option value="4">목요일</option>
+              <option value="5">금요일</option>
+              <option value="6">토요일</option>
+              <option value="7">일요일</option>
             </select>
           </div>
         </div>
@@ -69,9 +64,9 @@
       <!-- Search Button -->
       <div class="row mb-4">
         <div class="col-12">
-          <button class="btn btn-primary w-100" @click="applyFilters">
+          <!-- <button class="btn btn-primary w-100" @click="searchCrews">
             검색
-          </button>
+          </button> -->
         </div>
       </div>
 
@@ -80,63 +75,53 @@
         <thead>
           <tr>
             <th scope="col">크루명</th>
-            <th scope="col">장소</th>
-            <th scope="col">모임 요일</th>
+            <th scope="col">모임장소</th>
+            <th scope="col">크루인원</th>
+            <th scope="col">모임요일</th>
+            <th scope="col">크루페이지 바로가기</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="crew in filteredCrews" :key="crew.id">
-            <td>{{ crew.name }}</td>
-            <td>{{ crew.location }}</td>
-            <td>{{ crew.meetingDays.join(", ") }}</td>
+          <tr v-for="crew in filteredCrews.slice(0, 15)" :key="crew.crewNo">
+            <td>{{ crew.crewName }}</td>
+            <td>{{ crew.crewLocation }}</td>
+            <td>{{ crew.crewSize }}</td>
+            <td>{{ crew.crewDay }}</td>
+            <td>
+              <a :href="crew.crewUrl" target="_blank" class="btn btn-link">
+                크루 페이지 바로가기
+              </a>
+            </td>
           </tr>
         </tbody>
       </table>
 
       <!-- Register Button -->
-      <button
+      <!-- <button
         type="button"
         id="writeform-btn"
         class="btn btn-primary"
         @click="writeCrew"
       >
         <i class="bi bi-pencil-square"></i> 크루 등록
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useCrewStore } from "@/stores/crew";
+import { useRouter } from "vue-router";
+import { useCrewStore } from "@/stores/useCrewStore"; // 수정 주의
 
 const store = useCrewStore();
+const router = useRouter();
 
 const filters = ref({
   cityNo: "",
   districtNo: "",
   days: [],
 });
-
-// 지역과 구 데이터 가져오기
-const cities = ref([]);
-const districts = ref([]);
-
-const loadCitiesAndDistricts = async () => {
-  // 시, 구 목록을 각각 불러오는 메서드
-  cities.value = await store.getCityList(); // getCityList()로 대체
-  districts.value = await store.getDistrictList(filters.value.cityNo); // getDistrictList()로 대체
-};
-
-onMounted(() => {
-  loadCitiesAndDistricts();
-  store.getCrewList();
-});
-
-// 시 변경 시 구 목록 업데이트
-const onCityChange = async () => {
-  await loadCitiesAndDistricts();
-};
 
 // 필터링된 크루 목록
 const filteredCrews = computed(() => {
@@ -154,23 +139,72 @@ const filteredCrews = computed(() => {
     );
   }
 
-  if (filters.value.days.length) {
-    results = results.filter((crew) =>
-      filters.value.days.every((day) => crew.meetingDays.includes(day))
-    );
+  // 요일 필터링
+  if (filters.value.days && filters.value.days.length > 0) {
+    // filters.value.days가 배열이 아니면 배열로 변환
+    const selectedDays = Array.isArray(filters.value.days)
+      ? filters.value.days
+      : [filters.value.days];
+
+    results = results.filter((crew) => {
+      const crewDays = crew.crewDay.split(","); // "토,일"을 배열로 변환
+
+      return selectedDays.some((day) => {
+        // crewDays 배열에 선택된 요일이 포함되어 있는지 확인
+        return crewDays.includes(getDayName(day)[0]);
+      });
+    });
   }
 
   return results;
 });
 
-// 필터 적용
-const applyFilters = () => {
-  store.applyCrewFilters(filters.value);
+// 도시 목록 가져오기
+const cities = computed(() => store.cityList);
+
+// 구 목록 가져오기
+const districts = computed(() => store.districtList);
+
+// 도시와 구 목록 로드
+const loadCitiesAndDistricts = async () => {
+  await store.getCityList();
 };
 
-const writeCrew = () => {
-  // 크루 등록 페이지로 이동
+// 구 목록 로드
+const loadDistricts = async () => {
+  if (filters.value.cityNo) {
+    await store.getDistrictList(filters.value.cityNo);
+  }
 };
+
+// 크루 목록 검색
+const searchCrews = async () => {
+  await store.getCrewList();
+};
+
+// 크루 등록
+const writeCrew = () => {
+  router.push({ name: "crewWrite" });
+};
+
+// 요일을 숫자로 변환
+const getDayName = (dayNumber) => {
+  const days = [
+    "월요일",
+    "화요일",
+    "수요일",
+    "목요일",
+    "금요일",
+    "토요일",
+    "일요일",
+  ];
+  return days[dayNumber - 1];
+};
+
+onMounted(() => {
+  loadCitiesAndDistricts();
+  store.getCrewList();
+});
 </script>
 
 <style scoped>
@@ -207,7 +241,7 @@ const writeCrew = () => {
 }
 
 #writeform-btn {
-  align-self: flex-end; /* 버튼을 오른쪽 끝에 배치 */
+  align-self: flex-end;
   margin-top: 10px;
 }
 

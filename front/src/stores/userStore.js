@@ -10,16 +10,16 @@ export const useUserStore = defineStore("user", {
       this.user = userData;
       this.isLoggedIn = !!userData;
       if (userData) {
-        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem("user", JSON.stringify(userData));
       }
     },
     clearUser() {
       this.user = null;
       this.isLoggedIn = false;
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
     },
     initializeFromLocalStorage() {
-      const savedUser = localStorage.getItem('user');
+      const savedUser = localStorage.getItem("user");
       if (savedUser) {
         try {
           const user = JSON.parse(savedUser);
@@ -30,10 +30,10 @@ export const useUserStore = defineStore("user", {
       } else {
         this.clearUser();
       }
-    }
+    },
   },
   getters: {
     getUser: (state) => state.user,
-    getIsLoggedIn: (state) => state.isLoggedIn
-  }
+    getIsLoggedIn: (state) => state.isLoggedIn,
+  },
 });
