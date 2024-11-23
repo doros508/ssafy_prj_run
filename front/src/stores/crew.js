@@ -13,3 +13,4 @@ export const useCrewStore = defineStore("crew", {
     },
   },
 });
+//18:11 push 해야됌
