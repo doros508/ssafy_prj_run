@@ -1,269 +1,240 @@
-
 <template>
-  <div class =background-img> 
-  <div class="container-fluid">
-    <div class="search-section bg-white rounded p-4 mb-4">
-      <div class="row">
-        <!-- 도시 드롭다운 -->
-        <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">도시</label>
-          <select
-          v-model="selectedCity"
-          class="form-select"
-          @change="handleCityChange"
-          >
-          <option value="">전체</option>
-          <option
-          v-for="city in cities"
-          :key="city.cityNo"
-          :value="city.cityNo"
-          >
-          {{ city.cityName }}
-        </option>
-      </select>
-    </div>
-    
-    검색 조건 섹션
-    <div class="search-section bg-white rounded p-4 mb-4">
-      <div class="row">
-        <!-- 도시 드롭다운 -->
-        <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">도시</label>
-          <select
-          v-model="selectedCity"
-          class="form-select"
-          @change="handleCityChange"
-          >
-          <option value="">전체</option>
-          <option
-          v-for="city in cities"
-          :key="city.cityNo"
-          :value="city.cityNo"
-          >
-          {{ city.cityName }}
-        </option>
-      </select>
-    </div>
-    
-    <!-- 요일 드롭다운 -->
-    <div class="col-md-6 mb-3">
-      <label class="form-label fw-bold">모임요일 (다중선택 가능)</label>
-      <select v-model="selectedDays" class="form-select" multiple>
-        <option value="">전체</option>
-        <option v-for="day in days" :key="day.value" :value="day.value">
-          {{ day.label }}
-        </option>
-      </select>
-    </div>
-  </div>
-  
-  <div class="row mt-3">
-    <div class="col">
-      <button @click="searchCrews" class="btn btn-primary w-100">
-        크루 검색
-      </button>
-    </div>
-  </div>
-  </div>
-  </div>
-</div>
+  <div class="container">
+    <h1 class="logo">크루 검색</h1>
 
-<!-- 카카오맵 섹션 -->
- <h2>맵</h2>
-<KakaoView/>
+    <div class="content">
+      <!-- Search Filters -->
+      <div class="row mb-4">
+        <!-- 지역 선택 -->
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="cityFilter" class="text-white mb-2">도시</label>
+            <select
+              class="form-control"
+              id="cityFilter"
+              v-model="filters.cityNo"
+              @change="onCityChange"
+            >
+              <option value="">전체</option>
+              <option v-for="city in cities" :key="city.id" :value="city.id">
+                {{ city.name }}
+              </option>
+            </select>
+          </div>
+        </div>
 
+        <!-- 구 선택 -->
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="districtFilter" class="text-white mb-2">구</label>
+            <select
+              class="form-control"
+              id="districtFilter"
+              v-model="filters.districtNo"
+            >
+              <option value="">전체</option>
+              <option
+                v-for="district in districts"
+                :key="district.id"
+                :value="district.id"
+              >
+                {{ district.name }}
+              </option>
+            </select>
+          </div>
+        </div>
 
-
-
-    <!-- <div class="map-section mb-4">
-      <KakaoMap
-        :center="mapCenter"
-        :level="3"
-        :max-level="8"
-        @load="handleMapLoad"
-        style="width: 100%; height: 400px"
-        class="rounded"
-      >
-        <KakaoMapMarker
-          v-for="crew in crews"
-          :key="crew.crewNo"
-          :position="{ lat: crew.crewLat, lng: crew.crewLng }"
-          @click="handleMarkerClick(crew)"
-        >
-          <KakaoMapInfoWindow
-            :open="selectedCrew === crew.crewNo"
-            :close-on-click-map="true"
-          >
-            <div class="p-2">
-              <h6>{{ crew.crewName }}</h6>
-              <p class="mb-1">{{ crew.crewLocation }}</p>
-              <p class="mb-0">모임요일: {{ crew.crewDay }}</p>
-            </div>
-          </KakaoMapInfoWindow>
-        </KakaoMapMarker>
-      </KakaoMap>
-    </div> -->
-
-    <!-- 크루 리스트 섹션 -->
-    <div class="crew-list-section">
-      <div class="row">
-        <div v-for="crew in crews" :key="crew.crewNo" class="col-md-6 mb-3">
-          <div class="card h-100" @click="goToCrewUrl(crew.crewUrl)">
-            <div class="card-body">
-              <h5 class="card-title">{{ crew.crewName }}</h5>
-              <div class="card-text">
-                <p>
-                  <i class="bi bi-geo-alt"></i> <strong>위치:</strong>
-                  {{ crew.crewLocation }}
-                </p>
-                <p>
-                  <i class="bi bi-people"></i> <strong>인원:</strong>
-                  {{ crew.crewSize }}명
-                </p>
-                <p>
-                  <i class="bi bi-calendar"></i> <strong>모임요일:</strong>
-                  {{ crew.crewDay }}
-                </p>
-                <p class="crew-content">{{ crew.crewContent }}</p>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent">
-              <button class="btn btn-outline-primary btn-sm w-100">
-                크루 가입하기
-              </button>
-            </div>
+        <!-- 요일 선택 -->
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="daysFilter" class="text-white mb-2">모임 요일</label>
+            <select
+              class="form-control"
+              id="daysFilter"
+              v-model="filters.days"
+              multiple
+            >
+              <option value="Mon">월</option>
+              <option value="Tue">화</option>
+              <option value="Wed">수</option>
+              <option value="Thu">목</option>
+              <option value="Fri">금</option>
+              <option value="Sat">토</option>
+              <option value="Sun">일</option>
+            </select>
           </div>
         </div>
       </div>
+
+      <!-- Search Button -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <button class="btn btn-primary w-100" @click="applyFilters">
+            검색
+          </button>
+        </div>
+      </div>
+
+      <!-- Crew List Table -->
+      <table class="table table-dark table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">크루명</th>
+            <th scope="col">장소</th>
+            <th scope="col">모임 요일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="crew in filteredCrews" :key="crew.id">
+            <td>{{ crew.name }}</td>
+            <td>{{ crew.location }}</td>
+            <td>{{ crew.meetingDays.join(", ") }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Register Button -->
+      <button
+        type="button"
+        id="writeform-btn"
+        class="btn btn-primary"
+        @click="writeCrew"
+      >
+        <i class="bi bi-pencil-square"></i> 크루 등록
+      </button>
     </div>
   </div>
-</div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
-import { KakaoMap, KakaoMapMarker, KakaoMapInfoWindow } from "vue3-kakao-maps";
-import axios from "axios";
-import KakaoView from "./kakaoView.vue";
+import { ref, computed, onMounted } from "vue";
+import { useCrewStore } from "@/stores/crew";
 
-// 상태 관리
-const crews = ref([]);
+const store = useCrewStore();
+
+const filters = ref({
+  cityNo: "",
+  districtNo: "",
+  days: [],
+});
+
+// 지역과 구 데이터 가져오기
 const cities = ref([]);
-const selectedCity = ref("");
-const selectedDays = ref([]);
-const selectedCrew = ref(null);
-const mapCenter = ref({ lat: 36.5, lng: 127.5 }); // 대한민국 중심 좌표
+const districts = ref([]);
 
-// 요일 데이터
-const days = [
-  { value: "월", label: "월요일" },
-  { value: "화", label: "화요일" },
-  { value: "수", label: "수요일" },
-  { value: "목", label: "목요일" },
-  { value: "금", label: "금요일" },
-  { value: "토", label: "토요일" },
-  { value: "일", label: "일요일" },
-];
-
-// 도시 정보 로드
-// const loadCities = async () => {
-//   try {
-//     const response = await axios.get("/api/cities");
-//     cities.value = response.data;
-//   } catch (error) {
-//     console.error("도시 정보 로딩 실패:", error);
-//   }
-// };
-
-// 크루 검색
-// const searchCrews = async () => {
-//   try {
-//     const params = {};
-//     if (selectedCity.value) {
-//       params.cityNo = selectedCity.value;
-//     }
-//     if (selectedDays.value.length > 0 && !selectedDays.value.includes("")) {
-//       params.crewDays = selectedDays.value.join(",");
-//     }
-//     const response = await axios.get("/api/crews", { params });
-//     crews.value = response.data;
-//     updateMapCenter();
-//   } catch (error) {
-//     console.error("크루 검색 실패:", error);
-//   }0
-// };
-
-// 지도 중심 좌표 업데이트
-const updateMapCenter = () => {
-  if (crews.value.length > 0) {
-    const firstCrew = crews.value[0];
-    mapCenter.value = {
-      lat: firstCrew.crewLat,
-      lng: firstCrew.crewLng,
-    };
-  }
-};
-
-// 마커 클릭 핸들러
-const handleMarkerClick = (crew) => {
-  selectedCrew.value = crew.crewNo;
-};
-
-// 크루 URL로 이동
-const goToCrewUrl = (url) => {
-  if (url) window.open(url, "_blank");
-};
-
-// 도시 변경 핸들러
-const handleCityChange = () => {
-  if (selectedCity.value) {
-    const selectedCityObj = cities.value.find(
-      (c) => c.cityNo === selectedCity.value
-    );
-    if (selectedCityObj) {
-      searchCrews();
-    }
-  }
+const loadCitiesAndDistricts = async () => {
+  // 시, 구 목록을 각각 불러오는 메서드
+  cities.value = await store.getCityList(); // getCityList()로 대체
+  districts.value = await store.getDistrictList(filters.value.cityNo); // getDistrictList()로 대체
 };
 
 onMounted(() => {
-  // loadCities();
-  // searchCrews();
+  loadCitiesAndDistricts();
+  store.getCrewList();
 });
+
+// 시 변경 시 구 목록 업데이트
+const onCityChange = async () => {
+  await loadCitiesAndDistricts();
+};
+
+// 필터링된 크루 목록
+const filteredCrews = computed(() => {
+  let results = store.crewList;
+
+  if (filters.value.cityNo) {
+    results = results.filter(
+      (crew) => crew.cityNo === parseInt(filters.value.cityNo)
+    );
+  }
+
+  if (filters.value.districtNo) {
+    results = results.filter(
+      (crew) => crew.districtNo === parseInt(filters.value.districtNo)
+    );
+  }
+
+  if (filters.value.days.length) {
+    results = results.filter((crew) =>
+      filters.value.days.every((day) => crew.meetingDays.includes(day))
+    );
+  }
+
+  return results;
+});
+
+// 필터 적용
+const applyFilters = () => {
+  store.applyCrewFilters(filters.value);
+};
+
+const writeCrew = () => {
+  // 크루 등록 페이지로 이동
+};
 </script>
 
 <style scoped>
-/* .background-img{
-background-image: "../";
+.logo {
+  text-align: center;
+  margin: 15px 0;
+  color: #fff;
+  font-weight: bold;
+}
 
-} */
-
-.search-section {
-  background-color: #f8f9fa;
+.content {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
-.form-select[multiple] {
-  height: 200px;
+.table {
+  text-align: center;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 20px;
 }
 
-.card {
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.form-control {
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.form-control:focus {
+  background-color: #fff;
 }
 
-.crew-content {
-  max-height: 100px;
-  overflow-y: auto;
-  font-size: 0.9rem;
-  color: #666;
+#writeform-btn {
+  align-self: flex-end; /* 버튼을 오른쪽 끝에 배치 */
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background-color: #ff5722;
+  border-color: #ff5722;
+}
+
+.btn-primary:hover {
+  background-color: #e64a19;
+  border-color: #e64a19;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ff5722;
+}
+
+label {
+  font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 15px;
 }
 </style>

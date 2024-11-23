@@ -19,7 +19,7 @@ import com.mrt.mvc.model.dto.District;
 import com.mrt.mvc.model.service.DistrictService;
 
 @RestController
-@RequestMapping("/api/district")
+@RequestMapping("/maratalk/district")
 @CrossOrigin("*")
 public class DistrictController {
 
