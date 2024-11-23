@@ -3,25 +3,42 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.mrt.mvc.model.dao.CrewDao">
-    <!-- 전체 크루 조회 -->
-    <select id="selectAll" parameterType="map" resultType="Crew">
-        SELECT c.*, ct.city_name 
-        FROM crew c
-        JOIN city ct ON c.city_no = ct.city_no
-        <where>
-            <if test="cityNo != null and cityNo != ''">
-                AND c.city_no = #{cityNo}
-            </if>
-            <if test="crewDays != null and crewDays != ''">
-                AND
-                <foreach item="day" collection="crewDays.split(',')" 
-                         open="(" separator="OR" close=")">
-                    c.crew_day LIKE CONCAT('%', #{day}, '%')
-                </foreach>
-            </if>
-        </where>
-        ORDER BY c.crew_no DESC
+	<!-- 시 목록 가져오기 -->
+    <select id="getCityList" resultType="com.mrt.mvc.model.dto.City">
+        SELECT city_no AS cityNo, city_name AS cityName
+        FROM city
+        ORDER BY city_name;
     </select>
+
+    <!-- 특정 시에 속한 구 목록 가져오기 -->
+    <select id="getDistrictList" resultType="com.mrt.mvc.model.dto.District">
+        SELECT district_no AS districtNo, district_name AS districtName
+        FROM district
+        WHERE city_no = #{cityNo}
+        ORDER BY district_name;
+    </select>
+	
+	
+	
+	<!-- 조건에 따른 크루 조회  -->
+    <select id="selectCrewByCondition" parameterType="com.mrt.mvc.model.dto.CrewSearchCondition" resultType="com.mrt.mvc.model.dto.Crew">
+    SELECT * 
+    FROM crew
+    WHERE 1=1
+    <if test="cityNo != null">
+        AND city_no = #{cityNo}
+    </if>
+    <if test="districtNo != null">
+        AND district_no = #{districtNo}
+    </if>
+    <if test="meetingDays != null and meetingDays.length > 0">
+        AND meeting_days REGEXP 
+        <foreach item="day" collection="meetingDays" separator="|" open="'(" close=")'">
+            #{day}
+        </foreach>
+    </if>
+</select>
+
 
     <!-- 단일 크루 조회 -->
     <select id="selectOne" parameterType="int" resultType="Crew">
