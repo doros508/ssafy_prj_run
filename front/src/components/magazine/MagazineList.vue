@@ -3,7 +3,7 @@
     <h1 class="magazine-logo">Magazine</h1>
     <div class="content">
       <!-- 네비게이션 탭 -->
-      <div class="magazine-list-box">
+      <!-- <div class="magazine-list-box"> -->
         <div
           class="magazine-card"
           v-for="magazine in store.magazineList"
@@ -21,7 +21,7 @@
             </div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -49,6 +49,9 @@ const detailMagazine = function (magazineNo) {
 * {
   box-sizing: border-box;
 }
+.magazine-container {
+  width: 100%;
+}
 
 .magazine-logo {
   text-align: center;
@@ -56,8 +59,9 @@ const detailMagazine = function (magazineNo) {
   color: #fff;
   font-weight: bold;
 }
+
 .content {
-  position: relative;
+  /* position: relative;
   width: 100%;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.7);
@@ -66,15 +70,12 @@ const detailMagazine = function (magazineNo) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: auto;
-}
-
-.magazine-list-box {
+  height: auto; */
+  background-color: #181818;
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
-  border-radius: 10px;
-  gap: 15px;
 }
 
 .magazine-card {
@@ -82,7 +83,6 @@ const detailMagazine = function (magazineNo) {
   cursor: pointer;
   width: 380px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  /* margin: 10px; */
 }
 
 .magazine-card:hover {
@@ -100,86 +100,4 @@ const detailMagazine = function (magazineNo) {
   margin-bottom: 20px;
 }
 
-/* .magazine-content-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  position: relative;
-  z-index: 1;
-}
-
-.magazine-item {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  aspect-ratio: 16/9;
-}
-
-.magazine-list-background-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-} */
-
-/* .search-bar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 2rem;
-  position: relative;
-  z-index: 1;
-} */
-
-/* .search-box {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 25px;
-  padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  width: 300px;
-} */
-
-/* .search-icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-} */
-
-/* .search-text {
-  color: #fff;
-} */
-
-/* .magazine-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 20px;
-} */
-
-/* .magazine-box {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
-  border-radius: 20px;
-  z-index: 1;
-} */
-
-/* .magazine-title {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 1.5rem;
-  color: #fff;
-  font-size: 1.5rem;
-  font-weight: bold;
-  z-index: 2;
-  max-width: 90%;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-} */
 </style>
