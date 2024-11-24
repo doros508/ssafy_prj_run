@@ -62,10 +62,20 @@
 	    </collection>
 	</resultMap>
 
-	<!-- 게시글 내용 수정 -->
+	<!-- 매거진 내용 수정 -->
+	<update id="updateMagazine" parameterType="Magazine" >
+		UPDATE magazine
+		SET magazine_title = #{magazineTitle}, magazine_content = #{magazineContent}
+		WHERE magazine_no = #{magazineNo};
+	</update>
 
-	<!-- 게시글 파일 수정 -->
+	<!-- 매거진 파일 수정 -->
 
-	<!-- 게시글 삭제 -->
+	<!-- 매거진 삭제 -->
+	<delete id="deleteMagazine" parameterType="int">
+		DELETE 
+		FROM magazine
+		WHERE magazine_no = #{no};
+	</delete>
 	
 </mapper>

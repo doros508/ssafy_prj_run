@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,6 +77,27 @@ public class MagazineRestController {
 	    } else {
 	        return new ResponseEntity<>("게시글 작성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
+	}
+	
+	/** 매거진 수정 */
+	@PutMapping("/magazine/{no}")
+	public ResponseEntity<String> updateMagazine(@PathVariable("no") int no, @RequestBody Magazine magazine) {
+		System.out.println(no + "번 게시글을 수정합니다.");
+		magazine.setMagazineNo(no);
+		if (service.modify(magazine)) {
+			System.out.println(no + "번 게시글이 수정되었습니다.");
+			return new ResponseEntity<>("게시글이 수정되었습니다.", HttpStatus.OK);
+		}
+		System.out.println("수정에 실패했습니다.");
+		return new ResponseEntity<>("수정에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	/** 게시글 삭제 */
+	@DeleteMapping("/magazine/{no}")
+	public ResponseEntity<String> delete(@PathVariable("no") int no) {
+		if (service.removeMagazine(no))
+			return ResponseEntity.status(HttpStatus.OK).body(no+"번 게시글이 삭제되었습니다.");
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제에 실패했습니다.");
 	}
 
 }

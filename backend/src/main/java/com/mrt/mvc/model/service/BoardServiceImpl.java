@@ -48,6 +48,7 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 
+	/** 게시글 등록 */
 	@Transactional
 	@Override
 	public boolean writeBoard(Board board, List<MultipartFile> files) {
