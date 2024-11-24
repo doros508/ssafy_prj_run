@@ -3,7 +3,7 @@
     <TheHeader />
     <div class="crew-picture">
       <CrewMain />
-      <!-- <KakaoView /> -->
+      <KakaoView />
     </div>
   </div>
 </template>
