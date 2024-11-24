@@ -6,14 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
 
-    <!-- //주소검색(우편번호)카카오 api  -->
+    <!-- 주소검색(우편번호)카카오 api -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-    <!--kakao Map api-->
-    <script
-      type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_MAPS_API_KEY"
-    ></script>
+    <!-- Kakao Map API를 동적으로 로드 -->
+    <script type="module">
+      // const kakaoMapKey = import.meta.env.VITE_KAKAO_MAP_KEY; // .env.local에서 API 키 불러오기
+      const kakaoMapKey = "ceb8beeb93ffa1df16737d86b69ba86d"; //src 폴더 아니라 .env.local사용 불가능
+      if (kakaoMapKey) {
+        const script = document.createElement("script");
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}`;
+        script.async = true;
+        document.head.appendChild(script);
+      } else {
+        console.error("Kakao Maps API 키가 설정되지 않았습니다.");
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>

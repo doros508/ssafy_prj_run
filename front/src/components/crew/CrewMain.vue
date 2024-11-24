@@ -3,7 +3,7 @@
     <h1 class="logo">Crew</h1>
 
     <div class="content">
-      <!-- Search Filters -->
+      <!-- Search Filters .-->
       <div class="row mb-4">
         <div class="col-md-4">
           <div class="form-group">
@@ -64,9 +64,9 @@
       <!-- Search Button -->
       <div class="row mb-4">
         <div class="col-12">
-          <!-- <button class="btn btn-primary w-100" @click="searchCrews">
+          <button class="btn btn-primary w-100" @click="searchCrews">
             검색
-          </button> -->
+          </button>
         </div>
       </div>
 
