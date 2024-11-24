@@ -7,70 +7,31 @@
           <i class="bi bi-pencil-square"></i> 글쓰기
         </button>
       </div>
-      <div class="search-console">
-        <div class="row mb-4">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="dateFilter" class="text-white mb-2">주제</label>
-              <select class="form-control" id="regionFilter" v-model="filters.cityNo">
-                <option value="">전체</option>
-                <option value="1">서울</option>
-                <option value="2">경기</option>
-                <option value="3">인천</option>
-                <option value="4">강원</option>
-                <option value="5">충청</option>
-                <option value="6">전라</option>
-                <option value="7">경상</option>
-                <option value="8">제주</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="regionFilter" class="text-white mb-2">검색어</label>
-              <input type="text" class="form-control" id="dateFilter" v-model="filters.date">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="distanceFilter" class="text-white mb-2">정렬</label>
-              <select class="form-control" id="distanceFilter" v-model="filters.distance">
-                <option value="">전체</option>
-                <option value="5K">5KM</option>
-                <option value="10K">10KM</option>
-                <option value="Half">하프코스</option>
-                <option value="Full">풀코스</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- Search Button -->
-        <div class="row mb-4">
-          <div class="col-12">
-            <button class="btn btn-primary w-100" @click="applyFilters">검색</button>
-          </div>
-        </div>
-        <!-- 네비게이션 탭 -->
-        <div class="magazine-list-box">
-          <div class="magazine-card" v-for="magazine in store.magazineList" :key="magazine.magazineNo"
-            @click="detailMagazine(magazine.magazineNo)">
-            <div class="card text-bg-dark">
-              <img src="../../assets/magazine/list/img2.png" class="card-img" alt="" />
-              <div class="card-img-overlay">
-                <h5 class="card-title">{{ magazine.magazineTitle }}</h5>
-              </div>
+
+      <!-- 네비게이션 탭 -->
+      <div class="magazine-list-box">
+        <div 
+          class="magazine-card" 
+          v-for="magazine in store.magazineList" 
+          :key="magazine.magazineNo"
+          @click="detailMagazine(magazine.magazineNo)"
+        >
+          <div class="card text-bg-dark">
+            <!-- 썸네일 이미지 처리 -->
+            <img :src="getThumbnail(magazine)" class="card-img" alt="썸네일 이미지" />
+            <div class="card-img-overlay">
+              <h5 class="card-title">{{ magazine.magazineTitle }}</h5>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
 import { useMagazineStore } from "@/stores/magazine";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const store = useMagazineStore();
@@ -80,72 +41,50 @@ onMounted(() => {
   store.getMagazineList();
 });
 
-const detailMagazine = function (magazineNo) {
+const detailMagazine = (magazineNo) => {
   console.log(magazineNo + "번 매거진 클릭");
-  router.push({ name: 'magazineDetail', params: {magazineNo}});
+  router.push({ name: 'magazineDetail', params: { magazineNo } });
 };
 
-const writeMagazine = function () {
-  console.log("글쓰기 버튼 클릭!")
-  router.push({ name: 'magazineWrite' })
-}
+const writeMagazine = () => {
+  console.log("글쓰기 버튼 클릭!");
+  router.push({ name: 'magazineWrite' });
+};
 
-// 검색 관련 함수들 -S
-const filters = ref({
-  date: '',
-  cityNo: '',
-  distance: ''
-})
+// 썸네일 이미지 결정 함수 수정
+const getThumbnail = (magazine) => {
+  const files = magazine.magazineFileList || [];
 
-// 날짜 포맷팅 함수
-const formatDate = (dateString) => {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  return date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  })
-}
-
-// 필터링된 레이스 목록
-const filteredRaces = computed(() => {
-  let results = store.raceList
-
-  if (filters.value.date) {
-    results = results.filter(race =>
-      race.raceDate.includes(filters.value.date)
-    )
+  // 1. 파일이 아예 없을 경우
+  if (files.length === 0) {
+    return "http://localhost:8080/uploads/default/thumbnail.png";  // 기본 이미지
   }
 
-  if (filters.value.cityNo) {
-    results = results.filter(race =>
-      race.cityNo === parseInt(filters.value.cityNo)
-    )
+  // 2. 비디오 파일만 존재하는 경우
+  const videoFiles = files.filter(file => file.systemName.endsWith('.mp4'));
+  if (videoFiles.length === files.length) {
+    return "http://localhost:8080/uploads/default/thumbnail.png";  // 비디오만 있을 경우 기본 이미지
   }
 
-  if (filters.value.distance) {
-    results = results.filter(race =>
-      race.raceDistance === filters.value.distance
-    )
+  // 3. 비디오 파일과 이미지 파일이 함께 있을 경우
+  const imageFiles = files.filter(file => !file.systemName.endsWith('.mp4'));
+  if (imageFiles.length > 0) {
+    // 3-1. 첫 번째 이미지 파일을 썸네일로 사용
+    return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`;
   }
 
-  return results
-})
-
-// 필터 적용
-const applyFilters = async () => {
-  try {
-    if (filters.value.cityNo) {
-      await store.getRacesByCity(parseInt(filters.value.cityNo))
-    } else {
-      await store.getRaceList()
-    }
-  } catch (error) {
-    console.error('Error applying filters:', error)
+  // 4. 사진 파일만 있을 경우
+  if (imageFiles.length > 0) {
+    // 4-1. 첫 번째 이미지 파일을 썸네일로 사용
+    return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`;
   }
-}
-// 검색 관련 함수들 -F
+
+  // 기본 반환 값 (기본 이미지)
+  return "http://localhost:8080/uploads/default/thumbnail.png";
+};
+
+
+
 </script>
 
 <style scoped>
@@ -168,44 +107,22 @@ const applyFilters = async () => {
   background-color: #181818;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
   justify-content: center;
 }
-
-/* 검색 콘솔 디자인 */
-.form-control {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-.form-control:focus {
-  background-color: #fff;
-}
-
-.search-console {
-  width: 100%;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 10px;
-}
-
-label {
-  font-weight: bold;
-}
-
-/* 검색 콘솔 디자인 */
 
 .magazine-list-box {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
   justify-content: center;
 }
 
 .magazine-card {
-  /* background-color: yellow; */
   cursor: pointer;
-  width: 380px;
+  width: calc(33.33% - 20px); /* 한 줄에 3개씩 보이도록 */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 280px; /* 카드 높이 고정 */
 }
 
 .magazine-card:hover {
@@ -215,13 +132,15 @@ label {
 
 .card-img {
   width: 100%;
+  height: 200px; /* 이미지의 높이 고정 */
+  object-fit: cover; /* 이미지가 박스를 채우도록 비율 맞추기 */
 }
 
 .card-title {
   font-weight: bold;
   position: absolute;
   bottom: 0;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .btn-box {
@@ -231,10 +150,7 @@ label {
 }
 
 #writeform-btn {
-  /* align-self: flex-end; */
-  /* 버튼을 오른쪽 끝에 배치 */
   margin-top: 0;
-  /* 버튼과 다른 요소들 간 간격 조정 */
 }
 
 .btn-primary {
@@ -248,3 +164,4 @@ label {
   border-color: #e64a19;
 }
 </style>
+
