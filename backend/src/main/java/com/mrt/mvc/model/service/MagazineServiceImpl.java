@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mrt.mvc.model.dao.MagazineDao;
+import com.mrt.mvc.model.dto.Board;
 import com.mrt.mvc.model.dto.Magazine;
 import com.mrt.mvc.model.dto.MagazineFile;
 import com.mrt.mvc.model.dto.SearchCondition;
@@ -37,7 +38,8 @@ public class MagazineServiceImpl implements MagazineService {
 		dao.updateViewCnt(no);
 		return dao.selectOne(no);
 	}
-
+	
+	/** 매거진 등록 */
 	@Transactional
 	@Override
 	public boolean writeMagazine(Magazine magazine, List<MultipartFile> files) {
@@ -91,5 +93,37 @@ public class MagazineServiceImpl implements MagazineService {
 	    return result == 1;
 	}
 
+	/** 매거진 수정 */
+	@Transactional
+	@Override
+	public boolean modify(Magazine magazine) {
+		System.out.println("service: 넘어온 " + magazine.toString());
+
+		// 기존 게시글 저장
+		Magazine tmp = dao.selectOne(magazine.getMagazineNo());
+		System.out.println("service: 임시 " + tmp.toString());
+
+		// 만약 수정한 게시글에 내용이 없는 경우
+		if (magazine.getMagazineContent() == null)
+			tmp.setMagazineTitle(magazine.getMagazineTitle()); // 제목만 변경
+		// 수정한 게시글에 제목이 없는 경우
+		if (magazine.getMagazineTitle() == null)
+			tmp.setMagazineContent(magazine.getMagazineContent()); // 내용만 변경
+
+		if (magazine.getMagazineContent() != null && magazine.getMagazineTitle() != null) {
+			tmp.setMagazineTitle(magazine.getMagazineTitle());
+			tmp.setMagazineContent(magazine.getMagazineContent());
+		}
+
+		System.out.println("service: 수정된 " + tmp.toString());
+		return dao.updateMagazine(tmp) == 1;
+	}
+	
+	/** 매거진 삭제 */
+	@Transactional
+	@Override
+	public boolean removeMagazine(int no) {
+		return dao.deleteMagazine(no) == 1;
+	}
 	
 }
