@@ -10,19 +10,15 @@
 
       <!-- 네비게이션 탭 -->
       <div class="magazine-list-box">
-        <div 
-          class="magazine-card" 
-          v-for="magazine in store.magazineList" 
+        <!-- 각 매거진 카드 클릭 시 상세 페이지로 이동 -->
+        <div
+          class="magazine-item"
+          v-for="magazine in store.magazineList"
           :key="magazine.magazineNo"
           @click="detailMagazine(magazine.magazineNo)"
         >
-          <div class="card text-bg-dark">
-            <!-- 썸네일 이미지 처리 -->
-            <img :src="getThumbnail(magazine)" class="card-img" alt="썸네일 이미지" />
-            <div class="card-img-overlay">
-              <h5 class="card-title">{{ magazine.magazineTitle }}</h5>
-            </div>
-          </div>
+          <img :src="getThumbnail(magazine)" class="magazine-image" alt="썸네일 이미지" />
+          <h3 class="magazine-title">{{ magazine.magazineTitle }}</h3>
         </div>
       </div>
     </div>
@@ -31,7 +27,7 @@
 
 <script setup>
 import { useMagazineStore } from "@/stores/magazine";
-import { computed, onMounted } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const store = useMagazineStore();
@@ -41,17 +37,19 @@ onMounted(() => {
   store.getMagazineList();
 });
 
+// 매거진 상세 페이지로 이동하는 함수
 const detailMagazine = (magazineNo) => {
   console.log(magazineNo + "번 매거진 클릭");
   router.push({ name: 'magazineDetail', params: { magazineNo } });
 };
 
+// 글쓰기 페이지로 이동하는 함수
 const writeMagazine = () => {
   console.log("글쓰기 버튼 클릭!");
   router.push({ name: 'magazineWrite' });
 };
 
-// 썸네일 이미지 결정 함수 수정
+// 썸네일 이미지 결정 함수
 const getThumbnail = (magazine) => {
   const files = magazine.magazineFileList || [];
 
@@ -82,9 +80,6 @@ const getThumbnail = (magazine) => {
   // 기본 반환 값 (기본 이미지)
   return "http://localhost:8080/uploads/default/thumbnail.png";
 };
-
-
-
 </script>
 
 <style scoped>
@@ -112,37 +107,45 @@ const getThumbnail = (magazine) => {
 }
 
 .magazine-list-box {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 자동으로 열 수 변경 */
   gap: 20px;
-  justify-content: center;
+  width: 90%;
+  max-width: 90%;
 }
 
-.magazine-card {
+.magazine-item {
+  display: flex;
+  flex-direction: column;
+  background: #222;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  width: calc(33.33% - 20px); /* 한 줄에 3개씩 보이도록 */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 280px; /* 카드 높이 고정 */
+  height: 280px;
 }
 
-.magazine-card:hover {
+.magazine-item:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.card-img {
+.magazine-image {
   width: 100%;
   height: 200px; /* 이미지의 높이 고정 */
   object-fit: cover; /* 이미지가 박스를 채우도록 비율 맞추기 */
 }
 
-.card-title {
+.magazine-title {
+  font-size: 18px;
+  margin: 15px 0;
+  color: #fff;
   font-weight: bold;
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 10px;
 }
 
+/* 글쓰기 버튼 스타일 */
 .btn-box {
   width: 100%;
   display: flex;
@@ -163,5 +166,11 @@ const getThumbnail = (magazine) => {
   background-color: #e64a19;
   border-color: #e64a19;
 }
-</style>
 
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+  .magazine-list-box {
+    grid-template-columns: 1fr; /* 작은 화면에서는 한 줄에 1개 */
+  }
+}
+</style>

@@ -30,27 +30,6 @@ const store = useMagazineStore();
 onMounted(() => {
   store.getMagazineList()
 })
-
-// import img1 from "../../../assets/main/mainContentMagazine/img2.png";
-// import img2 from "../../../assets/main/mainContentMagazine/img2.png";
-// import img3 from "../../../assets/main/mainContentMagazine/img3.png";
-
-// export default {
-//   data() {
-//     return {
-//       magazines: [
-//         { image: img1, title: "매거진 제목1" },
-//         { image: img2, title: "매거진 제목2" },
-//         { image: img3, title: "매거진 제목3" },
-//         { image: img1, title: "매거진 제목1" },
-//         { image: img2, title: "매거진 제목2" },
-//         { image: img3, title: "매거진 제목3" },
-//         { image: img2, title: "매거진 제목2" },
-//         { image: img3, title: "매거진 제목3" },
-//       ],
-//     };
-//   },
-// };
 </script>
 
 <style scoped>
