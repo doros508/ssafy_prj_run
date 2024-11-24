@@ -2,16 +2,25 @@
   <div>
     <TheHeader />
     <div class="crew-picture">
-      <CrewMain />
-      <KakaoView />
+      <CrewMain @filter-crews="updateFilteredCrews" />
+      <KakaoView :crews="filteredCrews" />
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import TheHeader from "@/components/common/TheHeader.vue";
 import CrewMain from "@/components/crew/CrewMain.vue";
 import KakaoView from "@/components/crew/kakaoView.vue";
+
+// 필터링된 크루 데이터를 부모에서 관리
+const filteredCrews = ref([]);
+
+// CrewMain에서 발생한 검색 이벤트를 처리하는 함수
+const updateFilteredCrews = (crews) => {
+  filteredCrews.value = crews;
+};
 </script>
 
 <style scoped>

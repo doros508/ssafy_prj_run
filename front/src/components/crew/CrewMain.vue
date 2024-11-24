@@ -3,7 +3,7 @@
     <h1 class="logo">Crew</h1>
 
     <div class="content">
-      <!-- Search Filters .-->
+      <!-- Search Filters -->
       <div class="row mb-4">
         <div class="col-md-4">
           <div class="form-group">
@@ -95,27 +95,16 @@
           </tr>
         </tbody>
       </table>
-
-      <!-- Register Button -->
-      <!-- <button
-        type="button"
-        id="writeform-btn"
-        class="btn btn-primary"
-        @click="writeCrew"
-      >
-        <i class="bi bi-pencil-square"></i> 크루 등록
-      </button> -->
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useCrewStore } from "@/stores/useCrewStore"; // 수정 주의
+import { useCrewStore } from "@/stores/useCrewStore";
 
 const store = useCrewStore();
-const router = useRouter();
+const emit = defineEmits(["filter-crews"]); // defineEmits를 사용해 이벤트 정의
 
 const filters = ref({
   cityNo: "",
@@ -123,7 +112,6 @@ const filters = ref({
   days: [],
 });
 
-// 필터링된 크루 목록
 const filteredCrews = computed(() => {
   let results = store.crewList;
 
@@ -139,18 +127,14 @@ const filteredCrews = computed(() => {
     );
   }
 
-  // 요일 필터링
   if (filters.value.days && filters.value.days.length > 0) {
-    // filters.value.days가 배열이 아니면 배열로 변환
     const selectedDays = Array.isArray(filters.value.days)
       ? filters.value.days
       : [filters.value.days];
 
     results = results.filter((crew) => {
-      const crewDays = crew.crewDay.split(","); // "토,일"을 배열로 변환
-
+      const crewDays = crew.crewDay.split(",");
       return selectedDays.some((day) => {
-        // crewDays 배열에 선택된 요일이 포함되어 있는지 확인
         return crewDays.includes(getDayName(day)[0]);
       });
     });
@@ -159,35 +143,25 @@ const filteredCrews = computed(() => {
   return results;
 });
 
-// 도시 목록 가져오기
 const cities = computed(() => store.cityList);
-
-// 구 목록 가져오기
 const districts = computed(() => store.districtList);
 
-// 도시와 구 목록 로드
 const loadCitiesAndDistricts = async () => {
   await store.getCityList();
 };
 
-// 구 목록 로드
 const loadDistricts = async () => {
   if (filters.value.cityNo) {
     await store.getDistrictList(filters.value.cityNo);
   }
 };
 
-// 크루 목록 검색
 const searchCrews = async () => {
   await store.getCrewList();
+  // 필터링된 결과를 부모 컴포넌트로 전달
+  emit("filter-crews", filteredCrews.value);
 };
 
-// 크루 등록
-const writeCrew = () => {
-  router.push({ name: "crewWrite" });
-};
-
-// 요일을 숫자로 변환
 const getDayName = (dayNumber) => {
   const days = [
     "월요일",
