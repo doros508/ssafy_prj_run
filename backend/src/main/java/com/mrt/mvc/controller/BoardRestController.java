@@ -3,6 +3,7 @@ package com.mrt.mvc.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -76,15 +77,19 @@ public class BoardRestController {
 	 * @throws IllegalStateException */
 	@PostMapping("/board")
 	public ResponseEntity<String> write(
-			@RequestPart("board") Board board,
-			@RequestPart("files") List<MultipartFile> files
-			) {
-		System.out.println("게시글: "+board.toString());
-		System.out.println("첨부된 파일은 " + files.size() + "개 입니다.");
-		if (service.writeBoard(board, files))
-			return new ResponseEntity<>(board.getBoardNo()+"번 게시글이 작성되었습니다.", HttpStatus.CREATED);
-		return new ResponseEntity<>("게시글이 작성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+	        @RequestPart("board") Board board,
+	        @RequestPart(value = "files", required = false) List<MultipartFile> files
+	        ) {
+	    System.out.println("게시글: " + board.toString());
+	    // files가 null인 경우도 처리
+	    int fileCount = (files != null) ? files.size() : 0;
+	    System.out.println("첨부된 파일은 " + fileCount + "개 입니다.");
+	    
+	    if (service.writeBoard(board, files != null ? files : new ArrayList<>()))
+	        return new ResponseEntity<>(board.getBoardNo() + "번 게시글이 작성되었습니다.", HttpStatus.CREATED);
+	    return new ResponseEntity<>("게시글 작성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
 	
 	/** 게시글 수정 */
 	@PutMapping("/board/{no}")
