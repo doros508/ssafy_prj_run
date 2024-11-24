@@ -16,11 +16,13 @@
 	    </if>
 	</select>
 	
-	<!-- 게시글 상세 조회 -->
-	<select id="selectOne" resultType="Magazine" parameterType="int">
-		SELECT *
-		FROM magazine
-		WHERE magazine_no = #{no}
+	<!-- 매거진 상세 조회 -->
+	<select id="selectOne" resultMap="MagazineResultMap" parameterType="int">
+	    SELECT m.magazine_no, m.magazine_title, m.magazine_content, m.magazine_reg_date, m.magazine_view_cnt,
+	           f.file_no, f.file_name, f.file_path, f.file_system_name
+	    FROM magazine m
+	    LEFT JOIN files f ON m.magazine_no = f.magazine_no
+	    WHERE m.magazine_no = #{no}
 	</select>
 	
 	<!-- 조회수 증가 -->
@@ -30,9 +32,33 @@
 		WHERE magazine_no = #{no}
 	</update>
 	
-	<!-- 게시글 등록 -->
+	<!-- 매거진 등록 -->
+	<insert id="insertMagazine" parameterType="Magazine" keyProperty="magazineNo" useGeneratedKeys="true">
+	    INSERT INTO magazine (magazine_title, magazine_content, user_no)
+	    VALUES (#{magazineTitle}, #{magazineContent}, #{userNo})
+	</insert>
 	
 	<!-- 파일 등록 -->
+	<insert id="insertMagazineFile" parameterType="MagazineFile">
+		INSERT INTO files(file_no, file_name, file_path, file_system_name, magazine_no)
+		VALUES (#{fileNo}, #{oriName}, #{path}, #{systemName}, #{magazineNo});
+	</insert>
+	<!-- 파일 매핑 -->
+	<resultMap id="MagazineResultMap" type="Magazine">
+	    <id property="magazineNo" column="magazine_no"/>
+	    <result property="magazineTitle" column="magazine_title"/>
+	    <result property="magazineContent" column="magazine_content"/>
+	    <result property="magazineRegDate" column="magazine_reg_date"/>
+	    <result property="magazineViewCnt" column="magazine_view_cnt"/>
+	    
+	    <!-- 파일 리스트 매핑 -->
+	    <collection property="magazineFileList" ofType="MagazineFile">
+	        <result property="fileNo" column="file_no"/>
+	        <result property="oriName" column="file_name"/>
+	        <result property="path" column="file_path"/>
+	        <result property="systemName" column="file_system_name"/>
+	    </collection>
+	</resultMap>
 
 	<!-- 게시글 내용 수정 -->
 

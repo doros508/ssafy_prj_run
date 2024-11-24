@@ -19,29 +19,29 @@
 	</select>
 	
 	<!-- 게시글 상세 조회 -->
-<select id="selectOne" resultMap="BoardResultMap" parameterType="int">
-    SELECT b.board_no, b.board_title, b.board_content, b.board_reg_date, b.board_view_cnt,
-           f.file_no, f.file_name, f.file_path, f.file_system_name
-    FROM board b
-    LEFT JOIN files f ON b.board_no = f.board_no
-    WHERE b.board_no = #{no}
-</select>
+	<select id="selectOne" resultMap="BoardResultMap" parameterType="int">
+	    SELECT b.board_no, b.board_title, b.board_content, b.board_reg_date, b.board_view_cnt,
+	           f.file_no, f.file_name, f.file_path, f.file_system_name
+	    FROM board b
+	    LEFT JOIN files f ON b.board_no = f.board_no
+	    WHERE b.board_no = #{no}
+	</select>
 
-<resultMap id="BoardResultMap" type="Board">
-    <id property="boardNo" column="board_no"/>
-    <result property="boardTitle" column="board_title"/>
-    <result property="boardContent" column="board_content"/>
-    <result property="boardRegDate" column="board_reg_date"/>
-    <result property="boardViewCnt" column="board_view_cnt"/>
-    
-    <!-- 파일 리스트 매핑 -->
-    <collection property="boardFileList" ofType="BoardFile">
-        <result property="fileNo" column="file_no"/>
-        <result property="oriName" column="file_name"/>
-        <result property="path" column="file_path"/>
-        <result property="systemName" column="file_system_name"/>
-    </collection>
-</resultMap>
+	<resultMap id="BoardResultMap" type="Board">
+	    <id property="boardNo" column="board_no"/>
+	    <result property="boardTitle" column="board_title"/>
+	    <result property="boardContent" column="board_content"/>
+	    <result property="boardRegDate" column="board_reg_date"/>
+	    <result property="boardViewCnt" column="board_view_cnt"/>
+	    
+	    <!-- 파일 리스트 매핑 -->
+	    <collection property="boardFileList" ofType="BoardFile">
+	        <result property="fileNo" column="file_no"/>
+	        <result property="oriName" column="file_name"/>
+	        <result property="path" column="file_path"/>
+	        <result property="systemName" column="file_system_name"/>
+	    </collection>
+	</resultMap>
 	
 	<!-- 조회수 증가 -->
 	<update id="updateViewCnt" parameterType="int">
