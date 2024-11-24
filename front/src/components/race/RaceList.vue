@@ -145,6 +145,7 @@ const applyFilters = async () => {
     console.error('Error applying filters:', error)
   }
 }
+
 const writeRace = () => {
   router.push({ name: 'raceWrite' })
 }

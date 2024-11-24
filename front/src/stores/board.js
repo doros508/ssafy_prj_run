@@ -54,7 +54,7 @@ export const useBoardStore = defineStore("board", () => {
         if (Array.isArray(board.value.boardFileList)) {
           console.log("배열이군");
           board.value.boardFileList.forEach((file) => {
-            file.imageUrl = `http://localhost:8080/uploads${file.path}/${file.systemName}`;
+            file.imageUrl = `http://localhost:8080/uploads/board${file.path}/${file.systemName}`;
             console.log("이미지 URL: " + file.imageUrl);
           });
         } else {
