@@ -65,7 +65,7 @@ public class BoardServiceImpl implements BoardService {
 			
 			System.out.println("service: " + files.size() +"개의 파일이 첨부되었습니다.");
 			String datePath = new SimpleDateFormat("/yyyy/MM/dd").format(new Date());
-			File dir = new File("C:/maratalk/uploads" + datePath); // 디렉토리 주소를 나타내는 File 객체를 생성
+			File dir = new File("C:/maratalk/uploads/board" + datePath); // 디렉토리 주소를 나타내는 File 객체를 생성
 			dir.mkdirs(); // 날짜에 해당하는 디렉토리가 없는 경우에 생성한다.
 			
 			for (MultipartFile file : files) {

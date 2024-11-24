@@ -16,7 +16,50 @@
         </div>
         <hr>
         <div class="magazine-content">
-          <!-- <h5>내용</h5> -->
+          <!-- Carousel (슬라이드 쇼) -->
+        <div v-if="store.magazine.magazineFileList && store.magazine.magazineFileList.length > 0" id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <!-- 슬라이드 버튼 생성 -->
+            <button 
+              v-for="(file, index) in store.magazine.magazineFileList" 
+              :key="index" 
+              type="button" 
+              :data-bs-target="'#carouselExampleIndicators'" 
+              :data-bs-slide-to="index" 
+              :class="{'active': index === 0}" 
+              :aria-label="'Slide ' + (index + 1)">
+            </button>
+          </div>
+          <div class="carousel-inner">
+            <!-- 이미지 또는 동영상 슬라이드 항목 생성 -->
+            <div 
+              v-for="(file, index) in store.magazine.magazineFileList" 
+              :key="index" 
+              :class="['carousel-item', { 'active': index === 0 }]">
+              <!-- 파일이 mp4 형식인 경우 video 태그 사용 -->
+              <template v-if="file.systemName.endsWith('.mp4')">
+                <video class="d-block w-100" :src="file.imageUrl" controls>
+                  Your browser does not support the video tag.
+                </video>
+              </template>
+              <!-- 이미지 파일인 경우 img 태그 사용 -->
+              <template v-else>
+                <img :src="file.imageUrl" class="d-block w-100" :alt="'게시글 이미지 ' + (index + 1)">
+              </template>
+            </div>
+          </div>
+          <!-- 이전/다음 버튼 -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <p v-else>첨부된 이미지나 동영상이 없습니다.</p>
+        <!-- 게시글 내용 -->
           <p>{{ store.magazine.magazineContent }}</p>
         </div>
         <div class="btn-box">
@@ -112,4 +155,11 @@
     border-color: #e64a19;
   }
   
+  /* Carousel 이미지 및 비디오 조정 */
+.carousel-inner img,
+.carousel-inner video {
+  max-height: 500px; /* 최대 높이 설정 */
+  object-fit: contain; /* 이미지나 비디오가 잘리지 않도록 비율 유지하면서 공간에 맞추기 */
+  margin: 0 auto; /* 이미지나 비디오가 중앙에 오도록 여백 추가 */
+}
   </style>

@@ -1,5 +1,6 @@
 package com.mrt.mvc.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -7,9 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mrt.mvc.model.dto.Board;
 import com.mrt.mvc.model.dto.Magazine;
 import com.mrt.mvc.model.dto.SearchCondition;
 import com.mrt.mvc.model.service.MagazineService;
@@ -37,12 +42,27 @@ public class MagazineRestController {
 	@GetMapping("/magazine/{no}")
 	public ResponseEntity<Magazine> detail(@PathVariable("no") int no) {
 		Magazine magazine = service.getMagazineByNo(no);
-		System.out.println("넘어온 게시글: " + magazine.toString());
+		System.out.println("넘어온 매거진: " + magazine.toString());
 		if (magazine != null) {
 			System.out.println(no + "번 매거진을 조회합니다.");
 			return new ResponseEntity<>(magazine, HttpStatus.OK);
 		}
 		System.out.println("조회한 게시글이 없습니다.");
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	/** 매거진 등록
+	 * @throws IOException 
+	 * @throws IllegalStateException */
+	@PostMapping("/magazine")
+	public ResponseEntity<String> write(
+			@RequestPart("magazine") Magazine magazine,
+			@RequestPart("files") List<MultipartFile> files
+			) {
+		System.out.println("게시글: "+ magazine.toString());
+		System.out.println("첨부된 파일은 " + files.size() + "개 입니다.");
+		if (service.writeMagazine(magazine, files))
+			return new ResponseEntity<>(magazine.getMagazineNo()+"번 게시글이 작성되었습니다.", HttpStatus.CREATED);
+		return new ResponseEntity<>("게시글이 작성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

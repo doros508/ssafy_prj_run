@@ -3,6 +3,7 @@ package com.mrt.mvc.model.dao;
 import java.util.List;
 
 import com.mrt.mvc.model.dto.Magazine;
+import com.mrt.mvc.model.dto.MagazineFile;
 import com.mrt.mvc.model.dto.SearchCondition;
 
 public interface MagazineDao {
@@ -15,4 +16,10 @@ public interface MagazineDao {
 
 	// 매거진 조회수 증가
 	void updateViewCnt(int no);
+	
+	// 매거진 등록
+	int insertMagazine(Magazine magazine);
+
+	// 매거진 파일 등록
+	int insertMagazineFile(MagazineFile magazineFile);
 }

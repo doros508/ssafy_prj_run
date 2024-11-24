@@ -31,6 +31,7 @@ import Welcome from "@/components/main/MainWelcome.vue";
 import MagazineDetail from "@/components/magazine/MagazineDetail.vue";
 
 import KakaoView from "@/components/crew/kakaoView.vue";
+import MagazineWrite from "@/components/magazine/MagazineWrite.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -146,6 +147,11 @@ const router = createRouter({
           path: ":magazineNo",
           name: "magazineDetail",
           component: MagazineDetail,
+        },
+        {
+          path: "write",
+          name: "magazineWrite",
+          component: MagazineWrite,
         },
       ],
     },
