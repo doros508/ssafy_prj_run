@@ -1,16 +1,10 @@
 <template>
   <div class="login">
-    <!-- 배경 이미지 -->
     <div class="login-picture"></div>
-
-    <!-- 로그인 폼 -->
     <div class="sign-in">
-      <!-- 투명 배경 박스 -->
       <div class="sign-in-box">
         <div class="sign-in-logo">Sign in</div>
-
         <form @submit.prevent="login">
-          <!-- 아이디 입력 필드 -->
           <input
             type="text"
             placeholder="아이디"
@@ -18,8 +12,6 @@
             v-model="userId"
             required
           />
-
-          <!-- 비밀번호 입력 필드 -->
           <input
             type="password"
             placeholder="비밀번호"
@@ -27,34 +19,14 @@
             v-model="userPassword"
             required
           />
-
-          <!-- 비밀번호 찾기 -->
           <div class="forgot-password">비밀번호를 잊어버리셨나요?</div>
-
-          <!-- 로그인 버튼 -->
-          <button class="login-btn">로그인</button>
+          <button type="submit" class="login-btn">로그인</button>
         </form>
-
-        <!-- 회원가입 버튼 -->
         <button class="signup-btn" @click="goToSignUp">회원가입</button>
-
-        <!-- 소셜 로그인 버튼 -->
         <div class="social-login">
-          <img
-            class="kakao"
-            src="../../assets/user/login/kakao.png"
-            alt="Kakao"
-          />
-          <img
-            class="naver"
-            src="../../assets/user/login/naver.png"
-            alt="Naver"
-          />
-          <img
-            class="google"
-            src="../../assets/user/login/google.png"
-            alt="Google"
-          />
+          <img src="@/assets/user/login/kakao.png" alt="Kakao" />
+          <img src="@/assets/user/login/naver.png" alt="Naver" />
+          <img src="@/assets/user/login/google.png" alt="Google" />
         </div>
       </div>
     </div>
@@ -62,27 +34,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import axios from "axios";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 
 const router = useRouter();
-const route = useRoute();
-const userStore = useUserStore(); //Pinia 스토어 사용.
-
+const userStore = useUserStore();
 const userId = ref("");
 const userPassword = ref("");
 
-// 페이지 로드 시 로그인 상태 확인
-onMounted(() => {
-  const savedUser = localStorage.getItem('user');
-  if (savedUser) {
-    const user = JSON.parse(savedUser);
-    userStore.setUser(user);
-    userStore.setIsLoggedIn(true);
-  }
-});
 async function login() {
   try {
     if (!userId.value || !userPassword.value) {
@@ -90,32 +50,19 @@ async function login() {
       return;
     }
 
-    const response = await axios.post("/api-user/login", {
-      userId: userId.value,
-      userPassword: userPassword.value,
-    });
-    
-    if (response.data) {
-      const userData = {
-        userId: userId.value,
-        // 필요한 다른 사용자 정보도 포함
-      };
-      userStore.setUser(userData);
-      alert("로그인 성공");
-      router.push({ name: "main" });
+    const success = await userStore.login(userId.value, userPassword.value);
+
+    if (!success) {
+      alert("아이디 또는 비밀번호가 올바르지 않습니다.");
     }
   } catch (error) {
-    alert(error.response?.data?.message || "로그인 실패");
-    userStore.clearUser();
+    console.error("로그인 오류:", error);
+    alert("로그인 중 오류가 발생했습니다.");
   }
 }
 
-
 function goToSignUp() {
-  router.push({
-    path: "/signup",
-    name: "signUp",
-  });
+  router.push({ name: "signUp" });
 }
 </script>
 
@@ -146,10 +93,7 @@ function goToSignUp() {
   background-image: url("../../assets/user/login/login_picture.png");
   background-size: cover;
   background-position: center;
-  
 }
-
-
 
 /* 로그인 폼 박스 */
 .sign-in {

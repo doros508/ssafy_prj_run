@@ -126,6 +126,7 @@ const router = createRouter({
           path: "update/:boardNo",
           name: "boardUpdate",
           component: BoardUpdate,
+          requiresAuth: false,
         },
       ],
     },
@@ -200,6 +201,7 @@ router.beforeEach((to, from, next) => {
 
   // 인증이 필요한 라우트 체크
   if (to.meta.requiresAuth && !userStore.getIsLoggedIn) {
+    alert("로그인 후에 이용해주세요.");
     // 로그인되지 않은 사용자를 로그인 페이지로 리다이렉트
     next({
       name: "login",

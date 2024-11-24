@@ -147,8 +147,13 @@ public class UserController {
 	// 로그아웃
 	@PostMapping("/logout")
 	public ResponseEntity<?> logout(HttpSession session) {
-		userService.logout(session);
-		return ResponseEntity.ok(Map.of("message", "로그아웃 성공"));
+	    if (session != null) {
+	        session.invalidate(); // 세션 무효화
+	        return ResponseEntity.ok(Map.of("message", "로그아웃 성공"));
+	    } else {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                .body(Map.of("message", "세션이 존재하지 않습니다."));
+	    }
 	}
 
 	// 계정 삭제(회원탈퇴)
