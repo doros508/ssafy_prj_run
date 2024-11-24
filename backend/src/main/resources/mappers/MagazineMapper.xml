@@ -5,9 +5,11 @@
 <mapper namespace="com.mrt.mvc.model.dao.MagazineDao">
 
 	<!-- 매거진 전체 조회 -->
-	<select id="selectAll" resultType="Magazine" parameterType="SearchCondition">
-		SELECT magazine_no, magazine_title, magazine_reg_date, magazine_view_cnt, magazine_thumbnail
-		FROM magazine
+	<select id="selectAll" parameterType="SearchCondition" resultMap="MagazineResultMap">
+		SELECT m.magazine_no, m.magazine_title, m.magazine_content, m.magazine_reg_date, m.magazine_view_cnt,
+	           f.file_no, f.file_name, f.file_path, f.file_system_name
+	    FROM magazine m
+	    LEFT JOIN files f ON m.magazine_no = f.magazine_no
 		<if test="key != null">
 	    	WHERE ${key} LIKE concat('%',#{word},'%')
 	    </if>

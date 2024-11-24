@@ -13,6 +13,15 @@
             v-model="magazine.magazineTitle"
           />
         </div>
+        <!-- <div class="mb-3">
+          <label for="formFileMultiple" class="form-label">썸네일 첨부</label>
+          <input
+            class="form-control"
+            type="file"
+            id="formFileMultiple"
+            @change="uploadFile"
+          />
+        </div> -->
         <div class="mb-3">
           <label for="formFileMultiple" class="form-label">파일 첨부</label>
           <input
