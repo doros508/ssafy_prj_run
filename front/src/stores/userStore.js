@@ -7,8 +7,10 @@ export const useUserStore = defineStore("user", {
     user: null,
     isLoggedIn: false,
   }),
+  
   getters: {
-    getIsLoggedIn: (state) => state.isLoggedIn
+    getIsLoggedIn: (state) => state.isLoggedIn,
+    getUserInfo: (state) => state.user
   },
 
   actions: {
@@ -33,16 +35,10 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    logout() {
-      try {
-        axios.post("/maratalk/logout");
-        this.user = null;
-        this.isLoggedIn = false;
-        localStorage.removeItem("user");
-        router.push("/login");
-      } catch (error) {
-        console.error("로그아웃 실패:", error);
-      }
+    clearUser() {
+      this.user = null;
+      this.isLoggedIn = false;
+      localStorage.removeItem("user");
     },
 
     initializeFromLocalStorage() {
@@ -54,15 +50,10 @@ export const useUserStore = defineStore("user", {
         } catch (error) {
           this.clearUser();
         }
+      } else {
+        this.clearUser(); // 저장된 사용자 정보가 없으면 초기화
       }
-    },
-
-    clearUser() {
-      this.user = null;
-      this.isLoggedIn = false;
-      localStorage.removeItem("user");
-    },
-  },
-
-  persist: true,
+    }
+  }
 });
+

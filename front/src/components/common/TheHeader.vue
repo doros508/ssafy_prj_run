@@ -12,15 +12,17 @@
       <RouterLink class="race" :to="{ name: 'race' }">Race</RouterLink>
     </div>
     <div>
-      <RouterLink
-        v-if="!isLoggedIn"
-        class="sign-up-in2"
-        :to="{ name: 'login' }"
-      >
-        Sign up/in
-      </RouterLink>
-      <button v-else class="sign-up-in2" @click="handleLogout">Logout</button>
-    </div>
+        <RouterLink
+          v-if="!isLoggedIn"
+          class="sign-up-in2"
+          :to="{ name: 'login' }"
+        >
+          Sign up/in
+        </RouterLink>
+        <button v-else class="sign-up-in2" @click="handleLogout">
+          Logout
+        </button>
+      </div>
   </div>
 </template>
 
@@ -31,24 +33,28 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
+import { computed } from "vue";
 
 // userStore 선언을 한 번만 하도록 수정
-const store = useUserStore();
+const userStore = useUserStore();
 const router = useRouter();
-const { isLoggedIn } = storeToRefs(store);
+
+
+const isLoggedIn = computed(() => userStore.isLoggedIn);
 
 onMounted(() => {
-  store.initializeFromLocalStorage();
+  // userStore.clearUser();
+  userStore.initializeFromLocalStorage();
 });
 
 async function handleLogout() {
   try {
     await axios.post("/maratalk/logout");
-    store.logout(); // clearUser 대신 logout 사용
-    router.push({ name: "main" });
+    userStore.clearUser();
+    router.push("/");
   } catch (error) {
-    console.error("로그아웃 실패", error);
-    alert("로그아웃 중 오류가 발생했습니다.");
+    console.error("로그아웃 실패:", error);
+    // userStore.clearUser(); // 에러가 발생해도 로컬 상태는 초기화
   }
 }
 </script>
