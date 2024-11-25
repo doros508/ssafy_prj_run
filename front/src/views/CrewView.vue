@@ -3,6 +3,7 @@
     <TheHeader />
     <div class="crew-picture">
       <CrewMain @filter-crews="updateFilteredCrews" />
+      <div class="spacing"></div>
       <KakaoView :crews="filteredCrews" />
     </div>
   </div>
@@ -27,12 +28,24 @@ const updateFilteredCrews = (crews) => {
 /* 배경 이미지 설정 */
 .crew-picture {
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-image: url("../../assets/common/backgroundSample/원본 8.png");
+  position: relative;
+  /* background-image: url("src/assets/common/backgroundSample/원본 7.png"); */
+  background-image: url("src/assets/common/backgroundSample/원본 4.png");
   background-size: cover;
   background-position: center;
+  padding: 20px; /* 내부 여백 추가 */
+}
+
+/* crewMain과 kakaoView 간격 설정 */
+.spacing {
+  height: 20px; /* 원하는 간격 크기 */
+}
+
+/* Vue 컴포넌트의 공통 스타일 */
+.crew-picture > * {
+  width: 100%; /* 가로 너비 통일 */
+  max-width: 1200px; /* 원하는 최대 너비 */
+  margin: 0 auto; /* 가운데 정렬 */
+  box-sizing: border-box;
 }
 </style>

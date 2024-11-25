@@ -1,17 +1,8 @@
 <template>
-  
   <div>
     <header>
       <TheHeader />
     </header>
-    <!-- <img
-      class="background-img"
-      src="../assets/user/sign_up/login_picture.png"
-    /> -->
-    <!-- <img
-      class="background-img"
-      src="../assets/magazine/list/background-tmp.png"
-    /> -->
     <div class="body">
       <div class="main">
         <main>
@@ -57,8 +48,6 @@ export default {
   box-sizing: border-box;
 }
 
-
-
 /* - 글씨 작은 버전 
 .body {
   display: flex;
@@ -69,14 +58,35 @@ export default {
 
 .body {
   height: 100%;
-  background: #181818;
+  background-image: url("src/assets/common/backgroundSample/원본 7.png");
+  /* background-image: url("src/assets/common/backgroundSample/원본 8.png"); */
+  /* background-image: url("src/assets/common/backgroundSample/원본 13.png"); */
+  /* background: #181818; */
+  font-family: sans-serif;
+  /* color: white;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  background-color: #181818;
   font-family: sans-serif;
   color: white;
   font-size: 24px;
   display: flex;
+  flex-direction: column; */
+
+  min-height: 100vh;
+  background-image: url("src/assets/common/backgroundSample/원본 7.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: sans-serif;
+  font-size: 24px;
+  display: flex;
   flex-direction: column;
 }
-
 
 .main {
   width: 100%;
@@ -84,7 +94,6 @@ export default {
   justify-content: center;
   height: 100vh;
 }
-
 
 main {
   width: 70%;
@@ -103,6 +112,4 @@ main {
   object-fit: cover;
   z-index: -1;
 } */
-
 </style>
-

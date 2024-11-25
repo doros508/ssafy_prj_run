@@ -3,7 +3,12 @@
     <h1 class="magazine-logo">Magazine</h1>
     <div class="content">
       <div class="btn-box">
-        <button type="button" id="writeform-btn" class="btn btn-primary" @click="writeMagazine">
+        <button
+          type="button"
+          id="writeform-btn"
+          class="btn btn-primary"
+          @click="writeMagazine"
+        >
           <i class="bi bi-pencil-square"></i> 글쓰기
         </button>
       </div>
@@ -17,7 +22,11 @@
           :key="magazine.magazineNo"
           @click="detailMagazine(magazine.magazineNo)"
         >
-          <img :src="getThumbnail(magazine)" class="magazine-image" alt="썸네일 이미지" />
+          <img
+            :src="getThumbnail(magazine)"
+            class="magazine-image"
+            alt="썸네일 이미지"
+          />
           <h3 class="magazine-title">{{ magazine.magazineTitle }}</h3>
         </div>
       </div>
@@ -40,13 +49,13 @@ onMounted(() => {
 // 매거진 상세 페이지로 이동하는 함수
 const detailMagazine = (magazineNo) => {
   console.log(magazineNo + "번 매거진 클릭");
-  router.push({ name: 'magazineDetail', params: { magazineNo } });
+  router.push({ name: "magazineDetail", params: { magazineNo } });
 };
 
 // 글쓰기 페이지로 이동하는 함수
 const writeMagazine = () => {
   console.log("글쓰기 버튼 클릭!");
-  router.push({ name: 'magazineWrite' });
+  router.push({ name: "magazineWrite" });
 };
 
 // 썸네일 이미지 결정 함수
@@ -55,17 +64,17 @@ const getThumbnail = (magazine) => {
 
   // 1. 파일이 아예 없을 경우
   if (files.length === 0) {
-    return "http://localhost:8080/uploads/default/thumbnail.png";  // 기본 이미지
+    return "http://localhost:8080/uploads/default/thumbnail.png"; // 기본 이미지
   }
 
   // 2. 비디오 파일만 존재하는 경우
-  const videoFiles = files.filter(file => file.systemName.endsWith('.mp4'));
+  const videoFiles = files.filter((file) => file.systemName.endsWith(".mp4"));
   if (videoFiles.length === files.length) {
-    return "http://localhost:8080/uploads/default/thumbnail.png";  // 비디오만 있을 경우 기본 이미지
+    return "http://localhost:8080/uploads/default/thumbnail.png"; // 비디오만 있을 경우 기본 이미지
   }
 
   // 3. 비디오 파일과 이미지 파일이 함께 있을 경우
-  const imageFiles = files.filter(file => !file.systemName.endsWith('.mp4'));
+  const imageFiles = files.filter((file) => !file.systemName.endsWith(".mp4"));
   if (imageFiles.length > 0) {
     // 3-1. 첫 번째 이미지 파일을 썸네일로 사용
     return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`;
@@ -89,6 +98,13 @@ const getThumbnail = (magazine) => {
 
 .magazine-container {
   width: 100%;
+
+  /* width: 100%;
+  min-height: 100vh;  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center; */
 }
 
 .magazine-logo {
@@ -99,7 +115,7 @@ const getThumbnail = (magazine) => {
 }
 
 .content {
-  background-color: #181818;
+  background-color: rgba(0, 0, 0, 0.3); /* 투명한 검정 배경 */
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -108,7 +124,10 @@ const getThumbnail = (magazine) => {
 
 .magazine-list-box {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 자동으로 열 수 변경 */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* 자동으로 열 수 변경 */
   gap: 20px;
   width: 90%;
   max-width: 90%;

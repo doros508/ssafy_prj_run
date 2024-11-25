@@ -1,4 +1,4 @@
-CrewMain 
+CrewMain
 <template>
   <div class="container">
     <h1 class="logo">Crew</h1>
@@ -194,7 +194,7 @@ onMounted(() => {
   position: relative;
   width: 100%;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -247,5 +247,3 @@ label {
   margin-bottom: 15px;
 }
 </style>
-
-
