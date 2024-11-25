@@ -2,7 +2,7 @@
   <div class="race-widget">
     <h4><i class="bi bi-trophy-fill"></i>대회 일정</h4>
     <ul>
-      <li v-for="race in store.raceList.slice(0, 5)" :key="race.raceNo" class="race-item">
+      <li v-for="race in store.raceList.slice(0, 5)" :key="race.raceNo" class="race-item" @click="detailRace(race.raceNo)">
         <p>{{ race.raceName }}</p>
         <small>{{ race.raceDate }}</small>
       </li>
@@ -13,7 +13,14 @@
 
 <script setup>
 import { useRaceStore } from '@/stores/race'
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const detailRace = (raceNo) => {
+  router.push({ name: 'raceDetail', params: { raceNo }});
+}
 
 const store = useRaceStore()
 // const raceList = ref([]);
@@ -34,6 +41,9 @@ onMounted(() => {
 .race-item {
   padding: 10px 0;
   border-bottom: 1px solid #444;
+}
+.race-item:hover {
+ cursor: pointer;
 }
 .race-item:last-child {
   border-bottom: none;

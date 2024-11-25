@@ -40,6 +40,9 @@ import MainContentCommunity from "@/components/main/content/MainContentCommunity
   display: flex;
   padding: 20px;
 }
+/* .right {
+  position: relative;
+} */
 .content {
   width: 80%;
 }
