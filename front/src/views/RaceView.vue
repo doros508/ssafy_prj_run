@@ -5,7 +5,7 @@
     </header>
     <div class="main">
       <main>
-        <RaceList />
+        <RouterView />
       </main>
       <aside class="right">
         <MainAside/>
