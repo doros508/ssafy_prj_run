@@ -20,5 +20,6 @@ public interface RaceService {
 	//도시번호로 경기 가져오기
 	List<Race> getRacesByCity(int cityNo);
 	
-	
+	 //  검색 메소드 
+    List<Race> searchRaces(String date, Integer cityNo, String distance);
 }

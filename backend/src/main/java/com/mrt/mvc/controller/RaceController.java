@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mrt.mvc.model.dto.Race;
@@ -28,11 +28,21 @@ public class RaceController {
     public RaceController(RaceService service) {
 		this.service = service;
 	}
-
+    
 	@GetMapping("/race")
     public ResponseEntity<List<Race>> list() {
         return new ResponseEntity<>(service.getRaceList(), HttpStatus.OK);
     }
+	
+    @GetMapping("/race/search")
+    public ResponseEntity<List<Race>> searchRaces(
+        @RequestParam(required = false) String date,
+        @RequestParam(required = false) Integer cityNo,
+        @RequestParam(required = false) String distance
+    ) {
+        return new ResponseEntity<>(service.searchRaces(date, cityNo, distance), HttpStatus.OK);
+    }
+	
 
     @GetMapping("/race/{no}")
     public ResponseEntity<Race> detail(@PathVariable("no") int no) {
@@ -42,7 +52,7 @@ public class RaceController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
+    
     @PostMapping("/race")
     public ResponseEntity<String> write(@RequestBody Race race) {
         if (service.createRace(race)) {
