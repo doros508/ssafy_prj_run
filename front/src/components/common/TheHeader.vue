@@ -19,15 +19,17 @@
         >
           Sign up/in
         </RouterLink>
-        <button v-else class="sign-up-in2" @click="handleLogout">
+        <div class="logined-box" v-else>
+          <p id="welcome-msg">님<br>안녕하세요!</p><br>
+        <button class="sign-up-in2" @click="handleLogout">
           Logout
         </button>
+      </div>
       </div>
   </div>
 </template>
 
 <script setup>
-import { RouterLink } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import axios from "axios";
@@ -128,5 +130,18 @@ a {
   font-size: 30px;
   font-weight: 600;
   white-space: nowrap;
+}
+
+.logined-box {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+#welcome-msg {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: bold;
 }
 </style>
