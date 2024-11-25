@@ -9,19 +9,19 @@
           <p>작성일자</p>
         </div>
         <div class="board-info-right">
-          <h3>{{ store.board.boardTitle }}</h3>
-          <p>{{ store.board.boardNo }}</p>
-          <p>{{ store.board.boardRegDate }}</p>
+          <h3>{{ boardStore.board.boardTitle }}</h3>
+          <p>{{ boardStore.board.boardNo }}</p>
+          <p>{{ boardStore.board.boardRegDate }}</p>
         </div>
       </div>
       <hr>
       <div class="board-content">
         <!-- Carousel (슬라이드 쇼) -->
-        <div v-if="store.board.boardFileList && store.board.boardFileList.length > 0" id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div v-if="boardStore.board.boardFileList && boardStore.board.boardFileList.length > 0" id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
             <!-- 슬라이드 버튼 생성 -->
             <button 
-              v-for="(file, index) in store.board.boardFileList" 
+              v-for="(file, index) in boardStore.board.boardFileList" 
               :key="index" 
               type="button" 
               :data-bs-target="'#carouselExampleIndicators'" 
@@ -33,7 +33,7 @@
           <div class="carousel-inner">
             <!-- 이미지 또는 동영상 슬라이드 항목 생성 -->
             <div 
-              v-for="(file, index) in store.board.boardFileList" 
+              v-for="(file, index) in boardStore.board.boardFileList" 
               :key="index" 
               :class="['carousel-item', { 'active': index === 0 }]">
               <!-- 파일이 mp4 형식인 경우 video 태그 사용 -->
@@ -60,9 +60,9 @@
         </div>
         <p v-else>첨부된 이미지나 동영상이 없습니다.</p>
         <!-- 게시글 내용 -->
-        <p>{{ store.board.boardContent }}</p>
+        <p>{{ boardStore.board.boardContent }}</p>
       </div>
-      <div class="btn-box">
+      <div class="btn-box" v-if="isAuthor">
         <button class="btn btn-primary" type="submit" @click="updateBoard">수정</button>
         <button class="btn btn-primary" type="submit" @click="deleteBoard">삭제</button>
       </div>
@@ -74,28 +74,69 @@
 </template>
 
 <script setup>
+import { useUserStore } from "@/stores/userStore";
 import { useBoardStore } from "@/stores/board";
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-const store = useBoardStore();
+const userStore = useUserStore();
+const boardStore = useBoardStore();
 const route = useRoute();
 const router = useRouter();
 
-onMounted(() => {
-  store.getBoard(route.params.boardNo);
+// store를 boardStore로 변경
+const isAuthor = computed(() => {
+
+  console.log("boardDetail test isLoggedIn:", userStore.isLoggedIn);
+  console.log("userNo:", userStore.user?.userNo);
+  console.log("boardUserNo:", boardStore.board?.userNo);
+
+  return userStore.isLoggedIn && 
+         userStore.user && 
+         boardStore.board && 
+         boardStore.board.userNo === userStore.user.userNo;
 });
 
-// 게시글 수정
-const updateBoard = function (boardNo) {
-  router.push({ name: 'boardUpdate' })
-}
+onMounted(async () => {
+  await boardStore.getBoard(route.params.boardNo);
+  if (userStore.isLoggedIn) {
+    userStore.initializeFromLocalStorage();
+  }
+});
 
-// 게시글 삭제
-const deleteBoard = function () {
-  console.log(route.params.boardNo)
-  store.deleteBoard(route.params.boardNo)
-}
+const updateBoard = function() {
+  if (!userStore.isLoggedIn) {
+    alert("로그인이 필요한 서비스입니다.");
+    router.push({ name: "login" });
+    return;
+  }
+  if (boardStore.board.userNo !== userStore.user.userNo) {
+    alert("자신이 작성한 글만 수정할 수 있습니다.");
+    return;
+  }
+
+  router.push({ 
+    name: 'boardUpdate',
+    params: { boardNo: route.params.boardNo }
+  });
+};
+
+const deleteBoard = function() {
+  if (!userStore.isLoggedIn) {
+    alert("로그인이 필요한 서비스입니다.");
+    router.push({ name: "login" });
+    return;
+  }
+  if (boardStore.board.userNo !== userStore.user.userNo) {
+    alert("자신이 작성한 글만 삭제할 수 있습니다.");
+    return;
+  }
+  
+  if (confirm("정말 삭제하시겠습니까?")) {
+    // store를 boardStore로 변경
+    boardStore.deleteBoard(route.params.boardNo);
+  }
+};
 </script>
 
 <style scoped>
