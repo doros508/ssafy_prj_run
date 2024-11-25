@@ -2,6 +2,7 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 import router from "@/router";
+import { useUserStore } from "./userStore";
 
 const REST_API_URL = `http://localhost:8080/maratalk/board`; // 로컬
 // const REST_API_URL = `http://192.168.210.63:8080/maratalk/board` //종수
@@ -18,35 +19,38 @@ export const useBoardStore = defineStore("board", () => {
   };
 
   // 게시글 등록
-  const createBoard = function (formData) {
-    // const boardData = {
-    //   boardTitle: board.boardTitle,
-    //   boardContent: board.boardContent
-    // }
-
-    axios
-      .post(REST_API_URL, formData, {
-        headers: {
-          // 'Content-Type': 'application/json',
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(() => {
-        console.log("완료");
-        router.push({ name: "boardList" });
-      })
-      .catch((error) => {
-        console.log("실패", error);
-      });
+  const createBoard = function(formData) {
+    const userStore = useUserStore();
+    if (!userStore.isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다.");
+      router.push({ name: "login" });
+      return;
+    }
+    
+    axios.post(REST_API_URL, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then(() => {
+      router.push({ name: "boardList" });
+    })
+    .catch((error) => {
+      console.error("게시글 작성 실패:", error);
+      alert("게시글 작성에 실패했습니다.");
+    });
   };
 
   // 게시글 조회
   const board = ref({});
   const getBoard = function (boardNo) {
-    console.log("게시글 가져오기 시도(프론트)");
+    console.log("board.js게시글 가져오기 시도(프론트) 보드번호 확인", boardNo);
     axios
       .get(`${REST_API_URL}/${boardNo}`)
       .then((response) => {
+        console.log("백엔드 응답 데이터:", response.data); // 응답 데이터 확인
+
+
         board.value = response.data;
         console.log("보드가 가져온 것은?");
         console.log(board.value.boardFileList);

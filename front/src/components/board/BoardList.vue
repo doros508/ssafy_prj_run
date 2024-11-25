@@ -1,10 +1,7 @@
 <template>
   <div class="container">
-    <!-- 커뮤니티 텍스트 -->
     <h1 class="logo">Community</h1>
-
     <div class="content">
-      <!-- 게시판 목록 테이블 -->
       <table class="table table-dark table-striped table-hover">
         <thead>
           <tr>
@@ -16,21 +13,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="board in store.boardList" :key="board.boardNo">
+          <tr v-for="board in boardStore.boardList" :key="board.boardNo">
             <td>{{ board.boardNo }}</td>
             <td>
               <RouterLink :to="`/board/${board.boardNo}`">{{
                 board.boardTitle
               }}</RouterLink>
             </td>
-            <td>board.userNo</td>
+            <td>{{ board.userNo }}</td>
             <td>{{ board.boardViewCnt }}</td>
             <td>{{ board.boardRegDate }}</td>
           </tr>
         </tbody>
       </table>
 
-      <!-- 글쓰기 버튼 -->
       <button
         type="button"
         id="writeform-btn"
@@ -44,20 +40,27 @@
 </template>
 
 <script setup>
+import { useUserStore } from "@/stores/userStore";
 import { useBoardStore } from "@/stores/board";
 import { onMounted } from "vue";
-import { useRouter } from "vue-router"; 
+import { useRouter } from "vue-router";
 
-const store = useBoardStore();
+const userStore = useUserStore();
+const boardStore = useBoardStore();
 const router = useRouter();
+
 onMounted(() => {
-  store.getBoardList();
+  boardStore.getBoardList();
 });
 
 const writeBoard = function() {
-  console.log("글쓰기 버튼 클릭!")
-  router.push({ name: 'boardWrite' })
-}
+  if (!userStore.isLoggedIn) {
+    alert("로그인이 필요한 서비스입니다.");
+    router.push({ name: "login" });
+    return;
+  }
+  router.push({ name: "boardWrite" });
+};
 </script>
 
 <style scoped>
