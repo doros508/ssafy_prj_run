@@ -4,6 +4,7 @@
     <div class="content">
       <div class="btn-box">
         <button
+          v-if="isAdmin"
           type="button"
           id="writeform-btn"
           class="btn btn-primary"
@@ -36,8 +37,16 @@
 
 <script setup>
 import { useMagazineStore } from "@/stores/magazine";
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/userStore";
+
+const userStore = useUserStore();
+
+//관리자일때만 글쓰기 버튼 나오기 위해 아이디 체크
+const isAdmin = computed(() => {
+  return userStore.user && userStore.user.userId === "admin";
+});
 
 const store = useMagazineStore();
 const router = useRouter();

@@ -99,7 +99,6 @@ const getThumbnail = (magazine) => {
   gap: 20px;
   width: 90%;
   max-width: 90%; /* 매거진 섹션의 최대 너비 */
-  z-index: 0;
 }
 
 .magazine-item {
