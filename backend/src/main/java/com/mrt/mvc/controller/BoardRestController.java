@@ -1,16 +1,11 @@
 package com.mrt.mvc.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,16 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mrt.mvc.model.dto.Board;
-import com.mrt.mvc.model.dto.BoardFile;
 import com.mrt.mvc.model.dto.SearchCondition;
+import com.mrt.mvc.model.dto.User;
 import com.mrt.mvc.model.service.BoardService;
 import com.mrt.mvc.model.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/maratalk")
@@ -66,6 +62,7 @@ public class BoardRestController {
 		System.out.println("넘어온 게시글: " + board.toString());
 		if (board != null) {
 			System.out.println(no + "번 게시글을 조회합니다.");
+			System.out.println("프론트 직전 게시글: " + board.toString());
 			return new ResponseEntity<>(board, HttpStatus.OK);
 		}
 		System.out.println("조회한 게시글이 없습니다.");
@@ -78,8 +75,15 @@ public class BoardRestController {
 	@PostMapping("/board")
 	public ResponseEntity<String> write(
 	        @RequestPart("board") Board board,
-	        @RequestPart(value = "files", required = false) List<MultipartFile> files
+	        @RequestPart(value = "files", required = false) List<MultipartFile> files,
+	        HttpSession session
 	        ) {
+	    System.out.println(session.getAttribute("user").toString());
+	    User loginUser = (User)session.getAttribute("user");
+	    int userNo = loginUser.getUserNo(); // 유저 번호 가져왔다.
+	    String userNickName = loginUser.getUserNickname();
+	    board.setUserNo(userNo);
+	    board.setBoardUserNickname(userNickName);
 	    System.out.println("게시글: " + board.toString());
 	    // files가 null인 경우도 처리
 	    int fileCount = (files != null) ? files.size() : 0;

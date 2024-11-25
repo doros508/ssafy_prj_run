@@ -10,7 +10,7 @@
         </div>
         <div class="board-info-right">
           <h3>{{ boardStore.board.boardTitle }}</h3>
-          <p>{{ boardStore.board.boardNo }}</p>
+          <p>{{ boardStore.board.boardUserNickname }}</p>
           <p>{{ boardStore.board.boardRegDate }}</p>
         </div>
       </div>

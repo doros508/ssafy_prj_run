@@ -118,6 +118,7 @@ public class UserController {
 
 	    if (tmpUser != null) {
 	        session.setAttribute("user", tmpUser);
+	        System.out.println("로그인 한 유저 : " + session.getAttribute("user").toString());
 	        return ResponseEntity.ok(Map.of(
 	            "message", "로그인 성공했습니다.",
 	            "user", tmpUser
