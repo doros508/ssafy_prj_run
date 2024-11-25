@@ -2,20 +2,29 @@
 <template>
   <div class="container">
     <h1 class="logo">Race Events</h1>
-    
+
     <div class="content">
       <!-- Search Filters -->
       <div class="row mb-4">
         <div class="col-md-4">
           <div class="form-group">
             <label for="dateFilter" class="text-white mb-2">날짜</label>
-            <input type="month" class="form-control" id="dateFilter" v-model="filters.date">
+            <input
+              type="month"
+              class="form-control"
+              id="dateFilter"
+              v-model="filters.date"
+            />
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
             <label for="regionFilter" class="text-white mb-2">지역</label>
-            <select class="form-control" id="regionFilter" v-model="filters.cityNo">
+            <select
+              class="form-control"
+              id="regionFilter"
+              v-model="filters.cityNo"
+            >
               <option value="">전체</option>
               <option value="1">서울</option>
               <option value="2">경기</option>
@@ -31,7 +40,11 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="distanceFilter" class="text-white mb-2">거리</label>
-            <select class="form-control" id="distanceFilter" v-model="filters.distance">
+            <select
+              class="form-control"
+              id="distanceFilter"
+              v-model="filters.distance"
+            >
               <option value="">전체</option>
               <option value="5K">5KM</option>
               <option value="10K">10KM</option>
@@ -45,7 +58,9 @@
       <!-- Search Button -->
       <div class="row mb-4">
         <div class="col-12">
-          <button class="btn btn-primary w-100" @click="applyFilters">검색</button>
+          <button class="btn btn-primary w-100" @click="applyFilters">
+            검색
+          </button>
         </div>
       </div>
 
@@ -62,11 +77,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="race in store.raceList.slice(0,15)" :key="race.raceNo">
+          <tr v-for="race in store.raceList.slice(0, 15)" :key="race.raceNo">
             <td>{{ formatDate(race.raceDate) }}</td>
             <!-- <td>{{ race.raceNo }}</td> -->
             <td>
-              <RouterLink :to="`/race/${race.raceNo}`">{{ race.raceName }}</RouterLink>
+              <RouterLink :to="`/race/${race.raceNo}`">{{
+                race.raceName
+              }}</RouterLink>
             </td>
             <td>{{ race.racePlace }}</td>
             <td>{{ race.raceDistance }}</td>
@@ -76,7 +93,12 @@
       </table>
 
       <!-- Register Button -->
-      <button type="button" id="writeform-btn" class="btn btn-primary" @click="writeRace">
+      <button
+        type="button"
+        id="writeform-btn"
+        class="btn btn-primary"
+        @click="writeRace"
+      >
         <i class="bi bi-pencil-square"></i> 대회 등록
       </button>
     </div>
@@ -84,54 +106,54 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useRaceStore } from '@/stores/race'
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useRaceStore } from "@/stores/race";
 
-const store = useRaceStore()
-const router = useRouter()
+const store = useRaceStore();
+const router = useRouter();
 
 const filters = ref({
-  date: '',
-  cityNo: '',
-  distance: ''
-})
+  date: "",
+  cityNo: "",
+  distance: "",
+});
 
 // 날짜 포맷팅 함수
 const formatDate = (dateString) => {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  return date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  })
-}
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+};
 
 // 필터링된 레이스 목록
 const filteredRaces = computed(() => {
-  let results = store.raceList
+  let results = store.raceList;
 
   if (filters.value.date) {
-    results = results.filter(race => 
+    results = results.filter((race) =>
       race.raceDate.includes(filters.value.date)
-    )
+    );
   }
 
   if (filters.value.cityNo) {
-    results = results.filter(race => 
-      race.cityNo === parseInt(filters.value.cityNo)
-    )
+    results = results.filter(
+      (race) => race.cityNo === parseInt(filters.value.cityNo)
+    );
   }
 
   if (filters.value.distance) {
-    results = results.filter(race => 
-      race.raceDistance === filters.value.distance
-    )
+    results = results.filter(
+      (race) => race.raceDistance === filters.value.distance
+    );
   }
 
-  return results
-})
+  return results;
+});
 
 // 필터 적용
 
@@ -140,20 +162,20 @@ const applyFilters = async () => {
     await store.getRacesByFilter({
       date: filters.value.date,
       cityNo: filters.value.cityNo,
-      distance: filters.value.distance
+      distance: filters.value.distance,
     });
   } catch (error) {
-    console.error('Error applying filters:', error);
+    console.error("Error applying filters:", error);
   }
 };
 
 const writeRace = () => {
-  router.push({ name: 'raceWrite' })
-}
+  router.push({ name: "raceWrite" });
+};
 
 onMounted(() => {
-  store.getRaceList()
-})
+  store.getRaceList();
+});
 </script>
 
 <style scoped>
@@ -168,7 +190,7 @@ onMounted(() => {
   position: relative;
   width: 100%;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   display: flex;
   flex-direction: column;

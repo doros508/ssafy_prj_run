@@ -3,10 +3,6 @@
     <header>
       <TheHeader />
     </header>
-    <img
-      class="background-img"
-      src="../assets/user/sign_up/login_picture.png"
-    />
     <div class="body">
       <div class="main">
         <main>
@@ -53,8 +49,6 @@ export default {
   box-sizing: border-box;
 }
 
-
-
 /* - 글씨 작은 버전
  .body {
   display: flex;
@@ -70,6 +64,7 @@ export default {
   font-size: 24px;
   display: flex;
   flex-direction: column;
+  background-image: url("src/assets/common/backgroundSample/원본 7.png");
 }
 
 .main {
@@ -78,7 +73,6 @@ export default {
   justify-content: center;
   height: 100%;
 }
-
 
 main {
   width: 70%;
@@ -97,5 +91,4 @@ main {
   object-fit: cover;
   z-index: -1;
 }
-
 </style>

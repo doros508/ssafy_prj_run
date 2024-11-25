@@ -8,7 +8,7 @@
         <RouterView />
       </main>
       <aside class="right">
-        <MainAside/>
+        <MainAside />
       </aside>
     </div>
     <footer></footer>
@@ -55,7 +55,6 @@ export default {
   font-size: 24px;
   display: flex;
   flex-direction: column;
-  
 }
 /* .header {
 
@@ -82,8 +81,14 @@ main {
   display: flex;
   justify-content: center;
   height: 100%;
+  width: 100%;
+  position: relative;
+  /* background-image: url("src/assets/common/backgroundSample/원본 7.png"); */
+  background-image: url("src/assets/common/backgroundSample/원본 4.png");
+  background-size: cover;
+  background-position: center;
+  padding: 20px; /* 내부 여백 추가 */
 }
-
 
 main {
   width: 70%;
