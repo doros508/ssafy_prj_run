@@ -173,7 +173,7 @@ const router = createRouter({
       redirect: { name: "crewList" },
       children: [
         {
-          path: "list",
+          path: "",
           name: "crewList",
           component: CrewList,
         },
