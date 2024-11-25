@@ -2,18 +2,24 @@
   <div class="nav-bar">
     <RouterLink class="mrt-logo" :to="{ name: 'main' }">MRT</RouterLink>
     <div class="center-links">
-      <RouterLink class="magazine" :to="{ name: 'magazine' }">Magazine</RouterLink>
-      <RouterLink class="community" :to="{ name: 'board' }">Community</RouterLink>
+      <RouterLink class="magazine" :to="{ name: 'magazine' }"
+        >Magazine</RouterLink
+      >
+      <RouterLink class="community" :to="{ name: 'board' }"
+        >Community</RouterLink
+      >
       <RouterLink class="crew" :to="{ name: 'crew' }">Crew</RouterLink>
       <RouterLink class="race" :to="{ name: 'race' }">Race</RouterLink>
     </div>
     <div>
-      <RouterLink v-if="!isLoggedIn" class="sign-up-in2" :to="{ name: 'login' }">
+      <RouterLink
+        v-if="!isLoggedIn"
+        class="sign-up-in2"
+        :to="{ name: 'login' }"
+      >
         Sign up/in
       </RouterLink>
-      <button v-else class="sign-up-in2" @click="handleLogout">
-        Logout
-      </button>
+      <button v-else class="sign-up-in2" @click="handleLogout">Logout</button>
     </div>
   </div>
 </template>
@@ -23,21 +29,22 @@ import { RouterLink } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import axios from "axios";
-import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
 
-const userStore = useUserStore();
+// userStore 선언을 한 번만 하도록 수정
+const store = useUserStore();
 const router = useRouter();
-const { isLoggedIn } = storeToRefs(userStore);
+const { isLoggedIn } = storeToRefs(store);
 
 onMounted(() => {
-  userStore.initializeFromLocalStorage();
+  store.initializeFromLocalStorage();
 });
 
 async function handleLogout() {
   try {
-    await axios.post("/api-user/logout");
-    userStore.clearUser();
+    await axios.post("/maratalk/logout");
+    store.logout(); // clearUser 대신 logout 사용
     router.push({ name: "main" });
   } catch (error) {
     console.error("로그아웃 실패", error);
@@ -45,7 +52,6 @@ async function handleLogout() {
   }
 }
 </script>
-
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Notable&display=swap");
@@ -68,7 +74,6 @@ a {
   box-sizing: border-box;
 }
 
-
 .mrt-logo {
   font-family: "Notable", sans-serif;
   color: #ffffff;
@@ -78,7 +83,7 @@ a {
   font-weight: 400;
   position: relative;
   width: 174px;
-  height: 108px; 
+  height: 108px;
 }
 
 .center-links {

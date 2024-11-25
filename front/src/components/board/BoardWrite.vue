@@ -46,16 +46,25 @@
 <script setup>
 import { ref } from "vue";
 import { useBoardStore } from "@/stores/board";
+import { onMounted } from 'vue';
+import { useUserStore } from '@/stores/userStore';
+import { useRouter } from 'vue-router';
 
 const board = ref({
   boardTitle: "",
   boardContent: "",
 });
 
+const userStore = useUserStore();
+const router = useRouter();
 const files = ref([]); // 첨부된 파일 리스트
-
 const store = useBoardStore();
-
+onMounted(() => {
+  if (!userStore.isLoggedIn) {
+    alert('로그인이 필요한 서비스입니다.');
+    router.push('/login');
+  }
+});
 const uploadFile = function(event) {
   console.log("파일 들어왔다 :)")
   files.value = Array.from(event.target.files); // 첨부된 파일 저장

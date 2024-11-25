@@ -190,6 +190,9 @@ CREATE TABLE `magazine_comment` (
 
 -- 13. 데이터 추가 
 
+
+
+
 -- 도시 데이터
 INSERT INTO city (city_no, city_name) VALUES 
 (1, '서울'),
@@ -292,14 +295,38 @@ INSERT INTO `board` (`board_file_no`, `board_title`, `board_content`, `user_no`)
 ('file019', '대구 달구벌 마라톤 참가 후기', '대구 마라톤에서의 도전과 성공 스토리를 공유합니다.', 19),
 ('file020', '양산 황산공원 마라톤 코스 리뷰', '양산 마라톤 코스를 미리 뛰어보며 느낀 점을 정리해 보았습니다.', 20);
 
+INSERT INTO `user` (
+    `user_id`, `user_password`, `user_email`, `user_name`, 
+    `user_birthday`, `user_gender`, `user_address`, `user_detail_address`, 
+    `user_zip_code`, `user_phone_number`, `user_age`, `user_nickname`, 
+    `user_photo`, `user_role`, `user_iat`, `user_exp`
+) VALUES
+('user01', 'password1', 'user01@example.com', '홍길동', 
+'1990-01-01', 'M', '서울시 강남구', '역삼동 123-45', 
+12345, '010-1234-5678', 34, '러너홍',
+'', 'USER', 'token123', 'exp123'),
 
+('user02', 'password2', 'user02@example.com', '김철수', 
+'1992-05-15', 'M', '대전시 유성구', '궁동 456-78', 
+34567, '010-2345-6789', 32, '달리는철수',
+'', 'USER', 'token456', 'exp456'),
+
+('user03', 'password3', 'user03@example.com', '이영희', 
+'1995-08-20', 'F', '부산시 해운대구', '우동 789-10', 
+45678, '010-3456-7890', 29, '달림이영희',
+'', 'USER', 'token789', 'exp789'),
+
+('qwe', '123', 'qwe@example.com', '테스트', 
+'1994-12-25', 'M', '서울시 마포구', '상암동 123-45', 
+23456, '010-9876-5432', 30, '테스트러너',
+'', 'USER', 'tokentest', 'exptest');
 
 select * from user;
 
 SELECT * FROM magazine;
 
 
-
+select * from user;
 select * from city;
 select * from crew;
 SELECT 

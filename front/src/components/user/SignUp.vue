@@ -16,7 +16,7 @@ const userPhoneNumber = ref("");
 // 주소 관련 ref
 const userAddress = ref("");
 const userZipCode = ref("");
-const userDetailAddress = ref("")
+const userDetailAddress = ref("");
 
 // 기존 ref 유지 ddd
 const selectedGender = ref("");
@@ -26,15 +26,15 @@ const confirmPassword = ref("");
 const isUsernameAvailable = ref(true);
 const isNicknameAvailable = ref(true);
 
-//주소(우편번호) 검색 함수 
+//주소(우편번호) 검색 함수
 const execDaumPostcode = () => {
   new window.daum.Postcode({
     oncomplete: (data) => {
       // 도로명 주소와 지번 주소 처리
-      let addr = '';
+      let addr = "";
 
       // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져옴
-      if (data.userSelectedType === 'R') {
+      if (data.userSelectedType === "R") {
         addr = data.roadAddress;
       } else {
         addr = data.jibunAddress;
@@ -44,10 +44,10 @@ const execDaumPostcode = () => {
       userZipCode.value = data.zonecode;
       userAddress.value = addr;
       // 상세주소 초기화
-      userDetailAddress.value = '';
-    }
+      userDetailAddress.value = "";
+    },
   }).open();
-}
+};
 
 // 성별 선택 함수
 function selectGender(gender) {
@@ -66,9 +66,6 @@ function handleProfileImageUpload(event) {
   }
 }
 
-
-
-
 // 아이디 중복 검사 함수
 async function checkUsernameAvailability() {
   // v-model로 입력된 값 직접 사용
@@ -78,7 +75,7 @@ async function checkUsernameAvailability() {
   }
 
   try {
-    const response = await axios.get("/api-user/check-userid", {
+    const response = await axios.get("/maratalk/check-userid", {
       params: {
         userId: userId.value,
       },
@@ -123,7 +120,7 @@ async function checkNicknameAvailability() {
   }
 
   try {
-    const response = await axios.get("/api-user/check-nickname", {
+    const response = await axios.get("/maratalk/check-nickname", {
       params: {
         userNickname: userNickname.value,
       },
@@ -205,7 +202,7 @@ async function signup() {
       formData.append("file", fileInput.files[0]);
     }
 
-    const response = await axios.post("/api-user/regist", formData, {
+    const response = await axios.post("/maratalk/regist", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
@@ -217,7 +214,9 @@ async function signup() {
     }
   } catch (error) {
     console.error("회원가입 오류:", error);
-    alert(error.response?.data?.message || "회원가입 처리 중 오류가 발생했습니다.");
+    alert(
+      error.response?.data?.message || "회원가입 처리 중 오류가 발생했습니다."
+    );
   }
 }
 </script>
@@ -259,9 +258,9 @@ async function signup() {
           아이디 중복 검사
         </button>
       </div>
-        <p v-if="!isUsernameAvailable" class="error-message">
-          이미 존재하는 아이디입니다.
-        </p>
+      <p v-if="!isUsernameAvailable" class="error-message">
+        이미 존재하는 아이디입니다.
+      </p>
 
       <!-- 별명 입력 및 중복검사 -->
       <div class="form-group">
@@ -270,9 +269,9 @@ async function signup() {
           별명 중복 검사
         </button>
       </div>
-        <p v-if="!isNicknameAvailable" class="error-message">
-          이미 존재하는 별명입니다.
-        </p>
+      <p v-if="!isNicknameAvailable" class="error-message">
+        이미 존재하는 별명입니다.
+      </p>
 
       <!-- 비밀번호 입력 -->
       <div class="form-group">
@@ -287,12 +286,12 @@ async function signup() {
           v-model="confirmPassword"
         />
       </div>
-        <p
-          v-if="password && confirmPassword && password !== confirmPassword"
-          class="error-message"
-        >
-          비밀번호가 일치하지 않습니다.
-        </p>
+      <p
+        v-if="password && confirmPassword && password !== confirmPassword"
+        class="error-message"
+      >
+        비밀번호가 일치하지 않습니다.
+      </p>
 
       <!-- 이메일 입력 -->
       <div class="form-group">
@@ -332,15 +331,14 @@ async function signup() {
       <div class="form-group">
         <input type="text" placeholder="주소" v-model="userAddress" />
         <button class="search-address-btn" @click="execDaumPostcode">
-         주소 검색
+          주소 검색
         </button>
       </div>
 
-       <!-- 상세주소 -->
-        <div class="form-group">
+      <!-- 상세주소 -->
+      <div class="form-group">
         <input type="text" placeholder="상세주소" v-model="userDetailAddress" />
       </div>
-
 
       <!-- 우편번호 입력 -->
       <div class="form-group">
