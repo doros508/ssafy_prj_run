@@ -127,6 +127,7 @@ const router = createRouter({
           path: "update/:boardNo",
           name: "boardUpdate",
           component: BoardUpdate,
+          requiresAuth: false,
         },
       ],
     },
@@ -204,16 +205,28 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
 
-  // 인증이 필요한 라우트 체크
-  if (to.meta.requiresAuth && !userStore.getIsLoggedIn) {
-    // 로그인되지 않은 사용자를 로그인 페이지로 리다이렉트
-    next({
-      name: "login",
-      query: { redirect: to.fullPath },
-    });
-  } else {
-    next();
-  }
+  
+
+
+
+
+    // 이미 로그인한 사용자가 로그인/회원가입 페이지로 접근하는 경우
+    if ((to.name === 'login' || to.name === 'signUp') && userStore.getIsLoggedIn) {
+      next({ name: 'main' });
+      return;
+    }
+
+ // 로그인 상태 확인 방식 수정
+ if (to.meta.requiresAuth && !userStore.isLoggedIn) {
+  alert("로그인 후에 이용해주세요.");
+  next({
+    name: "login",
+    query: { redirect: to.fullPath },
+  });
+  return;
+}
+
+next();
 });
 
 export default router;
