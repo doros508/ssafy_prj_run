@@ -9,6 +9,7 @@
 import TheHeader from '@/components/common/TheHeader.vue';
 import { RouterView } from "vue-router";
 
+
 </script>
 
 <style scoped>
