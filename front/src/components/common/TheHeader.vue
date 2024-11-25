@@ -27,7 +27,6 @@
 </template>
 
 <script setup>
-import { RouterLink } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import axios from "axios";
