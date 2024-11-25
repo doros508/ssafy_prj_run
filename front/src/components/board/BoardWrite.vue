@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <!-- 커뮤니티 텍스트 -->
     <h1 class="logo">Community</h1>
     <div class="writeform-box">
       <div class="mb-3">
@@ -33,57 +32,76 @@
           v-model="board.boardContent"
         ></textarea>
       </div>
-
       <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" @click="createBoard">
-          등록
-        </button>
+        <button class="btn btn-primary" @click="createBoard">등록</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useBoardStore } from "@/stores/board";
-import { onMounted } from 'vue';
-import { useUserStore } from '@/stores/userStore';
-import { useRouter } from 'vue-router';
+import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "vue-router";
+
+const userStore = useUserStore();
+const boardStore = useBoardStore();
+const router = useRouter();
 
 const board = ref({
   boardTitle: "",
   boardContent: "",
+  userNo: null
 });
 
-const userStore = useUserStore();
-const router = useRouter();
-const files = ref([]); // 첨부된 파일 리스트
-const store = useBoardStore();
+const files = ref([]);
+
 onMounted(() => {
-  if (!userStore.isLoggedIn) {
-    alert('로그인이 필요한 서비스입니다.');
-    router.push('/login');
+  if (!userStore.isLoggedIn || !userStore.user) {
+    alert("로그인이 필요한 서비스입니다.");
+    router.push("/login");
+    return;
   }
+  // Set userNo from logged in user
+  board.value.userNo = userStore.user.userNo;
 });
+
 const uploadFile = function(event) {
-  console.log("파일 들어왔다 :)")
-  files.value = Array.from(event.target.files); // 첨부된 파일 저장
-}
+  files.value = Array.from(event.target.files);
+};
 
-const createBoard = async function () {
-  // 제목과 내용이 비어있는지 체크
-  if (!board.value.boardTitle || !board.value.boardContent) {
-    alert("제목과 내용을 모두 입력해주세요.");
-    return; // 제목과 내용이 비어 있으면 등록을 하지 않음
+const createBoard = async function() {
+  try {
+    if (!board.value.boardTitle || !board.value.boardContent) {
+      alert("제목과 내용을 모두 입력해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    const boardData = {
+      boardTitle: board.value.boardTitle,
+      boardContent: board.value.boardContent,
+      userNo: userStore.user.userNo
+    };
+
+    formData.append(
+      "board",
+      new Blob([JSON.stringify(boardData)], { type: "application/json" })
+    );
+
+    if (files.value.length > 0) {
+      files.value.forEach((file) => {
+        formData.append("files", file);
+      });
+    }
+
+    await boardStore.createBoard(formData);
+    router.push({ name: "boardList" });
+  } catch (error) {
+    console.error("게시글 작성 실패:", error);
+    alert("게시글 작성에 실패했습니다.");
   }
-
-  const formData = new FormData();
-  formData.append("board", new Blob([JSON.stringify(board.value)], { type: "application/json" }));
-  files.value.forEach((file) => {
-    formData.append("files", file);
-  });
-  
-  await store.createBoard(formData);
 };
 </script>
 

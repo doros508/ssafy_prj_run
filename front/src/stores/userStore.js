@@ -19,6 +19,8 @@ export const useUserStore = defineStore("user", {
         const response = await axios.post("/maratalk/login", {
           userId,
           userPassword,
+        },  {
+          withCredentials: true
         });
 
         if (response.data && response.data.user) {

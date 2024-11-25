@@ -1,16 +1,11 @@
 package com.mrt.mvc.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,16 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mrt.mvc.model.dto.Board;
-import com.mrt.mvc.model.dto.BoardFile;
 import com.mrt.mvc.model.dto.SearchCondition;
+import com.mrt.mvc.model.dto.User;
 import com.mrt.mvc.model.service.BoardService;
 import com.mrt.mvc.model.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/maratalk")
@@ -79,9 +75,13 @@ public class BoardRestController {
 	public ResponseEntity<String> write(
 	        @RequestPart("board") Board board,
 	        @RequestPart(value = "files", required = false) List<MultipartFile> files
-	        ) {
-	    System.out.println("게시글: " + board.toString());
-	    // files가 null인 경우도 처리
+	        ,HttpSession session) {
+		 
+		User currentUser = userService.getCurrentUser(session); // 현재 로그인한 사용자 가져오기
+		 board.setUserNo(currentUser.getUserNo()); // 로그인된 사용자의 userNo 설정
+	   
+//	    System.out.println("게시글: " + board.toString());
+		 
 	    int fileCount = (files != null) ? files.size() : 0;
 	    System.out.println("첨부된 파일은 " + fileCount + "개 입니다.");
 	    

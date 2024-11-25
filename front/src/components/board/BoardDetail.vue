@@ -98,11 +98,12 @@ const isAuthor = computed(() => {
 });
 
 onMounted(async () => {
-  await boardStore.getBoard(route.params.boardNo);
   if (userStore.isLoggedIn) {
-    userStore.initializeFromLocalStorage();
+    userStore.initializeFromLocalStorage(); // 먼저 사용자 정보 초기화
   }
+  await boardStore.getBoard(route.params.boardNo); // 그 후 게시글 정보 로드
 });
+
 
 const updateBoard = function() {
   if (!userStore.isLoggedIn) {

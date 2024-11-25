@@ -34,6 +34,10 @@ public interface UserService {
     // 닉네임 중복 검사
     boolean checkDuplicateNickname(String userNickname);
     
+    // 현재 로그인한 사용자 정보 반환
+    User getCurrentUser(HttpSession session);
+    
+    
     // 프로필 사진 업데이트
     String updateProfileImage(String userId, MultipartFile file) throws IOException;
 }

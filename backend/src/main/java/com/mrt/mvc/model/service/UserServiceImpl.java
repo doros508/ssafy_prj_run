@@ -133,4 +133,15 @@ public class UserServiceImpl implements UserService {
         
         return profileImagePath;
     }
+
+	@Override
+	public User getCurrentUser(HttpSession session) {
+	    // 세션에 저장된 사용자 정보가 있는지 확인
+	    User currentUser = (User) session.getAttribute("loggedInUser");
+	    if (currentUser == null) {
+	        throw new IllegalStateException("로그인된 사용자가 없습니다.");
+	    }
+	    return currentUser;
+	}
+
 }
