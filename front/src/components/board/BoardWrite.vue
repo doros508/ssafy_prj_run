@@ -48,9 +48,8 @@ import { ref } from "vue";
 import { useBoardStore } from "@/stores/board";
 
 const board = ref({
-  title: "",
-  writer: "",
-  content: "",
+  boardTitle: "",
+  boardContent: "",
 });
 
 const files = ref([]); // 첨부된 파일 리스트
@@ -60,16 +59,22 @@ const store = useBoardStore();
 const uploadFile = function(event) {
   console.log("파일 들어왔다 :)")
   files.value = Array.from(event.target.files); // 첨부된 파일 저장
-
 }
 
 const createBoard = async function () {
+  // 제목과 내용이 비어있는지 체크
+  if (!board.value.boardTitle || !board.value.boardContent) {
+    alert("제목과 내용을 모두 입력해주세요.");
+    return; // 제목과 내용이 비어 있으면 등록을 하지 않음
+  }
+
   const formData = new FormData();
   formData.append("board", new Blob([JSON.stringify(board.value)], { type: "application/json" }));
   files.value.forEach((file) => {
     formData.append("files", file);
   });
-  await  store.createBoard(formData);
+  
+  await store.createBoard(formData);
 };
 </script>
 

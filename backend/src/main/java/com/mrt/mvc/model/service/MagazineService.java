@@ -18,4 +18,10 @@ public interface MagazineService {
 	// 매거진 등록
 	boolean writeMagazine(Magazine magazine, List<MultipartFile> files);
 
+	// 매거진 수정
+	boolean modify(Magazine magazine);
+
+	// 매거진 삭제
+	boolean removeMagazine(int no);
+
 }

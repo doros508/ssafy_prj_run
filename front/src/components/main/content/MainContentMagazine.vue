@@ -8,12 +8,9 @@
           class="magazine-item"
           v-for="magazine in store.magazineList.slice(0, 8)"
           :key="magazine.magazineNo"
+          @click="detailMagazine(magazine.magazineNo)"
         >
-          <img
-            class="magazine-image"
-            src="../../../assets/magazine/list/img2.png"
-            alt="magazine image"
-          />
+          <img :src="getThumbnail(magazine)" class="magazine-image" alt="썸네일 이미지" />
           <h3 class="magazine-title">{{ magazine.magazineTitle }}</h3>
         </div>
       </div>
@@ -24,12 +21,58 @@
 <script setup>
 import { useMagazineStore } from '@/stores/magazine';
 import { onMounted } from 'vue';
+import { useRouter } from "vue-router";
 
 const store = useMagazineStore();
+const router = useRouter();
 
 onMounted(() => {
   store.getMagazineList()
 })
+
+// 매거진 상세 페이지로 이동하는 함수
+const detailMagazine = (magazineNo) => {
+  console.log(magazineNo + "번 매거진 클릭");
+  router.push({ name: 'magazineDetail', params: { magazineNo } });
+};
+
+// 글쓰기 페이지로 이동하는 함수
+const writeMagazine = () => {
+  console.log("글쓰기 버튼 클릭!");
+  router.push({ name: 'magazineWrite' });
+};
+
+// 썸네일 이미지 결정 함수
+const getThumbnail = (magazine) => {
+  const files = magazine.magazineFileList || [];
+
+  // 1. 파일이 아예 없을 경우
+  if (files.length === 0) {
+    return "http://localhost:8080/uploads/default/thumbnail.png";  // 기본 이미지
+  }
+
+  // 2. 비디오 파일만 존재하는 경우
+  const videoFiles = files.filter(file => file.systemName.endsWith('.mp4'));
+  if (videoFiles.length === files.length) {
+    return "http://localhost:8080/uploads/default/thumbnail.png";  // 비디오만 있을 경우 기본 이미지
+  }
+
+  // 3. 비디오 파일과 이미지 파일이 함께 있을 경우
+  const imageFiles = files.filter(file => !file.systemName.endsWith('.mp4'));
+  if (imageFiles.length > 0) {
+    // 3-1. 첫 번째 이미지 파일을 썸네일로 사용
+    return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`;
+  }
+
+  // 4. 사진 파일만 있을 경우
+  if (imageFiles.length > 0) {
+    // 4-1. 첫 번째 이미지 파일을 썸네일로 사용
+    return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`;
+  }
+
+  // 기본 반환 값 (기본 이미지)
+  return "http://localhost:8080/uploads/default/thumbnail.png";
+};
 </script>
 
 <style scoped>
@@ -61,12 +104,20 @@ onMounted(() => {
   overflow: hidden;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 280px;
+}
+
+.magazine-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .magazine-image {
   width: 100%;
-  height: 350px; /* 높이를 늘려 더 넓게 설정 */
-  object-fit: cover;
+  height: 200px; /* 이미지의 높이 고정 */
+  object-fit: cover; /* 이미지가 박스를 채우도록 비율 맞추기 */
 }
 
 .magazine-title {

@@ -22,4 +22,10 @@ public interface MagazineDao {
 
 	// 매거진 파일 등록
 	int insertMagazineFile(MagazineFile magazineFile);
+
+	// 매거진 수정
+	int updateMagazine(Magazine tmp);
+
+	// 매거진 삭제
+	int deleteMagazine(int no);
 }
