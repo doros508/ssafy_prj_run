@@ -33,6 +33,7 @@ import MagazineDetail from "@/components/magazine/MagazineDetail.vue";
 import KakaoView from "@/components/crew/kakaoView.vue";
 import MagazineWrite from "@/components/magazine/MagazineWrite.vue";
 import MagazineUpdate from "@/components/magazine/MagazineUpdate.vue";
+import RaceDetail from "@/components/race/RaceDetail.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -190,11 +191,17 @@ const router = createRouter({
       name: "race",
       component: RaceView,
       meta: { requiresAuth: false }, // 추가
+      redirect: { name: "raceList" },
       children: [
         {
           path: "",
           name: "raceList",
           component: RaceList,
+        },
+        {
+          path: ":raceNo",
+          name: "raceDetail",
+          component: RaceDetail,
         },
       ],
     },

@@ -5,7 +5,7 @@
     </header>
     <div class="main">
       <main>
-        <RaceList />
+        <RouterView />
       </main>
       <aside class="right">
         <MainAside/>
@@ -15,12 +15,31 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import TheHeader from "@/components/common/TheHeader.vue";
 import MainAside from "@/components/main/aside/MainAside.vue";
-// import MainAside from "@/components/main/aside/MainAside.vue";
-import MainAsideWeather from "@/components/main/aside/MainAsideWeather.vue";
-import RaceList from "@/components/race/RaceList.vue";
+
+export default {
+  components: {
+    TheHeader,
+    MainAside,
+  },
+  mounted() {
+    // 1. window.embeddedChatbotConfig 설정
+    window.embeddedChatbotConfig = {
+      chatbotId: "TD2TzvmI-IkK-9GsOKgV7",
+      domain: "www.chatbase.co",
+    };
+
+    // 2. 외부 스크립트 추가
+    const script = document.createElement("script");
+    script.src = "https://www.chatbase.co/embed.min.js";
+    script.setAttribute("chatbotId", "TD2TzvmI-IkK-9GsOKgV7");
+    script.setAttribute("domain", "www.chatbase.co");
+    script.defer = true;
+    document.body.appendChild(script); // <body>에 스크립트 추가
+  },
+};
 </script>
 
 <style scoped>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrt.mvc.model.dao.MagazineDao">
+
+	<!-- 매거진 전체 조회 -->
+	<select id="selectAll" parameterType="SearchCondition" resultMap="MagazineResultMap">
+		SELECT m.magazine_no, m.magazine_title, m.magazine_content, m.magazine_reg_date, m.magazine_view_cnt,
+	           f.file_no, f.file_name, f.file_path, f.file_system_name
+	    FROM magazine m
+	    LEFT JOIN files f ON m.magazine_no = f.magazine_no
+		<if test="key != null">
+	    	WHERE ${key} LIKE concat('%',#{word},'%')
+	    </if>
+	    <if test="orderBy != null">
+	    	ORDER BY ${orderBy} ${orderByDir}
+	    </if>
+	</select>
+	
+	<!-- 매거진 상세 조회 -->
+	<select id="selectOne" resultMap="MagazineResultMap" parameterType="int">
+	    SELECT m.magazine_no, m.magazine_title, m.magazine_content, m.magazine_reg_date, m.magazine_view_cnt,
+	           f.file_no, f.file_name, f.file_path, f.file_system_name
+	    FROM magazine m
+	    LEFT JOIN files f ON m.magazine_no = f.magazine_no
+	    WHERE m.magazine_no = #{no}
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE magazine
+		SET magazine_view_cnt = magazine_view_cnt + 1
+		WHERE magazine_no = #{no}
+	</update>
+	
+	<!-- 매거진 등록 -->
+	<insert id="insertMagazine" parameterType="Magazine" keyProperty="magazineNo" useGeneratedKeys="true">
+	    INSERT INTO magazine (magazine_title, magazine_content, user_no)
+	    VALUES (#{magazineTitle}, #{magazineContent}, #{userNo})
+	</insert>
+	
+	<!-- 파일 등록 -->
+	<insert id="insertMagazineFile" parameterType="MagazineFile">
+		INSERT INTO files(file_no, file_name, file_path, file_system_name, magazine_no)
+		VALUES (#{fileNo}, #{oriName}, #{path}, #{systemName}, #{magazineNo});
+	</insert>
+	<!-- 파일 매핑 -->
+	<resultMap id="MagazineResultMap" type="Magazine">
+	    <id property="magazineNo" column="magazine_no"/>
+	    <result property="magazineTitle" column="magazine_title"/>
+	    <result property="magazineContent" column="magazine_content"/>
+	    <result property="magazineRegDate" column="magazine_reg_date"/>
+	    <result property="magazineViewCnt" column="magazine_view_cnt"/>
+	    
+	    <!-- 파일 리스트 매핑 -->
+	    <collection property="magazineFileList" ofType="MagazineFile">
+	        <result property="fileNo" column="file_no"/>
+	        <result property="oriName" column="file_name"/>
+	        <result property="path" column="file_path"/>
+	        <result property="systemName" column="file_system_name"/>
+	    </collection>
+	</resultMap>
+
+	<!-- 매거진 내용 수정 -->
+	<update id="updateMagazine" parameterType="Magazine" >
+		UPDATE magazine
+		SET magazine_title = #{magazineTitle}, magazine_content = #{magazineContent}
+		WHERE magazine_no = #{magazineNo};
+	</update>
+
+	<!-- 매거진 파일 수정 -->
+
+	<!-- 매거진 삭제 -->
+	<delete id="deleteMagazine" parameterType="int">
+		DELETE 
+		FROM magazine
+		WHERE magazine_no = #{no};
+	</delete>
+	
+</mapper>
