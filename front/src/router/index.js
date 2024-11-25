@@ -212,26 +212,29 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
 
-  // 로그인 상태 초기화 체크 추가 
+  // 로그인 상태 초기화 체크 추가
   userStore.initializeFromLocalStorage();
 
-    // 이미 로그인한 사용자가 로그인/회원가입 페이지로 접근하는 경우
-    if ((to.name === 'login' || to.name === 'signUp') && userStore.getIsLoggedIn) {
-      next({ name: 'main' });
-      return;
-    }
+  // 이미 로그인한 사용자가 로그인/회원가입 페이지로 접근하는 경우
+  if (
+    (to.name === "login" || to.name === "signUp") &&
+    userStore.getIsLoggedIn
+  ) {
+    next({ name: "main" });
+    return;
+  }
 
- // 로그인 상태 확인 방식 수정
- if (to.meta.requiresAuth && !userStore.isLoggedIn) {
-  alert("로그인 후에 이용해주세요.");
-  next({
-    name: "login",
-    query: { redirect: to.fullPath },
-  });
-  return;
-}
+  // 로그인 상태 확인 방식 수정
+  if (to.meta.requiresAuth && !userStore.isLoggedIn) {
+    alert("로그인 후에 이용해주세요.");
+    next({
+      name: "login",
+      query: { redirect: to.fullPath },
+    });
+    return;
+  }
 
-next();
+  next();
 });
 
 export default router;
