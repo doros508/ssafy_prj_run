@@ -7,7 +7,23 @@
     <select id="selectAll" resultType="Race">
         SELECT * FROM race
     </select>
-
+	
+	<select id="searchRaces" parameterType="map" resultType="Race">
+        SELECT * FROM race
+        WHERE 1=1
+        <if test="date != null and date != ''">
+            AND DATE_FORMAT(race_date, '%Y-%m') = #{date}
+        </if>
+        <if test="cityNo != null">
+            AND city_no = #{cityNo}
+        </if>
+        <if test="distance != null and distance != ''">
+            AND race_distance = #{distance}
+        </if>
+        ORDER BY race_date ASC
+    </select>
+	
+	
     <select id="selectOne" parameterType="int" resultType="Race">
         SELECT * FROM race WHERE race_no = #{raceNo}
     </select>

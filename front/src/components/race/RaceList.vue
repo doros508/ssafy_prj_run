@@ -134,17 +134,18 @@ const filteredRaces = computed(() => {
 })
 
 // 필터 적용
+
 const applyFilters = async () => {
   try {
-    if (filters.value.cityNo) {
-      await store.getRacesByCity(parseInt(filters.value.cityNo))
-    } else {
-      await store.getRaceList()
-    }
+    await store.getRacesByFilter({
+      date: filters.value.date,
+      cityNo: filters.value.cityNo,
+      distance: filters.value.distance
+    });
   } catch (error) {
-    console.error('Error applying filters:', error)
+    console.error('Error applying filters:', error);
   }
-}
+};
 
 const writeRace = () => {
   router.push({ name: 'raceWrite' })

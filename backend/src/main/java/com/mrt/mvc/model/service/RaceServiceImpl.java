@@ -1,6 +1,8 @@
 package com.mrt.mvc.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -46,4 +48,13 @@ public class RaceServiceImpl implements RaceService {
 	public List<Race> getRacesByCity(int cityNo) {
 		return dao.selectByCity(cityNo);
 	}
+
+    @Override
+    public List<Race> searchRaces(String date, Integer cityNo, String distance) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("date", date);
+        params.put("cityNo", cityNo);
+        params.put("distance", distance);
+        return dao.searchRaces(params);
+    }
 }
