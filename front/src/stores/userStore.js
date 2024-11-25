@@ -7,10 +7,11 @@ export const useUserStore = defineStore("user", {
     user: null,
     isLoggedIn: false,
   }),
-  
+
   getters: {
     getIsLoggedIn: (state) => state.isLoggedIn,
-    getUserInfo: (state) => state.user
+    getUserInfo: (state) => state.user,
+    getUserId: (state) => state.user?.userId, //아이디 내보내기 추가.
   },
 
   actions: {
@@ -53,7 +54,6 @@ export const useUserStore = defineStore("user", {
       } else {
         this.clearUser(); // 저장된 사용자 정보가 없으면 초기화
       }
-    }
-  }
+    },
+  },
 });
-
