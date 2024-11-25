@@ -199,6 +199,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
 
+    // 이미 로그인한 사용자가 로그인/회원가입 페이지로 접근하는 경우
+    if ((to.name === 'login' || to.name === 'signUp') && userStore.getIsLoggedIn) {
+      next({ name: 'main' });
+      return;
+    }
+
   // 인증이 필요한 라우트 체크
   if (to.meta.requiresAuth && !userStore.getIsLoggedIn) {
     alert("로그인 후에 이용해주세요.");
