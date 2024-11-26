@@ -53,8 +53,6 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
 .main-container {
   background-color: #141414;
@@ -67,6 +65,8 @@ export default {
 .content-box {
   display: flex;
   padding: 20px;
+  /* background-image: url("src/assets/common/backgroundSample/원본 8.png"); */
+  /* background-image: url("src/assets/common/backgroundSample/원본 13.png"); */
 }
 /* .right {
   position: relative;

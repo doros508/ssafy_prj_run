@@ -4,9 +4,9 @@ import axios from "axios";
 import router from "@/router";
 import { useUserStore } from "./userStore";
 
-const REST_API_URL = `http://localhost:8080/maratalk/board`; // 로컬
+// const REST_API_URL = `http://localhost:8080/maratalk/board`; // 로컬
 // const REST_API_URL = `http://192.168.210.63:8080/maratalk/board` //종수
-// const REST_API_URL = `http://192.168.210.53:8080/maratalk/board` // 건우
+const REST_API_URL = `http://192.168.210.53:8080/maratalk/board` // 건우
 
 export const useBoardStore = defineStore("board", () => {
   const boardList = ref([]);
@@ -58,7 +58,8 @@ export const useBoardStore = defineStore("board", () => {
         if (Array.isArray(board.value.boardFileList)) {
           console.log("배열이군");
           board.value.boardFileList.forEach((file) => {
-            file.imageUrl = `http://localhost:8080/uploads/board${file.path}/${file.systemName}`;
+            // file.imageUrl = `http://localhost:8080/uploads/board${file.path}/${file.systemName}`; // 로컬
+            file.imageUrl = `http://192.168.210.53:8080/uploads/board${file.path}/${file.systemName}`; // 건우
             console.log("이미지 URL: " + file.imageUrl);
           });
         } else {

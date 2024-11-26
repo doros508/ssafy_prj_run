@@ -53,7 +53,7 @@ onMounted(() => {
   boardStore.getBoardList();
 });
 
-const writeBoard = function() {
+const writeBoard = function () {
   if (!userStore.isLoggedIn) {
     alert("로그인이 필요한 서비스입니다.");
     router.push({ name: "login" });
@@ -88,7 +88,7 @@ a {
   position: relative;
   width: 100%;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   display: flex;
   flex-direction: column;

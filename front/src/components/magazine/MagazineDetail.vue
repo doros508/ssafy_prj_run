@@ -81,11 +81,11 @@
             <span class="visually-hidden">Next</span>
           </button>
         </div>
-        <p v-else>첨부된 이미지나 동영상이 없습니다.</p>
+        <!-- <p v-else>첨부된 이미지나 동영상이 없습니다.</p> -->
         <!-- 게시글 내용 -->
         <p>{{ store.magazine.magazineContent }}</p>
       </div>
-      <div class="btn-box">
+      <div class="btn-box" v-if="isAdmin">
         <button class="btn btn-primary" type="submit" @click="updateMagazine">
           수정
         </button>
@@ -104,7 +104,13 @@
 import { useMagazineStore } from "@/stores/magazine";
 import { onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "@/stores/userStore";
+import { computed } from "vue";
 
+const userStore = useUserStore();
+const isAdmin = computed(() => {
+  return userStore.user && userStore.user.userId === "admin";
+});
 const store = useMagazineStore();
 
 const route = useRoute();
