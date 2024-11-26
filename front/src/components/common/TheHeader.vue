@@ -143,5 +143,6 @@ a {
   padding: 0;
   font-size: 20px;
   font-weight: bold;
+  color: white;
 }
 </style>
