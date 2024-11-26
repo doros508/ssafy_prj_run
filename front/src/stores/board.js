@@ -58,9 +58,9 @@ export const useBoardStore = defineStore("board", () => {
         if (Array.isArray(board.value.boardFileList)) {
           console.log("배열이군");
           board.value.boardFileList.forEach((file) => {
-            file.imageUrl = `http://localhost:8080/uploads/board${file.path}/${file.systemName}`; // 로컬
-            // file.imageUrl = `http://192.168.210.53:8080/uploads/board${file.path}/${file.systemName}`; // 건우
-            // file.imageUrl = `http://192.168.210.63:8080/uploads/board${file.path}/${file.systemName}`; // 건우
+            // file.imageUrl = `http://localhost:8080/uploads/board${file.path}/${file.systemName}`; // 로컬
+            file.imageUrl = `http://192.168.210.53:8080/uploads/board${file.path}/${file.systemName}`; // 건우
+            // file.imageUrl = `http://192.168.210.63:8080/uploads/board${file.path}/${file.systemName}`; // 종수
             console.log("이미지 URL: " + file.imageUrl);
           });
         } else {
