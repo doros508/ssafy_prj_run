@@ -3,9 +3,9 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import router from "@/router";
 
-const REST_API_URL = `http://localhost:8080/maratalk/magazine`; // 로컬
+// const REST_API_URL = `http://localhost:8080/maratalk/magazine`; // 로컬
 // const REST_API_URL = `http://192.168.210.63:8080/maratalk/magazine` //종수
-// const REST_API_URL = `http://192.168.210.53:8080/maratalk/magazine` // 건우
+const REST_API_URL = `http://192.168.210.53:8080/maratalk/magazine` // 건우
 
 export const useMagazineStore = defineStore("magazine", () => {
   const magazineList = ref([]);
@@ -48,8 +48,8 @@ export const useMagazineStore = defineStore("magazine", () => {
         if (Array.isArray(magazine.value.magazineFileList)) {
           console.log("배열이군");
           magazine.value.magazineFileList.forEach((file) => {
-            file.imageUrl = `http://localhost:8080/uploads/magazine${file.path}/${file.systemName}`; // 로컬
-            // file.imageUrl = `http://192.168.210.53:8080/uploads/magazine${file.path}/${file.systemName}`; // 건우
+            // file.imageUrl = `http://localhost:8080/uploads/magazine${file.path}/${file.systemName}`; // 로컬
+            file.imageUrl = `http://192.168.210.53:8080/uploads/magazine${file.path}/${file.systemName}`; // 건우
             // file.imageUrl = `http://192.168.210.63:8080/uploads/magazine${file.path}/${file.systemName}`; // 종수
             console.log("이미지 URL: " + file.imageUrl);
           });
