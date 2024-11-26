@@ -52,35 +52,41 @@ const getThumbnail = (magazine) => {
 
   // 1. 파일이 아예 없을 경우
   if (files.length === 0) {
-    // return "http://localhost:8080/uploads/default/thumbnail.png"; // 기본 이미지 로컬
-    return "http://192.168.210.53:8080/uploads/default/thumbnail.png"; // 건우
+    return "http://localhost:8080/uploads/default/thumbnail.png"; // 기본 이미지 로컬
+    // return "http://192.168.210.53:8080/uploads/default/thumbnail.png"; // 건우
+    // return "http://192.168.210.63:8080/uploads/default/thumbnail.png"; // 종수
   }
 
   // 2. 비디오 파일만 존재하는 경우
   const videoFiles = files.filter((file) => file.systemName.endsWith(".mp4"));
   if (videoFiles.length === files.length) {
-    // return "http://localhost:8080/uploads/default/thumbnail.png"; // 비디오만 있을 경우 기본 이미지 로컬
-    return "http://192.168.210.53:8080/uploads/default/thumbnail.png"; // 건우
+    return "http://localhost:8080/uploads/default/thumbnail.png"; // 비디오만 있을 경우 기본 이미지 로컬
+   // return "http://192.168.210.53:8080/uploads/default/thumbnail.png"; // 건우
+  //  return "http://192.168.210.63:8080/uploads/default/thumbnail.png"; // 종수
   }
 
   // 3. 비디오 파일과 이미지 파일이 함께 있을 경우
   const imageFiles = files.filter((file) => !file.systemName.endsWith(".mp4"));
   if (imageFiles.length > 0) {
     // 3-1. 첫 번째 이미지 파일을 썸네일로 사용
-    // return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 로컬
-    return `http://192.168.210.53:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 건우
+    return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 로컬
+    // return `http://192.168.210.53:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 건우
+    // return `http://192.168.210.63:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 종수
+  
   }
 
   // 4. 사진 파일만 있을 경우
   if (imageFiles.length > 0) {
     // 4-1. 첫 번째 이미지 파일을 썸네일로 사용
-    // return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 로컬
-    return `http://192.168.210.53:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 건우
+    return `http://localhost:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 로컬
+    // return `http://192.168.210.53:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 건우
+    // return `http://192.168.210.63:8080/uploads/magazine${imageFiles[0].path}/${imageFiles[0].systemName}`; // 종수
   }
 
   // 기본 반환 값 (기본 이미지)
-  // return "http://localhost:8080/uploads/default/thumbnail.png"; // 로컬
-  return "http://192.168.210.53:8080/uploads/default/thumbnail.png"; // 건우
+  return "http://localhost:8080/uploads/default/thumbnail.png"; // 로컬
+  // return "http://192.168.210.53:8080/uploads/default/thumbnail.png"; // 건우
+  // return "http://192.168.210.63:8080/uploads/default/thumbnail.png"; // 종수
 };
 </script>
 

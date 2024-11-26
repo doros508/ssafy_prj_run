@@ -27,13 +27,13 @@
             >
               <option value="">전체</option>
               <option value="1">서울</option>
-              <option value="2">경기</option>
-              <option value="3">인천</option>
-              <option value="4">강원</option>
+              <option value="2">대전</option>
+              <option value="3">부산</option>
+              <!-- <option value="4">강원</option>
               <option value="5">충청</option>
               <option value="6">전라</option>
               <option value="7">경상</option>
-              <option value="8">제주</option>
+              <option value="8">제주</option> -->
             </select>
           </div>
         </div>
@@ -48,8 +48,8 @@
               <option value="">전체</option>
               <option value="5K">5KM</option>
               <option value="10K">10KM</option>
-              <option value="Half">하프코스</option>
-              <option value="Full">풀코스</option>
+              <option value="Half">HALF COURSE</option>
+              <option value="Full">FULL COURSE</option>
             </select>
           </div>
         </div>
@@ -147,8 +147,8 @@ const filteredRaces = computed(() => {
   }
 
   if (filters.value.distance) {
-    results = results.filter(
-      (race) => race.raceDistance === filters.value.distance
+    results = results.filter(race => 
+    race.raceDistance.toLowerCase().includes(filters.value.distance.toLowerCase())
     );
   }
 

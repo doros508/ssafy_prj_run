@@ -16,10 +16,11 @@ export default defineConfig({
     },
   
   },
-  /*
+  
   server: {
+
     // host: "192.168.210.63" // 종수
     // host: "192.168.210.63" // 건우
   }
-    */
+    
 })
