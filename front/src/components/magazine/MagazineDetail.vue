@@ -81,7 +81,7 @@
             <span class="visually-hidden">Next</span>
           </button>
         </div>
-        <p v-else>첨부된 이미지나 동영상이 없습니다.</p>
+        <!-- <p v-else>첨부된 이미지나 동영상이 없습니다.</p> -->
         <!-- 게시글 내용 -->
         <p>{{ store.magazine.magazineContent }}</p>
       </div>
