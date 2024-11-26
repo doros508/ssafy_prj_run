@@ -422,7 +422,7 @@ INSERT INTO race (race_name, race_date, race_place, race_distance, race_url, rac
 
 
 INSERT INTO `board` (`board_file_no`, `board_title`, `board_content`, `user_no`) VALUES
-('file001', '공지사항', '그동안 다들 고생 하셨습니다 감사합니다! ', 1),
+('file001', '공지사항', '그동안 다들 고생 하셨습니다 감사합니다!', 1),
 ('file002', '서울 마라톤 후기', '2024 서울 마라톤에 참가한 후기를 공유합니다. 많은 분들과 함께 뛰며 좋은 추억을 만들었습니다.', 2),
 ('file003', '제주 에코 마라톤 정보', '제주의 아름다운 자연을 배경으로 달리는 에코 마라톤을 소개합니다. 참가 팁도 함께 알려드려요.', 3),
 ('file004', '대전 마라톤 참가 준비', '대전 마라톤 참가를 위한 체력 관리 및 훈련 방법을 공유합니다.', 4),
