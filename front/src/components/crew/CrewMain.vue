@@ -47,7 +47,7 @@ CrewMain
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="daysFilter" class="text-white mb-2">요일</label>
+            <label for="daysFilter" class="text-white mb-2">모임요일</label>
             <select class="form-control" id="daysFilter" v-model="filters.days">
               <option value="">전체</option>
               <option value="1">월요일</option>
@@ -79,7 +79,7 @@ CrewMain
             <th scope="col">모임장소</th>
             <th scope="col">크루인원</th>
             <th scope="col">모임요일</th>
-            <th scope="col">크루페이지 바로가기</th>
+            <th scope="col">크루 홈페이지</th>
           </tr>
         </thead>
         <tbody>
@@ -90,7 +90,7 @@ CrewMain
             <td>{{ crew.crewDay }}</td>
             <td>
               <a :href="crew.crewUrl" target="_blank" class="btn btn-link">
-                크루 페이지 바로가기
+                바로가기
               </a>
             </td>
           </tr>

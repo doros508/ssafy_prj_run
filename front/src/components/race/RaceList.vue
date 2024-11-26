@@ -39,7 +39,7 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="distanceFilter" class="text-white mb-2">거리</label>
+            <label for="distanceFilter" class="text-white mb-2">코스</label>
             <select
               class="form-control"
               id="distanceFilter"
@@ -147,8 +147,10 @@ const filteredRaces = computed(() => {
   }
 
   if (filters.value.distance) {
-    results = results.filter(race => 
-    race.raceDistance.toLowerCase().includes(filters.value.distance.toLowerCase())
+    results = results.filter((race) =>
+      race.raceDistance
+        .toLowerCase()
+        .includes(filters.value.distance.toLowerCase())
     );
   }
 
