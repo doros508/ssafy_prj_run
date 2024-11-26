@@ -341,7 +341,7 @@ INSERT INTO `user` (
 45678, '010-3456-7890', 29, '달림이영희',
 '', 'USER', 'token789', 'exp789'),
 
-('qwe', '123', 'qwe@example.com', '테스트', 
+('user', '123', 'qwe@example.com', '테스트', 
 '1994-12-25', 'M', '서울시 마포구', '상암동 123-45', 
 23456, '010-9876-5432', 30, '테스트러너',
 '', 'USER', 'tokentest', 'exptest');
@@ -354,6 +354,7 @@ SELECT * FROM magazine;
 select * from user;
 select * from city;
 select * from crew;
+select * from race;
 SELECT 
     *
 FROM
