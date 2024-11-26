@@ -99,7 +99,7 @@
         class="btn btn-primary"
         @click="writeRace"
       >
-        <i class="bi bi-pencil-square"></i> 대회 등록
+        <!-- <i class="bi bi-pencil-square"></i> 대회 등록 -->
       </button>
     </div>
   </div>

@@ -20,7 +20,7 @@
           Sign up/in
         </RouterLink>
         <div class="logined-box" v-else>
-          <p id="welcome-msg">님<br>안녕하세요!</p><br>
+          <!-- <p id="welcome-msg">님<br>안녕하세요!</p><br> -->
         <button class="sign-up-in2" @click="handleLogout">
           Logout
         </button>
